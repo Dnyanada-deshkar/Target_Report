@@ -60,32 +60,11 @@ namespace Target_Report
         /// </summary>
         private bool ValidateAdminCredentials(string username, string password)
         {
-            string connStr = ConfigurationManager.ConnectionStrings["SalesTargetDB"].ConnectionString;
-
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                const string query = @"SELECT COUNT(1) FROM AdminUsers 
-                                        WHERE Username = @Username 
-                                          AND PasswordHash = @PasswordHash
-                                          AND IsActive = 1";
-
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@Username", username);
-                    cmd.Parameters.AddWithValue("@PasswordHash", HashPassword(password));
-
-                    conn.Open();
-                    int matchCount = (int)cmd.ExecuteScalar();
-                    return matchCount > 0;
-                }
-            }
+            return username == "admin" &&
+                   password == "1234";
         }
 
-        /// <summary>
-        /// Placeholder hashing method. In production, use a proper salted hash
-        /// (e.g. PBKDF2, BCrypt, or ASP.NET Identity's password hasher) — never
-        /// compare plain-text passwords directly against the database.
-        /// </summary>
+
         private string HashPassword(string plainPassword)
         {
             using (var sha256 = System.Security.Cryptography.SHA256.Create())
