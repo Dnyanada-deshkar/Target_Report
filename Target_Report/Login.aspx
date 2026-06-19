@@ -458,7 +458,7 @@ html, body {
     </style>
 </head>
 <body>
-    <form id="loginForm" runat="server">
+    <form id="loginForm" runat="server" autocomplete="off">
 
         <div class="page-bg">
 
@@ -490,7 +490,7 @@ html, body {
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
                             </svg>
-                            <asp:TextBox ID="txtUsername" runat="server" CssClass="field-input" placeholder="Enter your username" autocomplete="username" />
+                            <asp:TextBox ID="txtUsername" runat="server" CssClass="field-input" placeholder="Enter your username"    AutoCompleteType="Disabled" />
                         </div>
                     </div>
 
@@ -502,7 +502,7 @@ html, body {
                                 <rect x="5" y="11" width="14" height="9" rx="2"></rect>
                                 <path d="M8 11V7a4 4 0 0 1 8 0v4"></path>
                             </svg>
-                            <asp:TextBox ID="txtPassword" runat="server" CssClass="field-input password-input" TextMode="Password" placeholder="Enter your password" autocomplete="current-password" />
+                            <asp:TextBox ID="txtPassword" runat="server" CssClass="field-input password-input" TextMode="Password" placeholder="Enter your password"    AutoCompleteType="Disabled" />
                             <button type="button" class="toggle-password" id="btnTogglePassword" aria-label="Show password" onclick="togglePasswordVisibility()">
                                 <svg id="iconEye" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z"></path>
