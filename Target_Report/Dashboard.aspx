@@ -1,447 +1,438 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="Target_Report.Dashboard" %>
-
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title>Sales Target Dashboard</title>
-
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI';
-        }
-
-        body {
-            background: #F8FAFC;
-        }
-
-        .wrapper {
-            display: flex;
-            min-height: 100vh;
-        }
-
-        /* SIDEBAR */
-
-        .sidebar {
-            width: 260px;
-            background: #0F172A;
-            color: white;
-            position: fixed;
-            height: 100vh;
-        }
-
-        .logo {
-            padding: 25px;
-            font-size: 22px;
-            font-weight: 700;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
-        }
-
-        .menu {
-            padding-top: 20px;
-        }
-
-        .menu a {
-            display: block;
-            color: #CBD5E1;
-            text-decoration: none;
-            padding: 14px 25px;
-            transition: .3s;
-        }
-
-        .menu a:hover {
-            background: rgba(255,255,255,0.08);
-            color: white;
-        }
-
-        .menu i {
-            width: 25px;
-        }
-
-        /* MAIN */
-
-        .main {
-            margin-left: 260px;
-            width: calc(100% - 260px);
-        }
-
-        /* NAVBAR */
-
-        .navbar {
-            background: #FFFFFF;
-            height: 70px;
-            padding: 0 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0px 2px 10px rgba(0,0,0,0.05);
-        }
-
-        .navbar h2 {
-            color: #0F172A;
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .profile img {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-        }
-
-        /* CONTENT */
-
-        .content {
-            padding: 25px;
-        }
-
-        /* CARDS */
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(5,1fr);
-            gap: 20px;
-        }
-
-        .card {
-            background: #FFFFFF;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
-        }
-
-        .card .icon {
-            width: 55px;
-            height: 55px;
-            border-radius: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 22px;
-            margin-bottom: 15px;
-        }
-
-        .blue {
-            background: #2563EB;
-        }
-
-        .green {
-            background: #10B981;
-        }
-
-        .orange {
-            background: #F59E0B;
-        }
-
-        .red {
-            background: #EF4444;
-        }
-
-        .dark {
-            background: #0F172A;
-        }
-
-        .card h4 {
-            color: #64748B;
-            font-size: 14px;
-            margin-bottom: 8px;
-        }
-
-        .card h2 {
-            color: #0F172A;
-        }
-
-        /* CHART SECTION */
-
-        .chart-row {
-            display: grid;
-            grid-template-columns: 2fr 1fr;
-            gap: 20px;
-            margin-top: 25px;
-        }
-
-        .chart-card {
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
-        }
-
-        .chart-card h3 {
-            margin-bottom: 20px;
-            color: #0F172A;
-        }
-
-        .fake-chart {
-            height: 280px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-around;
-            padding: 10px;
-        }
-
-        .bar {
-            width: 40px;
-            background: #2563EB;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .bar:nth-child(2) {
-            height: 180px;
-        }
-
-        .bar:nth-child(1) {
-            height: 120px;
-        }
-
-        .bar:nth-child(3) {
-            height: 220px;
-        }
-
-        .bar:nth-child(4) {
-            height: 140px;
-        }
-
-        .bar:nth-child(5) {
-            height: 250px;
-        }
-
-        .bar:nth-child(6) {
-            height: 170px;
-        }
-
-        /* PIE */
-
-        .pie-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 280px;
-        }
-
-        .pie {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            background:
-                conic-gradient(
-                #10B981 0% 72%,
-                #EF4444 72% 100%);
-        }
-
-        /* TABLE */
-
-        .table-card {
-            margin-top: 25px;
-            background: white;
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.05);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        table th {
-            background: #F8FAFC;
-            color: #475569;
-            text-align: left;
-            padding: 12px;
-        }
-
-        table td {
-            padding: 14px 12px;
-            border-bottom: 1px solid #E2E8F0;
-        }
-
-        .badge-success {
-            background: rgba(16,185,129,0.15);
-            color: #10B981;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-
-        .badge-warning {
-            background: rgba(245,158,11,0.15);
-            color: #F59E0B;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-        }
-    </style>
-</head>
-
-<body>
-
-<form id="form1" runat="server">
-
-<div class="wrapper">
-
-    <!-- Sidebar -->
-
-    <div class="sidebar">
-
-        <div class="logo">
-            Sales Target
-        </div>
-
-        <div class="menu">
-            <a href="#"><i class="fa fa-chart-line"></i> Dashboard</a>
-            <a href="#"><i class="fa fa-users"></i> Partner Master</a>
-            <a href="#"><i class="fa fa-bullseye"></i> Target Master</a>
-            <a href="#"><i class="fa fa-coins"></i> Daily Sales</a>
-            <a href="#"><i class="fa fa-file-excel"></i> Reports</a>
-        </div>
-
-    </div>
-
-    <!-- Main -->
-
-    <div class="main">
-
-        <div class="navbar">
-            <h2>Dashboard</h2>
-
-            <div class="profile">
-                <i class="fa fa-user-circle fa-2x"></i>
-                <span>Admin</span>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="Target_Report.Dashboard" %>
+<asp:Content ID="cntTitle" ContentPlaceHolderID="cphTitle" runat="server">
+    Dashboard · Sales Target Report Management System
+</asp:Content>
+
+<asp:Content ID="cntHead" ContentPlaceHolderID="cphHead" runat="server">
+    <link rel="stylesheet" href="Dashboard.css" />
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script></asp:Content>
+
+<asp:Content ID="cntBody" ContentPlaceHolderID="cphBody" runat="server">
+
+    <div class="dashboard-container">
+
+      
+        <div class="dashboard-header">
+            <div class="dashboard-heading-block">
+                <h1 class="dashboard-title">Sales Dashboard</h1>
+                <p class="dashboard-subtitle">Business performance overview and target tracking.</p>
+            </div>
+            <div class="dashboard-header-right">
+                <nav class="dashboard-breadcrumb" aria-label="Breadcrumb">
+                    <span class="crumb-current">Dashboard</span>
+                </nav>
+                <div class="dashboard-date">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+                    <asp:Literal ID="litCurrentDate" runat="server" />
+                </div>
             </div>
         </div>
 
-        <div class="content">
+       
+        <div class="kpi-grid">
 
-            <!-- KPI Cards -->
-
-            <div class="cards">
-
-                <div class="card">
-                    <div class="icon dark">
-                        <i class="fa fa-users"></i>
+            <div class="kpi-card">
+                <div class="kpi-card-top">
+                    <div class="kpi-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
                     </div>
-                    <h4>Total Partners</h4>
-                    <h2>125</h2>
+                    <span class="kpi-trend is-up">
+                        <asp:Literal ID="litTotalPartnersTrend" runat="server" Text="+4" />
+                    </span>
                 </div>
-
-                <div class="card">
-                    <div class="icon blue">
-                        <i class="fa fa-chart-bar"></i>
-                    </div>
-                    <h4>Sales Target</h4>
-                    <h2>₹45L</h2>
-                </div>
-
-                <div class="card">
-                    <div class="icon green">
-                        <i class="fa fa-check"></i>
-                    </div>
-                    <h4>Achieved</h4>
-                    <h2>₹31L</h2>
-                </div>
-
-                <div class="card">
-                    <div class="icon orange">
-                        <i class="fa fa-hourglass-half"></i>
-                    </div>
-                    <h4>Remaining</h4>
-                    <h2>₹14L</h2>
-                </div>
-
-                <div class="card">
-                    <div class="icon red">
-                        <i class="fa fa-trophy"></i>
-                    </div>
-                    <h4>Top Performer</h4>
-                    <h2>ABC Corp</h2>
-                </div>
-
+                <div class="kpi-value"><asp:Label ID="lblTotalPartners" runat="server" Text="0" /></div>
+                <div class="kpi-label">Total Partners</div>
             </div>
 
-            <!-- Charts -->
-
-            <div class="chart-row">
-
-                <div class="chart-card">
-                    <h3>Monthly Target vs Achievement</h3>
-
-                    <div class="fake-chart">
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
-                        <div class="bar"></div>
+            <div class="kpi-card">
+                <div class="kpi-card-top">
+                    <div class="kpi-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>
                     </div>
+                    <span class="kpi-trend is-neutral">
+                        <asp:Literal ID="litMonthlyTargetTrend" runat="server" Text="This month" />
+                    </span>
                 </div>
-
-                <div class="chart-card">
-                    <h3>Achievement Ratio</h3>
-
-                    <div class="pie-container">
-                        <div class="pie"></div>
-                    </div>
-                </div>
-
+                <div class="kpi-value"><asp:Label ID="lblMonthlyTarget" runat="server" Text="0" /></div>
+                <div class="kpi-label">Monthly Target</div>
             </div>
 
-            <!-- Top Performers -->
+            <div class="kpi-card">
+                <div class="kpi-card-top">
+                    <div class="kpi-icon-wrap is-success">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                    </div>
+                    <span class="kpi-trend is-up">
+                        <asp:Literal ID="litAchievementTrend" runat="server" Text="+8.2%" />
+                    </span>
+                </div>
+                <div class="kpi-value"><asp:Label ID="lblAchievement" runat="server" Text="0" /></div>
+                <div class="kpi-label">Achievement</div>
+            </div>
 
-            <div class="table-card">
+            <div class="kpi-card">
+                <div class="kpi-card-top">
+                    <div class="kpi-icon-wrap is-danger">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                    </div>
+                    <span class="kpi-trend is-down">
+                        <asp:Literal ID="litPendingBalanceTrend" runat="server" Text="Due" />
+                    </span>
+                </div>
+                <div class="kpi-value"><asp:Label ID="lblPendingBalance" runat="server" Text="0" /></div>
+                <div class="kpi-label">Pending Balance</div>
+            </div>
 
-                <h3 style="margin-bottom:20px;">Top Performing Partners</h3>
+            <div class="kpi-card">
+                <div class="kpi-card-top">
+                    <div class="kpi-icon-wrap is-success">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"></path><path d="M22 12A10 10 0 0 0 12 2v10z"></path></svg>
+                    </div>
+                    <span class="kpi-trend is-up">
+                        <asp:Literal ID="litAchievementPercentageTrend" runat="server" Text="On track" />
+                    </span>
+                </div>
+                <div class="kpi-value"><asp:Label ID="lblAchievementPercentage" runat="server" Text="0%" /></div>
+                <div class="kpi-label">Achievement %</div>
+            </div>
 
-                <table>
-
-                    <tr>
-                        <th>Partner</th>
-                        <th>Target</th>
-                        <th>Achieved</th>
-                        <th>Status</th>
-                    </tr>
-
-                    <tr>
-                        <td>ABC Traders</td>
-                        <td>₹5,00,000</td>
-                        <td>₹5,80,000</td>
-                        <td><span class="badge-success">Achieved</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>XYZ Enterprises</td>
-                        <td>₹4,00,000</td>
-                        <td>₹3,20,000</td>
-                        <td><span class="badge-warning">Pending</span></td>
-                    </tr>
-
-                    <tr>
-                        <td>PQR Distributors</td>
-                        <td>₹6,00,000</td>
-                        <td>₹6,40,000</td>
-                        <td><span class="badge-success">Achieved</span></td>
-                    </tr>
-
-                </table>
-
+            <div class="kpi-card">
+                <div class="kpi-card-top">
+                    <div class="kpi-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+                    </div>
+                    <span class="kpi-trend is-neutral">
+                        <asp:Literal ID="litActiveBranchesTrend" runat="server" Text="Pune · Nagpur" />
+                    </span>
+                </div>
+                <div class="kpi-value"><asp:Label ID="lblActiveBranches" runat="server" Text="0" /></div>
+                <div class="kpi-label">Active Branches</div>
             </div>
 
         </div>
 
-    </div>
+        <!-- =================================================
+             CHARTS — row 1: Target vs Achievement | Branch Performance
+             ================================================= -->
+        <div class="charts-grid">
 
+            <section class="panel">
+                <div class="panel-header">
+                    <div class="panel-header-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                        <span>Target vs Achievement</span>
+                    </div>
+                    <span class="panel-header-meta">Monthly comparison</span>
+                </div>
+                <div class="panel-body">
+                    <div class="chart-canvas-wrap">
+                        <canvas id="chartTargetVsAchievement"></canvas>
+                    </div>
+                    <div class="chart-legend-row">
+                        <span class="chart-legend-item"><span class="chart-legend-dot is-target"></span>Target</span>
+                        <span class="chart-legend-item"><span class="chart-legend-dot is-achievement"></span>Achievement</span>
+                    </div>
+                </div>
+            </section>
+
+            <section class="panel">
+                <div class="panel-header">
+                    <div class="panel-header-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="14" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="11" y2="18"></line></svg>
+                        <span>Branch Performance</span>
+                    </div>
+                    <span class="panel-header-meta">Pune vs Nagpur</span>
+                </div>
+                <div class="panel-body">
+                    <div class="chart-canvas-wrap">
+                        <canvas id="chartBranchPerformance"></canvas>
+                    </div>
+                    <div class="chart-legend-row">
+                        <span class="chart-legend-item"><span class="chart-legend-dot is-pune"></span>Pune</span>
+                        <span class="chart-legend-item"><span class="chart-legend-dot is-nagpur"></span>Nagpur</span>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+
+        <!-- =================================================
+             CHARTS — row 2: Achievement Trend (full width)
+             ================================================= -->
+        <div class="charts-grid-secondary">
+            <section class="panel">
+                <div class="panel-header">
+                    <div class="panel-header-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"></polyline><polyline points="14 7 21 7 21 14"></polyline></svg>
+                        <span>Achievement Trend</span>
+                    </div>
+                    <span class="panel-header-meta">Last 6 months</span>
+                </div>
+                <div class="panel-body">
+                    <div class="chart-canvas-wrap" style="height: 220px;">
+                        <canvas id="chartAchievementTrend"></canvas>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- =================================================
+             LOWER GRID — Top Partners | Recent Activity + Quick Actions
+             ================================================= -->
+        <div class="lower-grid">
+
+            <!-- Top Partners -->
+            <section class="panel">
+                <div class="panel-header">
+                    <div class="panel-header-title">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path><path d="M12 2v3"></path><path d="M12 19v3"></path><path d="M4.93 4.93l2.12 2.12"></path><path d="M16.95 16.95l2.12 2.12"></path></svg>
+                        <span>Top Partners</span>
+                    </div>
+                    <span class="panel-header-meta">Top 10 this month</span>
+                </div>
+                <div class="panel-body" style="padding: 0;">
+                    <asp:GridView ID="gvTopPartners" runat="server"
+                        CssClass="data-table"
+                        AutoGenerateColumns="false"
+                        GridLines="None"
+                        ShowHeaderWhenEmpty="false">
+                        <Columns>
+                            <asp:TemplateField HeaderText="Rank">
+                                <ItemTemplate>
+                                    <span class='<%# "cell-rank" + (Convert.ToInt32(Eval("Rank")) <= 3 ? " is-top3" : "") %>'><%# Eval("Rank") %></span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Partner Name">
+                                <ItemTemplate>
+                                    <span class="cell-name"><%# Eval("PartnerName") %></span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Branch">
+                                <ItemTemplate>
+                                    <span class='<%# "branch-tag" + (Eval("Branch").ToString() == "Nagpur" ? " is-nagpur" : "") %>'>
+                                        <span class="dot"></span><%# Eval("Branch") %>
+                                    </span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Target">
+                                <ItemTemplate>
+                                    <span class="cell-secondary"><%# Eval("Target", "{0:N0}") %></span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Achievement">
+                                <ItemTemplate>
+                                    <span class="cell-secondary"><%# Eval("Achievement", "{0:N0}") %></span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                            <asp:TemplateField HeaderText="Achievement %">
+                                <ItemTemplate>
+                                    <div class="achievement-bar-wrap">
+                                        <div class="achievement-bar-track">
+                                            <div class='<%# "achievement-bar-fill" + GetAchievementBarClass(Convert.ToDouble(Eval("AchievementPercentage"))) %>'
+     style='<%# "width:" + GetAchievementWidth(Eval("AchievementPercentage")) + "%;" %>'>
 </div>
+                                        </div>
+                                        <span class="achievement-bar-text"><%# Eval("AchievementPercentage", "{0:N0}%") %></span>
+                                    </div>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+                        </Columns>
+                    </asp:GridView>
+                </div>
+            </section>
 
-</form>
+            <!-- Recent Activity + Quick Actions -->
+            <div class="lower-grid-side">
 
-</body>
-</html>
+                <section class="panel">
+                    <div class="panel-header">
+                        <div class="panel-header-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            <span>Recent Activity</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="activity-feed">
+                            <asp:Repeater ID="rptRecentActivity" runat="server">
+                                <ItemTemplate>
+                                    <div class="activity-item">
+                                        <div class='<%# "activity-icon-wrap" + (Eval("IconType").ToString() == "success" ? " is-success" : "") %>'>
+                                            <%# Eval("IconSvg") %>
+                                        </div>
+                                        <div class="activity-content">
+                                            <p class="activity-text"><%# Eval("ActivityText") %></p>
+                                            <span class="activity-time"><%# Eval("TimeAgo") %></span>
+                                        </div>
+                                    </div>
+                                </ItemTemplate>
+                            </asp:Repeater>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="panel">
+                    <div class="panel-header">
+                        <div class="panel-header-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L3 14h7l-1 8 10-12h-7l1-8Z"></path></svg>
+                            <span>Quick Actions</span>
+                        </div>
+                    </div>
+                    <div class="panel-body">
+                        <div class="quick-actions-grid">
+                            <asp:HyperLink ID="lnkQuickAddPartner" runat="server" NavigateUrl="~/PartnerMaster.aspx" CssClass="quick-action-card">
+                                <div class="quick-action-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><line x1="20" y1="8" x2="20" y2="14"></line><line x1="17" y1="11" x2="23" y2="11"></line></svg>
+                                </div>
+                                <span class="quick-action-label">Add Partner</span>
+                            </asp:HyperLink>
+                            <asp:HyperLink ID="lnkQuickAddTarget" runat="server" NavigateUrl="~/TargetMaster.aspx" CssClass="quick-action-card">
+                                <div class="quick-action-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>
+                                </div>
+                                <span class="quick-action-label">Add Target</span>
+                            </asp:HyperLink>
+                            <asp:HyperLink ID="lnkQuickAddSalesEntry" runat="server" NavigateUrl="~/DailySalesEntry.aspx" CssClass="quick-action-card">
+                                <div class="quick-action-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>
+                                </div>
+                                <span class="quick-action-label">Add Sales Entry</span>
+                            </asp:HyperLink>
+                            <asp:HyperLink ID="lnkQuickViewReports" runat="server" NavigateUrl="~/Reports.aspx" CssClass="quick-action-card">
+                                <div class="quick-action-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="15" y2="17"></line></svg>
+                                </div>
+                                <span class="quick-action-label">View Reports</span>
+                            </asp:HyperLink>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- =====================================================
+         CHART DATA HANDOFF — server-rendered JSON consumed by
+         Chart.js below. Hidden fields keep the data layer and
+         the rendering layer cleanly separated.
+         ===================================================== -->
+    <asp:HiddenField ID="hdnChartLabels" runat="server" />
+    <asp:HiddenField ID="hdnTargetData" runat="server" />
+    <asp:HiddenField ID="hdnAchievementData" runat="server" />
+    <asp:HiddenField ID="hdnBranchLabels" runat="server" />
+    <asp:HiddenField ID="hdnBranchAchievementData" runat="server" />
+    <asp:HiddenField ID="hdnTrendLabels" runat="server" />
+    <asp:HiddenField ID="hdnTrendData" runat="server" />
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+
+            var navy = '#1E3A8A';
+            var navyLight = '#C7D2EC';
+            var green = '#16A34A';
+            var gridColor = '#E5E7EB';
+            var textColor = '#6B7280';
+
+            function parseJsonField(fieldId) {
+                var el = document.getElementById(fieldId);
+                if (!el || !el.value) return [];
+                try { return JSON.parse(el.value); } catch (e) { return []; }
+            }
+
+            var chartLabels = parseJsonField('<%= hdnChartLabels.ClientID %>');
+            var targetData = parseJsonField('<%= hdnTargetData.ClientID %>');
+            var achievementData = parseJsonField('<%= hdnAchievementData.ClientID %>');
+            var branchLabels = parseJsonField('<%= hdnBranchLabels.ClientID %>');
+            var branchAchievementData = parseJsonField('<%= hdnBranchAchievementData.ClientID %>');
+            var trendLabels = parseJsonField('<%= hdnTrendLabels.ClientID %>');
+            var trendData = parseJsonField('<%= hdnTrendData.ClientID %>');
+
+            // Chart 1 — Target vs Achievement (vertical bar)
+            var ctxTargetVsAchievement = document.getElementById('chartTargetVsAchievement');
+            if (ctxTargetVsAchievement) {
+                new Chart(ctxTargetVsAchievement, {
+                    type: 'bar',
+                    data: {
+                        labels: chartLabels,
+                        datasets: [
+                            { label: 'Target', data: targetData, backgroundColor: navyLight, borderRadius: 4, maxBarThickness: 28 },
+                            { label: 'Achievement', data: achievementData, backgroundColor: navy, borderRadius: 4, maxBarThickness: 28 }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { color: textColor, font: { size: 11 } } },
+                            y: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 11 } }, beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+            // Chart 2 — Branch Performance (horizontal bar)
+            var ctxBranchPerformance = document.getElementById('chartBranchPerformance');
+            if (ctxBranchPerformance) {
+                new Chart(ctxBranchPerformance, {
+                    type: 'bar',
+                    data: {
+                        labels: branchLabels,
+                        datasets: [{
+                            label: 'Achievement %',
+                            data: branchAchievementData,
+                            backgroundColor: [navy, green],
+                            borderRadius: 4,
+                            maxBarThickness: 32
+                        }]
+                    },
+                    options: {
+                        indexAxis: 'y',
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 11 } }, beginAtZero: true },
+                            y: { grid: { display: false }, ticks: { color: textColor, font: { size: 12, weight: '600' } } }
+                        }
+                    }
+                });
+            }
+
+            // Chart 3 — Achievement Trend (line)
+            var ctxAchievementTrend = document.getElementById('chartAchievementTrend');
+            if (ctxAchievementTrend) {
+                new Chart(ctxAchievementTrend, {
+                    type: 'line',
+                    data: {
+                        labels: trendLabels,
+                        datasets: [{
+                            label: 'Achievement %',
+                            data: trendData,
+                            borderColor: navy,
+                            backgroundColor: 'rgba(30, 58, 138, 0.08)',
+                            fill: true,
+                            tension: 0.35,
+                            pointBackgroundColor: navy,
+                            pointRadius: 3.5,
+                            borderWidth: 2
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: { legend: { display: false } },
+                        scales: {
+                            x: { grid: { display: false }, ticks: { color: textColor, font: { size: 11 } } },
+                            y: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 11 } }, beginAtZero: true }
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+
+</asp:Content>

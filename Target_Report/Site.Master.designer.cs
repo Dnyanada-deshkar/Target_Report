@@ -11,25 +11,68 @@ namespace Target_Report
 {
 
 
-    public partial class SiteMaster
+ 
+       public partial class SiteMaster
     {
 
         /// <summary>
-        /// HeadContent control.
+        /// frmShell control.
         /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
+        protected global::System.Web.UI.HtmlControls.HtmlForm frmShell;
 
         /// <summary>
-        /// MainContent control.
+        /// cphTitle control.
         /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphTitle;
+
+        /// <summary>
+        /// cphHead control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphHead;
+
+        /// <summary>
+        /// lnkNavDashboard control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.HyperLink lnkNavDashboard;
+
+        /// <summary>
+        /// lnkNavPartnerMaster control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.HyperLink lnkNavPartnerMaster;
+
+        /// <summary>
+        /// lnkNavTargetMaster control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.HyperLink lnkNavTargetMaster;
+
+        /// <summary>
+        /// lnkNavSalesEntry control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.HyperLink lnkNavSalesEntry;
+
+        /// <summary>
+        /// lnkNavReports control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.HyperLink lnkNavReports;
+
+        /// <summary>
+        /// litUserInitials control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litUserInitials;
+
+        /// <summary>
+        /// litUserName control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litUserName;
+
+        /// <summary>
+        /// litUserRole control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.Literal litUserRole;
+
+        /// <summary>
+        /// cphBody control.
+        /// </summary>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphBody;
     }
 }
