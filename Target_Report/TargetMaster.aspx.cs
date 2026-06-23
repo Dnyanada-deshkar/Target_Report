@@ -91,7 +91,7 @@ namespace Target_Report
 
             using (SqlConnection conn = new SqlConnection(ConnString))
             {
-                const string query = @"SELECT ContactNumber, City, NativeBranch FROM Partners WHERE PartnerID = @PartnerID";
+                const string query = @"SELECT ContactNumber, City, NativeBranch FROM PartnerMaster WHERE PartnerID = @PartnerID";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@PartnerID", Convert.ToInt32(partnerId));
