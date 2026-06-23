@@ -139,14 +139,12 @@
                 <div class="panel-header">
                     <div class="panel-header-title">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="6" x2="14" y2="6"></line><line x1="4" y1="12" x2="20" y2="12"></line><line x1="4" y1="18" x2="11" y2="18"></line></svg>
-                        <span>Branch Performance</span>
-                    </div>
-                    <span class="panel-header-meta">Pune vs Nagpur</span>
+                                <span>Target Status</span>                    </div>
+                    <span class="panel-header-meta">Achieved vs Balance</span>
                 </div>
                 <div class="panel-body">
                     <div class="chart-canvas-wrap">
-                        <canvas id="chartBranchPerformance"></canvas>
-                    </div>
+                        <canvas id="chartTargetStatus"></canvas>                    </div>
                     <div class="chart-legend-row">
                         <span class="chart-legend-item"><span class="chart-legend-dot is-pune"></span>Pune</span>
                         <span class="chart-legend-item"><span class="chart-legend-dot is-nagpur"></span>Nagpur</span>
@@ -374,28 +372,37 @@
             }
 
             // Chart 2 — Branch Performance (horizontal bar)
-            var ctxBranchPerformance = document.getElementById('chartBranchPerformance');
-            if (ctxBranchPerformance) {
-                new Chart(ctxBranchPerformance, {
-                    type: 'bar',
+            // Chart 2 — Target Status (Doughnut)
+
+            var totalTarget = 100;
+            var achieved = 75;
+            var balance = totalTarget - achieved;
+
+            var ctxTargetStatus =
+                document.getElementById('chartTargetStatus');
+
+            if (ctxTargetStatus) {
+                new Chart(ctxTargetStatus, {
+                    type: 'doughnut',
                     data: {
-                        labels: branchLabels,
+                        labels: ['Achieved', 'Balance'],
                         datasets: [{
-                            label: 'Achievement %',
-                            data: branchAchievementData,
-                            backgroundColor: [navy, green],
-                            borderRadius: 4,
-                            maxBarThickness: 32
+                            data: [achieved, balance],
+                            backgroundColor: [
+                                '#16A34A',
+                                '#DC2626'
+                            ],
+                            borderWidth: 0
                         }]
                     },
                     options: {
-                        indexAxis: 'y',
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 11 } }, beginAtZero: true },
-                            y: { grid: { display: false }, ticks: { color: textColor, font: { size: 12, weight: '600' } } }
+                        cutout: '65%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom'
+                            }
                         }
                     }
                 });

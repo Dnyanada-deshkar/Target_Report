@@ -869,6 +869,7 @@ a {
     border-left: 3px solid var(--color-success);
     border-radius: var(--radius-control);
     box-shadow: var(--shadow-toast);
+    transition: all 0.5s ease;
 }
 
 .toast.is-error {
@@ -916,6 +917,10 @@ a {
 .toast-close svg {
     width: 14px;
     height: 14px;
+}
+.toast-hide{
+    opacity:0;
+    transform: translate(40px);
 }
 
 /* =========================================================
@@ -1132,7 +1137,7 @@ a {
                                     Partner Name<span class="required-mark">*</span>
                                 </asp:Label>
                                 <div class="field-control-wrap">
-                                    <asp:TextBox ID="txtPartnerName" runat="server" CssClass="field-input" placeholder="e.g. Shree Enterprises" MaxLength="100" />
+                                    <asp:TextBox ID="txtPartnerName" runat="server" CssClass="field-input" placeholder="e.g. Shree Enterprises" autocomplete="off" MaxLength="100" />
                                 </div>
                                 <asp:RequiredFieldValidator ID="rfvPartnerName" runat="server"
                                     ControlToValidate="txtPartnerName"
@@ -1142,11 +1147,11 @@ a {
                             </div>
 
                             <div class="field-group">
-                                <asp:Label runat="server" AssociatedControlID="txtContactNumber" CssClass="field-label">
+                                <asp:Label runat="server" AssociatedControlID="txtContactNumber" CssClass="field-label" >
                                     Contact Number<span class="required-mark">*</span>
                                 </asp:Label>
                                 <div class="field-control-wrap">
-                                    <asp:TextBox ID="txtContactNumber" runat="server" CssClass="field-input" placeholder="10-digit mobile number" MaxLength="10" />
+                                    <asp:TextBox ID="txtContactNumber" runat="server" CssClass="field-input" placeholder="10-digit mobile number" autocomplete="off" MaxLength="10" />
                                 </div>
                                 <asp:RequiredFieldValidator ID="rfvContactNumber" runat="server"
                                     ControlToValidate="txtContactNumber"
@@ -1167,7 +1172,7 @@ a {
                                     City<span class="required-mark">*</span>
                                 </asp:Label>
                                 <div class="field-control-wrap">
-                                    <asp:TextBox ID="txtCity" runat="server" CssClass="field-input" placeholder="e.g. Pune" MaxLength="50" />
+                                    <asp:TextBox ID="txtCity" runat="server" CssClass="field-input" placeholder="e.g. Pune" autocomplete="off" MaxLength="50" />
                                 </div>
                                 <asp:RequiredFieldValidator ID="rfvCity" runat="server"
                                     ControlToValidate="txtCity"
@@ -1436,6 +1441,35 @@ a {
             // and the code-behind opens the modal via pnlDeleteModalOverlay.
             return true;
         }
+
+        window.onload = function () {
+
+            var toast =
+                document.querySelector('.toast');
+
+            if (toast) {
+
+                setTimeout(function () {
+
+                    toast.classList.add('toast-hide');
+
+                    setTimeout(function () {
+
+                        var toastStack =
+                            document.querySelector('.toast-stack');
+
+                        if (toastStack) {
+                            toastStack.style.display = 'none';
+                        }
+
+                    }, 500);
+
+                }, 5000);
+
+            }
+
+        };
+
     </script>
 </body>
 </html>
