@@ -618,5 +618,18 @@ namespace Target_Report
             pnlToast.Visible = true;
             pnlToast.CssClass = isError ? "toast-stack is-error" : "toast-stack";
         }
+
+        protected void txtSalesTarget_TextChanged(object sender, EventArgs e)
+        {
+            decimal salesTarget = 0;
+
+            decimal.TryParse(txtSalesTarget.Text, out salesTarget);
+
+            txtAchievement.Text = "0";
+
+            txtTargetBalance.Text = salesTarget.ToString("N2");
+        }
+
+
     }
 }

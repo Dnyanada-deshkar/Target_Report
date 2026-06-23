@@ -143,7 +143,7 @@
                                 Sales Target<span class="required-mark">*</span>
                             </asp:Label>
                             <div class="field-control-wrap">
-                                <asp:TextBox ID="txtSalesTarget" runat="server" CssClass="field-input" placeholder="e.g. 500000" MaxLength="15" />
+                                <asp:TextBox ID="txtSalesTarget" runat="server" CssClass="field-input" placeholder="e.g. 500000" AutoPostBack="true" OnTextChanged="txtSalesTarget_TextChanged" MaxLength="15" />
                             </div>
                             <asp:RequiredFieldValidator ID="rfvSalesTarget" runat="server"
                                 ControlToValidate="txtSalesTarget"
@@ -158,6 +158,25 @@
                                 ValidationGroup="TargetForm" />
                         </div>
 
+                        <!-- Achievement -->
+                        <div class="field-group">
+                             <asp:Label runat="server" AssociatedControlID="txtAchievement" CssClass="field-label">
+                              Achievement
+                             </asp:Label>
+                              <div class="field-control-wrap">
+                                    <asp:TextBox ID="txtAchievement" runat="server" CssClass="field-input is-readonly" ReadOnly="true" Text="0" />
+                              </div>
+                        </div>
+
+                        <!-- Target Balance -->
+                        <div class="field-group">
+                            <asp:Label runat="server" AssociatedControlID="txtTargetBalance" CssClass="field-label">
+                                Target Balance
+                            </asp:Label>
+                            <div class="field-control-wrap">
+                                <asp:TextBox ID="txtTargetBalance" runat="server" CssClass="field-input is-readonly" ReadOnly="true" Text="0" />
+                            </div>
+                        </div>
                         <!-- Row 4: Remarks (optional, full width) -->
                         <div class="field-group" style="grid-column: 1 / -1;">
                             <asp:Label runat="server" AssociatedControlID="txtRemarks" CssClass="field-label">
