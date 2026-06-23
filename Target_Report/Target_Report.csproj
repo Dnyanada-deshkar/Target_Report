@@ -118,6 +118,8 @@
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Site.css" />
+    <Content Include="DailySalesEntry.aspx" />
+    <Content Include="DailySalesEntry.css" />
     <Content Include="Dashboard.aspx" />
     <Content Include="Dashboard.css" />
     <Content Include="favicon.ico" />
@@ -205,6 +207,13 @@
     </Compile>
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="DailySalesEntry.aspx.cs">
+      <DependentUpon>DailySalesEntry.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="DailySalesEntry.aspx.designer.cs">
+      <DependentUpon>DailySalesEntry.aspx</DependentUpon>
     </Compile>
     <Compile Include="Dashboard.aspx.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>

@@ -1,0 +1,238 @@
+﻿
+
+/* ==========================================================================
+   DailySalesEntry.css
+   Extends the shared module/panel/kpi classes already defined in the
+   project's Site.Master stylesheet. Only page-specific overrides live here.
+   ========================================================================== */
+
+/* ── Progress bar ──────────────────────────────────────────────────────── */
+.dse-progress-track {
+    height: 8px;
+    background: #E5E7EB;
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.dse-progress-fill {
+    height: 100%;
+    border-radius: 99px;
+    background: linear-gradient(90deg, #1E3A8A, #7C3AED);
+    transition: width 0.5s ease;
+    min-width: 2px;
+}
+
+/* ── Read-only fields ──────────────────────────────────────────────────── */
+.field-input.dse-readonly {
+    background-color: #F9FAFB;
+    color: #6B7280;
+    cursor: default;
+}
+
+    .field-input.dse-readonly:focus {
+        border-color: #D1D5DB;
+        box-shadow: none;
+        outline: none;
+    }
+
+/* ── Sale amount input — visually distinct ─────────────────────────────── */
+.field-input.dse-sale-input {
+    font-size: 16px;
+    font-weight: 600;
+    border-color: #A78BFA;
+}
+
+    .field-input.dse-sale-input:focus {
+        border-color: #7C3AED;
+        box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
+    }
+
+/* ── Inline field label badges ─────────────────────────────────────────── */
+.dse-badge {
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 2px 7px;
+    border-radius: 99px;
+    background: #EFF6FF;
+    color: #1D4ED8;
+    border: 1px solid #BFDBFE;
+    margin-left: 6px;
+    vertical-align: middle;
+    line-height: 1.6;
+}
+
+    .dse-badge.dse-badge-live {
+        background: #F5F3FF;
+        color: #6D28D9;
+        border-color: #DDD6FE;
+    }
+
+/* ── Alert / info banners ──────────────────────────────────────────────── */
+.dse-alert-panel {
+    margin-bottom: 24px;
+}
+
+    .dse-alert-panel.is-warning {
+        border-left: 4px solid #F59E0B;
+        background: #FFFBEB;
+    }
+
+    .dse-alert-panel.is-success {
+        border-left: 4px solid #10B981;
+        background: #ECFDF5;
+    }
+
+.dse-alert-body {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 24px !important;
+}
+
+    .dse-alert-body svg {
+        width: 22px;
+        height: 22px;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+
+.dse-alert-panel.is-warning .dse-alert-body svg {
+    color: #D97706;
+}
+
+.dse-alert-panel.is-success .dse-alert-body svg {
+    color: #059669;
+}
+
+.dse-alert-body strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+    margin-bottom: 4px;
+}
+
+.dse-alert-body p {
+    font-size: 13px;
+    color: #4B5563;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.dse-alert-body a {
+    color: #1D4ED8;
+    text-decoration: underline;
+}
+
+.module-page {
+    padding: 28px 32px 56px;
+}
+
+.module-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.module-title {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-text);
+}
+
+.module-subtitle {
+    margin-top: 8px;
+    color: var(--color-text-secondary);
+}
+
+.module-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+}
+
+    .module-breadcrumb svg {
+        width: 14px;
+        height: 14px;
+    }
+
+.panel {
+    background: #fff;
+    border: 1px solid var(--color-border);
+    border-radius: 10px;
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+
+.panel-header {
+    padding: 18px 24px;
+    border-bottom: 1px solid var(--color-border);
+}
+
+.panel-header-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 600;
+}
+
+    .panel-header-title svg {
+        width: 18px;
+        height: 18px;
+    }
+
+.panel-body {
+    padding: 24px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 20px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.field-label {
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.field-input,
+.field-select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.toast-stack {
+    margin-bottom: 20px;
+}
+
+.toast {
+    background: #ECFDF5;
+    border: 1px solid #A7F3D0;
+    border-radius: 10px;
+    padding: 16px;
+    display: flex;
+    gap: 12px;
+}
