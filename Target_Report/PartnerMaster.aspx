@@ -44,9 +44,9 @@
     --radius-pill: 999px;
 
     --shadow-card:
-        0 1px 1px rgba(15, 23, 42, 0.03),
-        0 2px 6px rgba(15, 23, 42, 0.04),
-        0 12px 28px -12px rgba(15, 23, 42, 0.10);
+       0 2px 4px rgba(15, 23, 42, 0.04),
+    0 8px 20px rgba(15, 23, 42, 0.08),
+    0 24px 48px -16px rgba(15, 23, 42, 0.14);
 
     --shadow-modal:
         0 4px 12px rgba(15, 23, 42, 0.08),
@@ -60,12 +60,25 @@
 }
 
 html, body {
-    margin: 0;
+     margin: 0;
     padding: 0;
     font-family: var(--font-base);
     color: var(--color-text);
-    background-color: var(--color-bg);
+    background-color: #F8FAFC;
     -webkit-font-smoothing: antialiased;
+
+    background-image:
+        linear-gradient(
+            rgba(15,23,42,0.045) 1px,
+            transparent 1px
+        ),
+        linear-gradient(
+            90deg,
+            rgba(15,23,42,0.045) 1px,
+            transparent 1px
+        );
+
+    background-size: 48px 48px;
 }
 
 a {
@@ -76,6 +89,7 @@ a {
 .module-page {
     min-height: 100vh;
     width: 100%;
+    background: transparent;
 }
 
 .module-container {
@@ -144,7 +158,7 @@ a {
 
 .panel {
     background-color: var(--color-card);
-    border: 1px solid var(--color-border);
+    border: 5px solid rgba(229, 231, 235, 0.9);
     border-radius: var(--radius-card);
     box-shadow: var(--shadow-card);
 }

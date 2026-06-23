@@ -70,8 +70,8 @@ html, body {
     position: absolute;
     inset: 0;
     background-image:
-        linear-gradient(to right, rgba(15, 23, 42, 0.045) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(15, 23, 42, 0.045) 1px, transparent 1px);
+        linear-gradient(to right, rgba(15, 23, 42, 0.045) 2px, transparent 1px),
+        linear-gradient(to bottom, rgba(15, 23, 42, 0.045) 2px, transparent 1px);
     background-size: 56px 56px;
     pointer-events: none;
 }
