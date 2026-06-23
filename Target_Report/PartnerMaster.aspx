@@ -604,7 +604,7 @@ a {
 
 .th-sort-wrap {
     display: inline-flex;
-    align-items: center;
+    align-items:center;
     gap: 5px;
 }
 
@@ -1245,7 +1245,7 @@ a {
                                 <circle cx="11" cy="11" r="7"></circle>
                                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                             </svg>
-                            <asp:TextBox ID="txtSearch" runat="server" CssClass="search-input" placeholder="Search partners, contacts, or cities" AutoPostBack="true" OnTextChanged="txtSearch_TextChanged" />
+                            <asp:TextBox ID="txtSearch" runat="server" CssClass="search-input" placeholder="Search partners, contacts, or cities" AutoPostBack="true" OnTextChanged="txtSearch_TextChanged" autocomplete="off" />
                         </div>
                         <div class="toolbar-filters">
                             <div class="filter-select-wrap">
@@ -1268,7 +1268,7 @@ a {
                             AutoGenerateColumns="false"
                             GridLines="None"
                             ShowHeaderWhenEmpty="false"
-                            AllowSorting="true"
+                            AllowSorting="false"
                             OnSorting="gvPartners_Sorting"
                             OnRowCommand="gvPartners_RowCommand"
                             DataKeyNames="PartnerID">
