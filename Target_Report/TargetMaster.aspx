@@ -304,8 +304,9 @@
                                     <div class="achievement-bar-wrap">
                                         <div class="achievement-bar-track">
 <div class="achievement-bar-fill is-pending"
-     style='<%# "width:" + Math.Min(100, Convert.ToDouble(Eval("AchievementPercentage"))) + "%;" %>'>
-</div>                                        </div>
+     runat="server"
+     style='<%# "width:" + Eval("AchievementPercentage") + "%;" %>'>
+</div>                                       </div>
                                         <span class="achievement-bar-text"><%# Eval("AchievementPercentage", "{0:N0}%") %></span>
                                     </div>
                                 </ItemTemplate>

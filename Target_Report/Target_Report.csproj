@@ -124,6 +124,7 @@
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
     <Content Include="PartnerMaster.aspx" />
+    <Content Include="PartnerMaster.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
