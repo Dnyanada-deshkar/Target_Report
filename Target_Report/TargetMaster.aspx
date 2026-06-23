@@ -104,46 +104,47 @@
 
                         <!-- Row 3: Month + Year tag | Sales Target -->
                         <div class="field-group">
-                            <asp:Label runat="server" AssociatedControlID="ddlMonth" CssClass="field-label">
+                            <asp:Label runat="server" AssociatedControlID="txtTargetMonth" CssClass="field-label">
                                 Month<span class="required-mark">*</span>
                             </asp:Label>
                             <div class="month-year-row">
-                                <div class="field-select-wrap">
-                                    <asp:DropDownList ID="ddlMonth" runat="server" CssClass="field-select">
-                                        <asp:ListItem Text="Select month" Value="" />
-                                        <asp:ListItem Text="January" Value="1" />
-                                        <asp:ListItem Text="February" Value="2" />
-                                        <asp:ListItem Text="March" Value="3" />
-                                        <asp:ListItem Text="April" Value="4" />
-                                        <asp:ListItem Text="May" Value="5" />
-                                        <asp:ListItem Text="June" Value="6" />
-                                        <asp:ListItem Text="July" Value="7" />
-                                        <asp:ListItem Text="August" Value="8" />
-                                        <asp:ListItem Text="September" Value="9" />
-                                        <asp:ListItem Text="October" Value="10" />
-                                        <asp:ListItem Text="November" Value="11" />
-                                        <asp:ListItem Text="December" Value="12" />
-                                    </asp:DropDownList>
-                                </div>
+                               <div class="field-select-wrap">
+                        <asp:TextBox
+                            ID="txtTargetMonth"
+                            runat="server"
+                            CssClass="field-input"
+                            ReadOnly="true">
+                        </asp:TextBox>
+                         </div>
                                 <span class="year-tag">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                                     <asp:Literal ID="litTargetYear" runat="server" />
                                 </span>
                             </div>
-                            <asp:RequiredFieldValidator ID="rfvMonth" runat="server"
-                                ControlToValidate="ddlMonth"
-                                CssClass="field-error" Display="Dynamic"
-                                ErrorMessage="Please select a month."
-                                InitialValue=""
-                                ValidationGroup="TargetForm" />
                         </div>
+
+                             <div class="form-group">
+                                <label>Purchase Potential (INR)</label>
+
+                                <div class="currency-input">
+                                    <span class="currency-prefix">INR</span>
+
+                                    <asp:TextBox
+                                        ID="txtPurchasePotential"
+                                        runat="server"
+                                        CssClass="form-control"
+                                        TextMode="Number">
+                                    </asp:TextBox>
+                                </div>
+                            </div>
+
 
                         <div class="field-group">
                             <asp:Label runat="server" AssociatedControlID="txtSalesTarget" CssClass="field-label">
                                 Sales Target<span class="required-mark">*</span>
                             </asp:Label>
                             <div class="field-control-wrap">
-                                <asp:TextBox ID="txtSalesTarget" runat="server" CssClass="field-input" placeholder="e.g. 500000" AutoPostBack="true" OnTextChanged="txtSalesTarget_TextChanged" MaxLength="15" />
+                                <asp:TextBox ID="txtSalesTarget" runat="server" CssClass="field-input" placeholder="e.g. 500000" AutoPostBack="true" OnTextChanged="txtSalesTarget_TextChanged" autocomplete="off" MaxLength="15" />
                             </div>
                             <asp:RequiredFieldValidator ID="rfvSalesTarget" runat="server"
                                 ControlToValidate="txtSalesTarget"
@@ -182,7 +183,7 @@
                             <asp:Label runat="server" AssociatedControlID="txtRemarks" CssClass="field-label">
                                 Remarks<span class="optional-tag">(optional)</span>
                             </asp:Label>
-                            <asp:TextBox ID="txtRemarks" runat="server" CssClass="field-textarea" TextMode="MultiLine" Rows="3" MaxLength="500" placeholder="Any additional notes about this target" />
+                            <asp:TextBox ID="txtRemarks" runat="server" CssClass="field-textarea" TextMode="MultiLine" Rows="3" MaxLength="500" autocomplete="off"  placeholder="Any additional notes about this target" />
                         </div>
 
                         <!-- Server-side business rule message (duplicate target, past month, etc.) -->
@@ -460,5 +461,35 @@
             </div>
         </div>
     </asp:Panel>
+
+
+    <script>
+
+        window.onload = function () {
+
+            var toast = document.querySelector('.toast');
+
+            if (toast) {
+
+                setTimeout(function () {
+
+                    toast.classList.add('toast-hide');
+
+                    setTimeout(function () {
+
+                        var toastStack =
+                            document.querySelector('.toast-stack');
+
+                        if (toastStack) {
+                            toastStack.style.display = 'none';
+                        }
+
+                    }, 500);
+
+                }, 4000); // 5 sec
+            }
+        };
+
+    </script>
 
 </asp:Content>

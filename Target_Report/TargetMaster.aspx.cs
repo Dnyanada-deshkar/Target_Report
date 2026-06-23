@@ -37,6 +37,7 @@ namespace Target_Report
 
                 LoadPartnerDropdown();
                 ResetFormToAddMode();
+                txtTargetMonth.Text = DateTime.Now.ToString("MMMM");
                 BindGrid();
             }
         }
@@ -329,7 +330,7 @@ namespace Target_Report
             txtPartnerContact.Text = target["PartnerContact"].ToString();
             txtCity.Text = target["City"].ToString();
             txtBranch.Text = target["Branch"].ToString();
-            ddlMonth.SelectedValue = target["TargetMonth"].ToString();
+            txtTargetMonth.Text =GetMonthName(Convert.ToInt32(target["TargetMonth"]));
             txtSalesTarget.Text = Convert.ToDecimal(target["SalesTarget"]).ToString("0.##");
             txtRemarks.Text = target["Remarks"] != DBNull.Value ? target["Remarks"].ToString() : "";
 
@@ -441,8 +442,9 @@ namespace Target_Report
             if (!Page.IsValid) return;
 
             int partnerId = Convert.ToInt32(ddlPartner.SelectedValue);
-            int targetMonth = Convert.ToInt32(ddlMonth.SelectedValue);
+            int targetMonth = DateTime.Now.Month;
             int targetYear = DateTime.Now.Year;
+            decimal purchasePotential = Convert.ToDecimal(txtPurchasePotential.Text.Trim());
             decimal salesTarget = Convert.ToDecimal(txtSalesTarget.Text.Trim());
             string remarks = txtRemarks.Text.Trim();
 
@@ -450,8 +452,7 @@ namespace Target_Report
             int resultCode;
             string resultMessage;
 
-            InsertTarget(partnerId, targetMonth, targetYear, salesTarget, remarks, out newTargetId, out resultCode, out resultMessage);
-
+            InsertTarget( partnerId, targetMonth, targetYear, purchasePotential, salesTarget, remarks, out newTargetId, out resultCode, out resultMessage);
             if (resultCode == 0)
             {
                 ShowToast("Target saved", $"The target for {ddlPartner.SelectedItem.Text} has been created.");
@@ -471,15 +472,17 @@ namespace Target_Report
 
             int targetId = Convert.ToInt32(hdnTargetId.Value);
             int partnerId = Convert.ToInt32(ddlPartner.SelectedValue);
-            int targetMonth = Convert.ToInt32(ddlMonth.SelectedValue);
+            int targetMonth = DateTime.Now.Month;
             int targetYear = DateTime.Now.Year;
+            decimal purchasePotential = Convert.ToDecimal(txtPurchasePotential.Text.Trim());
             decimal salesTarget = Convert.ToDecimal(txtSalesTarget.Text.Trim());
             string remarks = txtRemarks.Text.Trim();
+
 
             int resultCode;
             string resultMessage;
 
-            UpdateTarget(targetId, partnerId, targetMonth, targetYear, salesTarget, remarks, out resultCode, out resultMessage);
+            UpdateTarget( targetId, partnerId, targetMonth, targetYear, purchasePotential, salesTarget, remarks, out resultCode, out resultMessage);
 
             if (resultCode == 0)
             {
@@ -500,7 +503,7 @@ namespace Target_Report
             txtPartnerContact.Text = "";
             txtCity.Text = "";
             txtBranch.Text = "";
-            ddlMonth.SelectedValue = "";
+            txtTargetMonth.Text = DateTime.Now.ToString("MMMM");
             txtSalesTarget.Text = "";
             txtRemarks.Text = "";
             ClearFormMessage();
@@ -515,7 +518,7 @@ namespace Target_Report
         // DATA ACCESS — Insert / Update via stored procedures
         // =====================================================
 
-        private void InsertTarget(int partnerId, int targetMonth, int targetYear, decimal salesTarget, string remarks,
+        private void InsertTarget(int partnerId, int targetMonth, int targetYear, decimal purchasePotential, decimal salesTarget, string remarks,
                                    out int newTargetId, out int resultCode, out string resultMessage)
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
@@ -525,6 +528,7 @@ namespace Target_Report
                 cmd.Parameters.AddWithValue("@PartnerID", partnerId);
                 cmd.Parameters.AddWithValue("@TargetMonth", targetMonth);
                 cmd.Parameters.AddWithValue("@TargetYear", targetYear);
+                cmd.Parameters.AddWithValue("@PurchasePotential", purchasePotential);
                 cmd.Parameters.AddWithValue("@SalesTarget", salesTarget);
                 cmd.Parameters.AddWithValue("@Remarks", string.IsNullOrEmpty(remarks) ? (object)DBNull.Value : remarks);
 
@@ -544,7 +548,7 @@ namespace Target_Report
             }
         }
 
-        private void UpdateTarget(int targetId, int partnerId, int targetMonth, int targetYear, decimal salesTarget, string remarks,
+        private void UpdateTarget(int targetId, int partnerId, int targetMonth, int targetYear, decimal purchasePotential,  decimal salesTarget, string remarks,
                                    out int resultCode, out string resultMessage)
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
@@ -555,6 +559,7 @@ namespace Target_Report
                 cmd.Parameters.AddWithValue("@PartnerID", partnerId);
                 cmd.Parameters.AddWithValue("@TargetMonth", targetMonth);
                 cmd.Parameters.AddWithValue("@TargetYear", targetYear);
+                cmd.Parameters.AddWithValue("@PurchasePotential", purchasePotential);    
                 cmd.Parameters.AddWithValue("@SalesTarget", salesTarget);
                 cmd.Parameters.AddWithValue("@Remarks", string.IsNullOrEmpty(remarks) ? (object)DBNull.Value : remarks);
 
@@ -576,18 +581,21 @@ namespace Target_Report
         // =====================================================
 
         private void ResetFormToAddMode()
-        {
-            hdnTargetId.Value = "0";
-            ddlPartner.SelectedValue = "";
-            txtPartnerContact.Text = "";
-            txtCity.Text = "";
-            txtBranch.Text = "";
-            ddlMonth.SelectedValue = "";
-            txtSalesTarget.Text = "";
-            txtRemarks.Text = "";
-            ClearFormMessage();
-            SetFormMode(isEditing: false);
-        }
+{
+    hdnTargetId.Value = "0";
+    ddlPartner.SelectedValue = "";
+    txtPartnerContact.Text = "";
+    txtCity.Text = "";
+    txtBranch.Text = "";
+
+    txtTargetMonth.Text = DateTime.Now.ToString("MMMM");
+
+    txtSalesTarget.Text = "";
+    txtRemarks.Text = "";
+
+    ClearFormMessage();
+    SetFormMode(isEditing: false);
+}
 
         private void SetFormMode(bool isEditing)
         {

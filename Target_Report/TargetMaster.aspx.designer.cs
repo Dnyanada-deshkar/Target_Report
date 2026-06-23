@@ -87,13 +87,13 @@ namespace Target_Report
         protected global::System.Web.UI.WebControls.TextBox txtBranch;
 
         /// <summary>
-        /// ddlMonth control.
+        /// txtTargetMonth control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlMonth;
+        protected global::System.Web.UI.WebControls.TextBox txtTargetMonth;
 
         /// <summary>
         /// litTargetYear control.
@@ -105,13 +105,13 @@ namespace Target_Report
         protected global::System.Web.UI.WebControls.Literal litTargetYear;
 
         /// <summary>
-        /// rfvMonth control.
+        /// txtPurchasePotential control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvMonth;
+        protected global::System.Web.UI.WebControls.TextBox txtPurchasePotential;
 
         /// <summary>
         /// txtSalesTarget control.
