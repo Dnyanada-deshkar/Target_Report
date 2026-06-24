@@ -77,5 +77,13 @@ namespace Target_Report
 
             return (parts[0][0].ToString() + parts[1][0].ToString()).ToUpper();
         }
+
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon();
+
+            Response.Redirect("~/Login.aspx");
+        }
     }
 }
