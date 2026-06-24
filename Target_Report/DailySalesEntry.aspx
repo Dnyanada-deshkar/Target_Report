@@ -209,7 +209,7 @@
                         var stack = document.querySelector('.toast-stack');
                         if (stack) stack.style.display = 'none';
                     }, 500);
-                }, 4000);
+                }, 3000);
             }
         };
 
