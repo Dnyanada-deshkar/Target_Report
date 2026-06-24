@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -11,6 +12,12 @@ namespace Target_Report
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["AdminUsername"] == null)
+            {
+                Response.Redirect("~/Login.aspx");
+                return;
+            }
+
             if (!IsPostBack)
             {
                 HighlightActiveNavLink();
