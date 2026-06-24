@@ -50,6 +50,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
@@ -125,6 +127,8 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Login.aspx" />
+    <Content Include="MonthlySnapshotReport.aspx" />
+    <Content Include="MonthlySnapshotReport.css" />
     <Content Include="PartnerMaster.aspx" />
     <Content Include="PartnerMaster.css" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -231,6 +235,13 @@
     </Compile>
     <Compile Include="Login.aspx.designer.cs">
       <DependentUpon>Login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="MonthlySnapshotReport.aspx.cs">
+      <DependentUpon>MonthlySnapshotReport.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MonthlySnapshotReport.aspx.designer.cs">
+      <DependentUpon>MonthlySnapshotReport.aspx</DependentUpon>
     </Compile>
     <Compile Include="PartnerMaster.aspx.cs">
       <DependentUpon>PartnerMaster.aspx</DependentUpon>
