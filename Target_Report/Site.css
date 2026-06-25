@@ -331,5 +331,15 @@ body {
     color: #64748B;
     white-space: nowrap;
 }
+/*
+body {
+    background: #eef2f7 !important;
+}
 
+.app-content {
+    background: #eef2f7 !important;
+}
 
+.app-main {
+    background: #eef2f7 !important;
+}*/

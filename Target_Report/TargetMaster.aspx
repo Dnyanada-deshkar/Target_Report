@@ -176,7 +176,7 @@
                         
 
                         <!-- Target Balance -->
-                       < <div class="field-group">
+                        <div class="field-group">
                             <asp:Label runat="server" AssociatedControlID="txtTargetBalance" CssClass="field-label">
                                 Target Balance
                             </asp:Label>
