@@ -7,7 +7,9 @@ using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.Remoting.Messaging;
 using System.Text;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -112,17 +114,22 @@ namespace Target_Report
 
         protected void btnExport_Click(object sender, EventArgs e)
         {
-            if (!Page.IsValid)
+            if (string.IsNullOrEmpty(ddlMonth.SelectedValue) ||
+                string.IsNullOrEmpty(ddlYear.SelectedValue))
             {
-                ShowToast("Cannot export", "Please select a month and year before exporting.", "warning");
+                ShowToast("Cannot export",
+                          "Please select a month and year before exporting.",
+                          "warning");
                 return;
             }
 
-            DataTable exportData = GetSnapshotData(applyPaging: false);
+            DataTable exportData = GetSnapshotData(false);
 
             if (exportData.Rows.Count == 0)
             {
-                ShowToast("Nothing to export", "There is no data for the selected filters.", "warning");
+                ShowToast("Nothing to export",
+                          "There is no data for the selected filters.",
+                          "warning");
                 return;
             }
 
@@ -399,34 +406,58 @@ namespace Target_Report
 
         private void ExportToExcel(DataTable data)
         {
-            string fileName = $"MonthlySnapshotReport_{DateTime.Now:yyyyMMdd}.xlsx";
+            string fileName =
+                "MonthlySnapshotReport_" +
+                DateTime.Now.ToString("yyyyMMdd") +
+                ".xlsx";
 
-            string[] headers = { "Partner Name", "Branch", "Sales Target", "Achievement", "Balance", "Achievement %", "Closed Date" };
+            string[] headers =
+            {
+        "Partner Name",
+        "Branch",
+        "Sales Target",
+        "Achievement",
+        "Balance",
+        "Achievement %",
+        "Closed Date"
+    };
 
-            var rows = new List<string[]>();
+            List<string[]> rows = new List<string[]>();
+
             foreach (DataRow row in data.Rows)
             {
                 rows.Add(new[]
                 {
-                    row["PartnerName"]?.ToString() ?? "",
-                    row["NativeBranch"]?.ToString() ?? "",
-                    Convert.ToDecimal(row["SalesTarget"] == DBNull.Value ? 0 : row["SalesTarget"]).ToString("N2", CultureInfo.InvariantCulture),
-                    Convert.ToDecimal(row["Achievement"] == DBNull.Value ? 0 : row["Achievement"]).ToString("N2", CultureInfo.InvariantCulture),
-                    Convert.ToDecimal(row["Balance"] == DBNull.Value ? 0 : row["Balance"]).ToString("N2", CultureInfo.InvariantCulture),
-                    Convert.ToDecimal(row["AchievementPercentage"] == DBNull.Value ? 0 : row["AchievementPercentage"]).ToString("N2", CultureInfo.InvariantCulture) + "%",
-                    row["ClosedDate"] != DBNull.Value ? Convert.ToDateTime(row["ClosedDate"]).ToString("dd-MMM-yyyy", CultureInfo.InvariantCulture) : ""
-                });
+            row["PartnerName"].ToString(),
+            row["NativeBranch"].ToString(),
+            row["SalesTarget"].ToString(),
+            row["Achievement"].ToString(),
+            row["Balance"].ToString(),
+            row["AchievementPercentage"].ToString(),
+            row["ClosedDate"].ToString()
+        });
             }
 
             byte[] fileBytes = BuildXlsxWorkbook(headers, rows);
 
             Response.Clear();
-            Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
-            Response.AddHeader("Content-Disposition", $"attachment; filename=\"{fileName}\"");
-            Response.AddHeader("Content-Length", fileBytes.Length.ToString());
+            Response.ClearHeaders();
+            Response.ClearContent();
+
+            Response.Buffer = true;
+
+            Response.ContentType =
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+
+            Response.AddHeader(
+                "Content-Disposition",
+                "attachment; filename=" + fileName);
+
             Response.BinaryWrite(fileBytes);
+
             Response.Flush();
-            Response.End();
+
+            HttpContext.Current.ApplicationInstance.CompleteRequest();
         }
 
         /// <summary>
@@ -554,21 +585,39 @@ namespace Target_Report
             "</Relationships>";
 
         private const string StylesXml =
-            "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
-            "<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">" +
-            "<fonts count=\"2\">" +
-            "<font><sz val=\"11\"/><name val=\"Calibri\"/></font>" +
-            "<font><b/><sz val=\"11\"/><name val=\"Calibri\"/></font>" +
-            "</fonts>" +
-            "<fills count=\"1\"><fill><patternFill patternType=\"none\"/></fill></fills>" +
-            "<borders count=\"1\"><border/></borders>" +
-            "<cellStyleXfs count=\"1\"><xf numFmtId=\"0\" fontId=\"0\"/></cellStyleXfs>" +
-            "<cellXfs count=\"2\">" +
-            "<xf numFmtId=\"0\" fontId=\"0\" xfId=\"0\"/>" +
-            "<xf numFmtId=\"0\" fontId=\"1\" xfId=\"0\" applyFont=\"1\"/>" +
-            "</cellXfs>" +
-            "<cellStyles count=\"1\"><cellStyle name=\"Normal\" xfId=\"0\" builtinId=\"0\"/></cellStyles>" +
-            "</styleSheet>";
+             "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>" +
+             "<styleSheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">" +
+
+             "<fonts count=\"2\">" +
+             "<font><sz val=\"11\"/><name val=\"Calibri\"/></font>" +
+             "<font><b/><sz val=\"11\"/><name val=\"Calibri\"/></font>" +
+             "</fonts>" +
+
+             "<fills count=\"2\">" +
+             "<fill><patternFill patternType=\"none\"/></fill>" +
+             "<fill><patternFill patternType=\"gray125\"/></fill>" +
+             "</fills>" +
+
+             "<borders count=\"1\">" +
+             "<border>" +
+             "<left/><right/><top/><bottom/><diagonal/>" +
+             "</border>" +
+             "</borders>" +
+
+             "<cellStyleXfs count=\"1\">" +
+             "<xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\"/>" +
+             "</cellStyleXfs>" +
+
+             "<cellXfs count=\"2\">" +
+             "<xf numFmtId=\"0\" fontId=\"0\" fillId=\"0\" borderId=\"0\" xfId=\"0\"/>" +
+             "<xf numFmtId=\"0\" fontId=\"1\" fillId=\"0\" borderId=\"0\" xfId=\"0\" applyFont=\"1\"/>" +
+             "</cellXfs>" +
+
+             "<cellStyles count=\"1\">" +
+             "<cellStyle name=\"Normal\" xfId=\"0\" builtinId=\"0\"/>" +
+             "</cellStyles>" +
+
+             "</styleSheet>";
 
         // =====================================================
         // TOAST NOTIFICATION
