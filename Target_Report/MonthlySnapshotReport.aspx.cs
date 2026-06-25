@@ -46,9 +46,13 @@ namespace Target_Report
                 // Default the filter to the most recently completed month,
                 // since that is the most likely snapshot a user opens this
                 // report to look at.
-                DateTime defaultMonth = DateTime.Now.AddMonths(-1);
-                ddlMonth.SelectedValue = defaultMonth.Month.ToString();
-                ddlYear.SelectedValue = defaultMonth.Year.ToString();
+                //DateTime defaultMonth = DateTime.Now.AddMonths(-1);
+                //ddlMonth.SelectedValue = defaultMonth.Month.ToString();
+                //ddlYear.SelectedValue = defaultMonth.Year.ToString();
+
+                ddlMonth.SelectedValue = DateTime.Now.Month.ToString();
+                ddlYear.SelectedValue = DateTime.Now.Year.ToString();
+
 
                 LoadReport();
             }
