@@ -1175,3 +1175,28 @@ a {
         transition: none !important;
     }
 }
+
+.input-group {
+    display: flex;
+    width: 100%;
+}
+
+.input-group-prefix {
+    height: 40px;
+    min-width: 42px;
+    padding: 0 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F8FAFC;
+    border: 1px solid var(--color-border);
+    border-right: none;
+    border-radius: 7px 0 0 7px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
+}
+
+.input-group .field-input {
+    border-radius: 0 7px 7px 0;
+}

@@ -38,14 +38,6 @@ body {
    SIDEBAR
    ========================================================= */
 
-/*.app-sidebar {
-    width: var(--sidebar-width);
-    min-width: var(--sidebar-width);
-    background: var(--color-sidebar);
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-}*/
 
 .app-sidebar {
     position: sticky;
@@ -175,27 +167,7 @@ body {
     padding: 0 24px;
 }
 
-/*.topbar-search {
-    width: 360px;
-    max-width: 100%;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
 
-    .topbar-search svg {
-        width: 18px;
-        height: 18px;
-        color: var(--color-text-secondary);
-    }
-
-    .topbar-search input {
-        width: 100%;
-        border: 1px solid var(--color-border);
-        border-radius: 8px;
-        padding: 10px 12px;
-        outline: none;
-    }*/
 
 .topbar-right {
     display: flex;
@@ -293,10 +265,6 @@ body {
         flex-direction: column;
     }
 
-/*    .app-sidebar {
-        width: 100%;
-        min-width: auto;
-    }*/
 
     .app-topbar {
         padding: 12px;

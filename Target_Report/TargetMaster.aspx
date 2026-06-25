@@ -123,7 +123,7 @@
                             </div>
                         </div>
 
-                             <div class="form-group">
+                              <div class="form-group">
                                 <label>Purchase Potential (INR)</label>
 
                                 <div class="currency-input">
@@ -136,7 +136,9 @@
                                         TextMode="Number">
                                     </asp:TextBox>
                                 </div>
-                            </div>
+                            </div> 
+
+                       
 
 
                         <div class="field-group">
@@ -157,7 +159,9 @@
                                 ErrorMessage="Sales target must be a positive number."
                                 ValidationExpression="^\d+(\.\d{1,2})?$"
                                 ValidationGroup="TargetForm" />
-                        </div>
+                        </div> 
+
+    
 
                         <!-- Achievement -->
                         <div class="field-group">
@@ -167,17 +171,21 @@
                               <div class="field-control-wrap">
                                     <asp:TextBox ID="txtAchievement" runat="server" CssClass="field-input is-readonly" ReadOnly="true" Text="0" />
                               </div>
-                        </div>
+                        </div> 
+
+                        
 
                         <!-- Target Balance -->
-                        <div class="field-group">
+                       < <div class="field-group">
                             <asp:Label runat="server" AssociatedControlID="txtTargetBalance" CssClass="field-label">
                                 Target Balance
                             </asp:Label>
                             <div class="field-control-wrap">
                                 <asp:TextBox ID="txtTargetBalance" runat="server" CssClass="field-input is-readonly" ReadOnly="true" Text="0" />
                             </div>
-                        </div>
+                        </div> 
+
+                       
                         <!-- Row 4: Remarks (optional, full width) -->
                         <div class="field-group" style="grid-column: 1 / -1;">
                             <asp:Label runat="server" AssociatedControlID="txtRemarks" CssClass="field-label">
