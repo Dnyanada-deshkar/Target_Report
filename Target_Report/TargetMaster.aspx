@@ -123,20 +123,45 @@
                             </div>
                         </div>
 
-                              <div class="form-group">
-                                <label>Purchase Potential (INR)</label>
+                            <div class="field-group">
+    <asp:Label runat="server"
+        AssociatedControlID="txtPurchasePotential"
+        CssClass="field-label">
+        Purchase Potential<span class="required-mark">*</span>
+    </asp:Label>
 
-                                <div class="currency-input">
-                                    <span class="currency-prefix">INR</span>
+    <div class="field-control-wrap">
+        <asp:TextBox
+            ID="txtPurchasePotential"
+            runat="server"
+            CssClass="field-input"
+            placeholder="e.g. 500000"
+            autocomplete="off"
+            MaxLength="15">
+        </asp:TextBox>
+    </div>
 
-                                    <asp:TextBox
-                                        ID="txtPurchasePotential"
-                                        runat="server"
-                                        CssClass="form-control"
-                                        TextMode="Number">
-                                    </asp:TextBox>
-                                </div>
-                            </div> 
+    <asp:RequiredFieldValidator
+        ID="rfvPurchasePotential"
+        runat="server"
+        ControlToValidate="txtPurchasePotential"
+        CssClass="field-error"
+        Display="Dynamic"
+        ErrorMessage="Please enter purchase potential."
+        ValidationGroup="TargetForm">
+    </asp:RequiredFieldValidator>
+
+    <asp:RegularExpressionValidator
+        ID="revPurchasePotential"
+        runat="server"
+        ControlToValidate="txtPurchasePotential"
+        CssClass="field-error"
+        Display="Dynamic"
+        ErrorMessage="Purchase potential must be a positive number."
+        ValidationExpression="^\d+(\.\d{1,2})?$"
+        ValidationGroup="TargetForm">
+    </asp:RegularExpressionValidator>
+</div>
 
                        
 
@@ -169,7 +194,7 @@
                               Achievement
                              </asp:Label>
                               <div class="field-control-wrap">
-                                    <asp:TextBox ID="txtAchievement" runat="server" CssClass="field-input is-readonly" ReadOnly="true" Text="0" />
+                                    <asp:TextBox ID="txtAchievement" runat="server" CssClass="field-input is-readonly" ReadOnly="true" Text="%" />
                               </div>
                         </div> 
 
