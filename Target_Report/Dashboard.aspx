@@ -143,13 +143,29 @@
                     <span class="panel-header-meta">Achieved vs Balance</span>
                 </div>
                 <div class="panel-body">
-                    <div class="chart-canvas-wrap">
-                        <canvas id="chartTargetStatus"></canvas>                    </div>
-                    <div class="chart-legend-row">
-                        <span class="chart-legend-item"><span class="chart-legend-dot is-pune"></span>Pune</span>
-                        <span class="chart-legend-item"><span class="chart-legend-dot is-nagpur"></span>Nagpur</span>
-                    </div>
-                </div>
+
+    <div style="position:relative;width:100%;height:320px;">
+        <canvas id="chartTargetStatus"></canvas>
+    </div>
+
+    <div style="display:flex;justify-content:center;gap:24px;margin-top:16px;flex-wrap:wrap;">
+
+        <span style="display:flex;align-items:center;gap:8px;font-size:13px;color:#222533;font-weight:500;">
+            <span id="legendAchievedColor"
+                  style="width:15px;height:15px;border-radius:8px;background:#1E3A8A;display:inline-block;box-shadow:0 2px 8px rgba(21,128,61,.25);">
+            </span>
+            <h2>Achieved</h2>
+        </span>
+
+        <span style="display:flex;align-items:center;gap:8px;font-size:13px;color:#222533;font-weight:500;">
+            <span style="width:15px;height:15px;border-radius:8px;background:#EEF2FF;border:1px solid #C7D2FE;display:inline-block;">
+            </span>
+            <h2>Target Balance</h2>
+        </span>
+
+    </div>
+
+</div>
             </section>
 
         </div>
@@ -323,6 +339,9 @@
     <asp:HiddenField ID="hdnBranchAchievementData" runat="server" />
     <asp:HiddenField ID="hdnTrendLabels" runat="server" />
     <asp:HiddenField ID="hdnTrendData" runat="server" />
+    <asp:HiddenField ID="hdnTotalTarget" runat="server" />
+    <asp:HiddenField ID="hdnTotalAchievement" runat="server" />
+    <asp:HiddenField ID="hdnTotalBalance" runat="server" />
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -374,34 +393,129 @@
             // Chart 2 — Branch Performance (horizontal bar)
             // Chart 2 — Target Status (Doughnut)
 
-            var totalTarget = 100;
-            var achieved = 75;
-            var balance = totalTarget - achieved;
+          
+
+            // --- YOUR EXISTING DATA BINDINGS (keep as-is) ---
+            var totalTarget =
+                parseFloat(document.getElementById('<%= hdnTotalTarget.ClientID %>').value || 0);
+
+var achieved =
+                parseFloat(document.getElementById('<%= hdnTotalAchievement.ClientID %>').value || 0);
+
+            var balance = Math.max(0, totalTarget - achieved);
+
+            var achievementPct =
+                totalTarget > 0 ? ((achieved / totalTarget) * 100) : 0;
 
             var ctxTargetStatus =
                 document.getElementById('chartTargetStatus');
 
             if (ctxTargetStatus) {
+
+                const centerTextPlugin = {
+                    id: 'centerText',
+                    afterDraw(chart) {
+
+                        const meta = chart.getDatasetMeta(0);
+
+                        if (!meta.data.length) return;
+
+                        const x = meta.data[0].x;
+                        const y = meta.data[0].y;
+
+                        const ctx = chart.ctx;
+
+                        ctx.save();
+
+                        ctx.textAlign = 'center';
+
+                        ctx.fillStyle = '#111827';
+                        ctx.font = '700 40px Segoe UI';
+                        ctx.fillText(
+                            Math.round(achievementPct) + '%',
+                            x,
+                            y - 6
+                        );
+
+                        ctx.fillStyle = '#6B7280';
+                        ctx.font = '600 13px Segoe UI';
+                        ctx.fillText(
+                            'Achievement',
+                            x,
+                            y + 18
+                        );
+
+                        ctx.restore();
+                    }
+                };
+
                 new Chart(ctxTargetStatus, {
+
                     type: 'doughnut',
+
                     data: {
-                        labels: ['Achieved', 'Balance'],
+                        //labels: ['Achieved', 'Remaining'],
+
                         datasets: [{
                             data: [achieved, balance],
+
                             backgroundColor: [
-                                '#16A34A',
-                                '#DC2626'
+                                '#1E3A8A',   // Navy Blue
+                                '#E5E7EB'    // Light Gray
                             ],
-                            borderWidth: 0
+
+                            borderWidth: 0,
+                            borderRadius: 12,
+                            spacing: 2,
+                            hoverOffset: 8
                         }]
                     },
+
+                    plugins: [centerTextPlugin],
+
                     options: {
+
                         responsive: true,
                         maintainAspectRatio: false,
-                        cutout: '65%',
+
+                        cutout: '78%',
+
+                        animation: {
+                            animateRotate: true,
+                            duration: 1500
+                        },
+
                         plugins: {
+
                             legend: {
-                                position: 'bottom'
+                                position: 'bottom',
+
+                                labels: {
+                                    usePointStyle: true,
+                                    pointStyle: 'circle',
+                                    padding: 20,
+                                    boxWidth: 10,
+                                    font: {
+                                        size: 12,
+                                        weight: '600'
+                                    }
+                                }
+                            },
+
+                            tooltip: {
+                                backgroundColor: '#111827',
+                                padding: 12,
+                                cornerRadius: 8,
+
+                                callbacks: {
+                                    label: function (context) {
+
+                                        return context.label +
+                                            ': ₹' +
+                                            Number(context.raw)
+                                                .toLocaleString('en-IN');
+                                    }
+                                }
                             }
                         }
                     }
@@ -430,10 +544,25 @@
                     options: {
                         responsive: true,
                         maintainAspectRatio: false,
-                        plugins: { legend: { display: false } },
-                        scales: {
-                            x: { grid: { display: false }, ticks: { color: textColor, font: { size: 11 } } },
-                            y: { grid: { color: gridColor }, ticks: { color: textColor, font: { size: 11 } }, beginAtZero: true }
+                        cutout: '78%',
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    usePointStyle: true,
+                                    pointStyle: 'circle',
+                                    padding: 20,
+                                    font: {
+                                        size: 12,
+                                        weight: '600'
+                                    }
+                                }
+                            },
+                            tooltip: {
+                                backgroundColor: '#111827',
+                                padding: 12,
+                                displayColors: true
+                            }
                         }
                     }
                 });

@@ -23,6 +23,7 @@ namespace Target_Report
                 litCurrentDate.Text = DateTime.Now.ToString("dd MMM yyyy", CultureInfo.InvariantCulture);
 
                 BindKpiCards();
+                BindTargetStatusChart(); 
                 BindTargetVsAchievementChart();
                 BindBranchPerformanceChart();
                 BindAchievementTrendChart();
@@ -43,13 +44,11 @@ namespace Target_Report
                 using (SqlConnection conn = new SqlConnection(ConnString))
                 {
                     const string query = @"
-                        SELECT
-                            (SELECT COUNT(1) FROM Partners) AS TotalPartners,
-                            (SELECT ISNULL(SUM(MonthlySalesTarget), 0) FROM Targets 
-                                WHERE MONTH(TargetMonth) = MONTH(GETDATE()) AND YEAR(TargetMonth) = YEAR(GETDATE())) AS MonthlyTarget,
-                            (SELECT ISNULL(SUM(SalesAchieved), 0) FROM DailySalesAchievement 
-                                WHERE MONTH([Date]) = MONTH(GETDATE()) AND YEAR([Date]) = YEAR(GETDATE())) AS Achievement,
-                            (SELECT COUNT(DISTINCT NativeBranch) FROM Partners) AS ActiveBranches";
+                                            SELECT (SELECT COUNT(*) FROM PartnerMaster) AS TotalPartners, (SELECT ISNULL(SUM(SalesTarget),0)
+                                                 FROM TargetMaster WHERE TargetMonth = MONTH(GETDATE()) AND TargetYear = YEAR(GETDATE()) ) AS MonthlyTarget,
+
+                                                (SELECT ISNULL(SUM(SalesAchieved),0) FROM DailySalesEntry WHERE MONTH(SaleDate)=MONTH(GETDATE()) AND YEAR(SaleDate)=YEAR(GETDATE())) AS Achievement,
+                                                (SELECT COUNT(DISTINCT NativeBranch) FROM PartnerMaster ) AS ActiveBranches";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -113,7 +112,40 @@ namespace Target_Report
         // =====================================================
         // CHART 1 — TARGET VS ACHIEVEMENT (vertical bar)
         // =====================================================
+        private void BindTargetStatusChart()
+        {
+            using (SqlConnection conn = new SqlConnection(ConnString))
+            {
+                string query = @"
+                        SELECT
+                            ISNULL((SELECT SUM(SalesTarget)
+                            FROM TargetMaster
+                             WHERE TargetMonth=MONTH(GETDATE())
+                             AND TargetYear=YEAR(GETDATE())
+                             AND ISNULL(IsDeleted,0)=0),0) AS TotalTarget,
 
+                            ISNULL((SELECT SUM(SalesAchieved)
+                             FROM DailySalesEntry
+                                WHERE MONTH(SaleDate)=MONTH(GETDATE())
+                                AND YEAR(SaleDate)=YEAR(GETDATE())),0) AS TotalAchievement";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+
+                conn.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    decimal target = Convert.ToDecimal(dr["TotalTarget"]);
+                    decimal achievement = Convert.ToDecimal(dr["TotalAchievement"]);
+
+                    hdnTotalTarget.Value = target.ToString();
+                    hdnTotalAchievement.Value = achievement.ToString();
+                    hdnTotalBalance.Value = (target - achievement).ToString();
+                }
+            }
+        }
         private void BindTargetVsAchievementChart()
         {
             List<string> months = new List<string>();
@@ -125,32 +157,44 @@ namespace Target_Report
                 using (SqlConnection conn = new SqlConnection(ConnString))
                 {
                     const string query = @"
-                        SELECT 
-                            DATENAME(MONTH, t.TargetMonth) AS MonthName,
-                            MONTH(t.TargetMonth) AS MonthNumber,
-                            SUM(t.MonthlySalesTarget) AS TotalTarget,
-                            ISNULL(SUM(d.MonthlyAchieved), 0) AS TotalAchievement
-                        FROM Targets t
-                        LEFT JOIN (
-                            SELECT PartnerID, MONTH([Date]) AS SaleMonth, YEAR([Date]) AS SaleYear, SUM(SalesAchieved) AS MonthlyAchieved
-                            FROM DailySalesAchievement
-                            GROUP BY PartnerID, MONTH([Date]), YEAR([Date])
-                        ) d ON d.PartnerID = t.PartnerID 
-                            AND d.SaleMonth = MONTH(t.TargetMonth) 
-                            AND d.SaleYear = YEAR(t.TargetMonth)
-                        WHERE t.TargetMonth >= DATEADD(MONTH, -5, GETDATE())
-                        GROUP BY DATENAME(MONTH, t.TargetMonth), MONTH(t.TargetMonth)
-                        ORDER BY MONTH(t.TargetMonth)";
-
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                        SELECT
+                            t.TargetMonth,
+                            t.TargetYear,
+                            SUM(t.SalesTarget) AS TotalTarget,
+                            ISNULL(SUM(d.MonthlyAchieved),0) AS TotalAchievement
+                        FROM TargetMaster t
+                        LEFT JOIN
+                        (
+                            SELECT
+                                PartnerID,
+                                MONTH(SaleDate) AS SaleMonth,
+                                YEAR(SaleDate) AS SaleYear,
+                                SUM(SalesAchieved) AS MonthlyAchieved
+                            FROM DailySalesEntry
+                            GROUP BY PartnerID, MONTH(SaleDate), YEAR(SaleDate)
+                        ) d
+                        ON d.PartnerID = t.PartnerID
+                        AND d.SaleMonth = t.TargetMonth
+                        AND d.SaleYear = t.TargetYear
+                        GROUP BY t.TargetMonth, t.TargetYear
+                        ORDER BY t.TargetYear, t.TargetMonth";
+                        using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                        conn.Open();
-                        using (SqlDataReader reader = cmd.ExecuteReader())
-                        {
+                            conn.Open();
+                            using (SqlDataReader reader = cmd.ExecuteReader())
+                            {
                             while (reader.Read())
                             {
-                                months.Add(reader["MonthName"].ToString().Substring(0, 3));
-                                targets.Add(Convert.ToDecimal(reader["TotalTarget"]));
+                                int monthNo = Convert.ToInt32(reader["TargetMonth"]);
+
+                                months.Add(
+                                    new DateTime(2026, monthNo, 1)
+                                        .ToString("MMM")
+                                );
+
+                                targets.Add(
+                                    Convert.ToDecimal(reader["TotalTarget"])
+                                );
                                 achievements.Add(Convert.ToDecimal(reader["TotalAchievement"]));
                             }
                         }
@@ -190,13 +234,13 @@ namespace Target_Report
                     const string query = @"
                         SELECT 
                             p.NativeBranch AS BranchName,
-                            ISNULL(SUM(t.MonthlySalesTarget), 0) AS BranchTarget,
+                            ISNULL(SUM(t.SalesTarget), 0) AS BranchTarget,
                             ISNULL(SUM(d.SalesAchieved), 0) AS BranchAchievement
-                        FROM Partners p
-                        LEFT JOIN Targets t ON t.PartnerID = p.PartnerID 
-                            AND MONTH(t.TargetMonth) = MONTH(GETDATE()) AND YEAR(t.TargetMonth) = YEAR(GETDATE())
-                        LEFT JOIN DailySalesAchievement d ON d.PartnerID = p.PartnerID 
-                            AND MONTH(d.[Date]) = MONTH(GETDATE()) AND YEAR(d.[Date]) = YEAR(GETDATE())
+                        FROM PartnerMaster p
+                        LEFT JOIN TargetMaster t ON t.PartnerID = p.PartnerID 
+                            AND t.TargetMonth = MONTH(GETDATE()) AND t.TargetYear = YEAR(GETDATE())
+                        LEFT JOIN DailySalesEntry d ON d.PartnerID = p.PartnerID 
+                            AND MONTH(d.SaleDate) = MONTH(GETDATE()) AND YEAR(d.SaleDate) = YEAR(GETDATE())
                         GROUP BY p.NativeBranch";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -246,22 +290,27 @@ namespace Target_Report
                 using (SqlConnection conn = new SqlConnection(ConnString))
                 {
                     const string query = @"
-                        SELECT 
-                            DATENAME(MONTH, t.TargetMonth) AS MonthName,
-                            MONTH(t.TargetMonth) AS MonthNumber,
-                            SUM(t.MonthlySalesTarget) AS TotalTarget,
-                            ISNULL(SUM(d.MonthlyAchieved), 0) AS TotalAchievement
-                        FROM Targets t
-                        LEFT JOIN (
-                            SELECT PartnerID, MONTH([Date]) AS SaleMonth, YEAR([Date]) AS SaleYear, SUM(SalesAchieved) AS MonthlyAchieved
-                            FROM DailySalesAchievement
-                            GROUP BY PartnerID, MONTH([Date]), YEAR([Date])
-                        ) d ON d.PartnerID = t.PartnerID 
-                            AND d.SaleMonth = MONTH(t.TargetMonth) 
-                            AND d.SaleYear = YEAR(t.TargetMonth)
-                        WHERE t.TargetMonth >= DATEADD(MONTH, -5, GETDATE())
-                        GROUP BY DATENAME(MONTH, t.TargetMonth), MONTH(t.TargetMonth)
-                        ORDER BY MONTH(t.TargetMonth)";
+                                            SELECT
+                                                t.TargetMonth,
+                                                t.TargetYear,
+                                                SUM(t.SalesTarget) AS TotalTarget,
+                                                ISNULL(SUM(d.MonthlyAchieved),0) AS TotalAchievement
+                                            FROM TargetMaster t
+                                            LEFT JOIN
+                                            (
+                                                SELECT
+                                                    PartnerID,
+                                                    MONTH(SaleDate) AS SaleMonth,
+                                                    YEAR(SaleDate) AS SaleYear,
+                                                    SUM(SalesAchieved) AS MonthlyAchieved
+                                                FROM DailySalesEntry
+                                                GROUP BY PartnerID, MONTH(SaleDate), YEAR(SaleDate)
+                                            ) d
+                                            ON d.PartnerID = t.PartnerID
+                                            AND d.SaleMonth = t.TargetMonth
+                                            AND d.SaleYear = t.TargetYear
+                                            GROUP BY t.TargetMonth, t.TargetYear
+                                            ORDER BY t.TargetYear, t.TargetMonth";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -272,10 +321,18 @@ namespace Target_Report
                             {
                                 decimal target = Convert.ToDecimal(reader["TotalTarget"]);
                                 decimal achieved = Convert.ToDecimal(reader["TotalAchievement"]);
-                                decimal pct = target > 0 ? Math.Round((achieved / target) * 100, 1) : 0;
 
-                                months.Add(reader["MonthName"].ToString().Substring(0, 3));
+                                decimal pct = target > 0
+                                    ? Math.Round((achieved / target) * 100, 1)
+                                    : 0;
+
                                 achievementPct.Add(pct);
+
+                                int monthNo = Convert.ToInt32(reader["TargetMonth"]);
+
+                                months.Add(
+                                    new DateTime(2026, monthNo, 1).ToString("MMM")
+                                );
                             }
                         }
                     }
@@ -320,14 +377,15 @@ namespace Target_Report
                         SELECT TOP 10
                             p.PartnerName,
                             p.NativeBranch AS Branch,
-                            ISNULL(t.MonthlySalesTarget, 0) AS Target,
+                            ISNULL(t.SalesTarget, 0) AS Target,
                             ISNULL(SUM(d.SalesAchieved), 0) AS Achievement
-                        FROM Partners p
-                        LEFT JOIN Targets t ON t.PartnerID = p.PartnerID 
-                            AND MONTH(t.TargetMonth) = MONTH(GETDATE()) AND YEAR(t.TargetMonth) = YEAR(GETDATE())
-                        LEFT JOIN DailySalesAchievement d ON d.PartnerID = p.PartnerID 
-                            AND MONTH(d.[Date]) = MONTH(GETDATE()) AND YEAR(d.[Date]) = YEAR(GETDATE())
-                        GROUP BY p.PartnerName, p.NativeBranch, t.MonthlySalesTarget
+                        FROM PartnerMaster p
+                        LEFT JOIN TargetMaster t ON t.PartnerID = p.PartnerID 
+                            AND t.TargetMonth = MONTH(GETDATE()) AND t.TargetYear = YEAR(GETDATE())
+                        LEFT JOIN DailySalesEntry d ON d.PartnerID = p.PartnerID
+                        AND MONTH(d.SaleDate) = MONTH(GETDATE())
+                        AND YEAR(d.SaleDate) = YEAR(GETDATE())
+                        GROUP BY p.PartnerName, p.NativeBranch, t.SalesTarget
                         ORDER BY ISNULL(SUM(d.SalesAchieved), 0) DESC";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -427,16 +485,16 @@ namespace Target_Report
                                 'New partner added: ' + PartnerName AS ActivityText,
                                 'primary' AS IconType,
                                 CreatedDate AS ActivityDate
-                            FROM Partners
+                            FROM PartnerMaster
  
                             UNION ALL
  
                             SELECT 
-                                'Target set for ' + p.PartnerName + ' (' + CONVERT(VARCHAR(20), t.MonthlySalesTarget) + ')' AS ActivityText,
+                                'Target set for ' + p.PartnerName + ' (' + CONVERT(VARCHAR(20), t.SalesTarget) + ')' AS ActivityText,
                                 'primary' AS IconType,
                                 t.CreatedDate AS ActivityDate
-                            FROM Targets t
-                            INNER JOIN Partners p ON p.PartnerID = t.PartnerID
+                            FROM TargetMaster t
+                            INNER JOIN PartnerMaster p ON p.PartnerID = t.PartnerID
  
                             UNION ALL
  
@@ -444,8 +502,8 @@ namespace Target_Report
                                 'Sales entry recorded for ' + p.PartnerName AS ActivityText,
                                 'success' AS IconType,
                                 d.CreatedDate AS ActivityDate
-                            FROM DailySalesAchievement d
-                            INNER JOIN Partners p ON p.PartnerID = d.PartnerID
+                            FROM DailySalesEntry d
+                            INNER JOIN PartnerMaster p ON p.PartnerID = d.PartnerID
                         ) combined
                         ORDER BY ActivityDate DESC";
 
