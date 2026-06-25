@@ -113,7 +113,7 @@
 
                         <div class="form-actions">
                             <div class="form-actions-spacer"></div>
-                            <asp:Button ID="btnExport" runat="server" Text="Export Excel" CssClass="btn btn-muted" CausesValidation="false" OnClick="btnExport_Click" />
+                            <asp:Button ID="btnExport" runat="server" Text="Export Excel" CssClass="btn btn-outline" CausesValidation="false" OnClick="btnExport_Click" />
                             <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary" ValidationGroup="ReportFilters" OnClick="btnSearch_Click" />
                         </div>
 

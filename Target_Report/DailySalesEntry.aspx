@@ -5,8 +5,8 @@
 </asp:Content>
 
 <asp:Content ID="cntHead" ContentPlaceHolderID="cphHead" runat="server">
-    <link rel="stylesheet" href="/DailySalesEntry.css" />
-   <link rel="stylesheet" href="/Dashboard.css" /> 
+   <link rel="stylesheet" href="/Dashboard.css" />
+<link rel="stylesheet" href="/DailySalesEntry.css" />
 </asp:Content>
 
 <asp:Content ID="cntBody" ContentPlaceHolderID="cphBody" runat="server">
@@ -165,25 +165,25 @@
 
         </div>
 
-        <div style="margin-top:20px;">
 
-            <asp:Button
-                ID="btnSave"
-                runat="server"
-                Text="Save Entry"
-                CssClass="btn btn-primary"
-                ValidationGroup="SaleGroup"
-                OnClick="btnSave_Click" />
+    <div class="form-actions">
+    <asp:Button
+        ID="btnSave"
+        runat="server"
+        Text="Save Entry"
+        CssClass="btn btn-primary"
+        ValidationGroup="SaleGroup"
+        OnClick="btnSave_Click" />
 
-            <asp:Button
-                ID="btnClear"
-                runat="server"
-                Text="Clear"
-                CssClass="btn btn-muted"
-                CausesValidation="false"
-                OnClick="btnClear_Click" />
+    <asp:Button
+        ID="btnClear"
+        runat="server"
+        Text="Clear"
+        CssClass="btn btn-muted"
+        CausesValidation="false"
+        OnClick="btnClear_Click" />
 
-        </div>
+     </div>
 
     </div>
 
