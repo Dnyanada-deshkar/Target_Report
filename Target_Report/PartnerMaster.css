@@ -1058,3 +1058,137 @@ a {
         transition: none !important;
     }
 }
+/* Header Left Align */
+.data-table thead th {
+    text-align: left !important;
+    vertical-align: middle;
+}
+
+/* Body Left Align */
+.data-table tbody td {
+    text-align: left !important;
+    vertical-align: middle;
+}
+
+/* Numeric columns bhi left */
+.cell-numeric {
+    text-align: left !important;
+}
+
+/* Partner Name */
+.cell-name {
+    display: block;
+    text-align: left;
+}
+
+/* Branch Tag */
+.branch-tag {
+    display: inline-flex;
+    justify-content: flex-start;
+}
+
+/* Actions */
+.cell-actions {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Header Sort */
+.th-sort-wrap {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Sab columns same padding */
+.data-table th,
+.data-table td {
+    padding: 16px 18px;
+}
+
+    /* Column widths */
+    .data-table th:nth-child(1),
+    .data-table td:nth-child(1) {
+        width: 130px;
+    }
+
+    .data-table th:nth-child(2),
+    .data-table td:nth-child(2) {
+        width: 260px;
+    }
+
+    .data-table th:nth-child(3),
+    .data-table td:nth-child(3) {
+        width: 170px;
+    }
+
+    .data-table th:nth-child(4),
+    .data-table td:nth-child(4) {
+        width: 150px;
+    }
+
+    .data-table th:nth-child(5),
+    .data-table td:nth-child(5) {
+        width: 170px;
+    }
+
+    .data-table th:nth-child(6),
+    .data-table td:nth-child(6) {
+        width: 170px;
+    }
+
+    .data-table th:nth-child(7),
+    .data-table td:nth-child(7) {
+        width: 120px;
+    }
+    .data-table td:nth-child(3),
+    .data-table td:nth-child(4),
+    .data-table td:nth-child(5),
+    .data-table td:nth-child(6),
+    .data-table td:nth-child(7) {
+        text-align: left !important;
+    }
+/* ===== Force Left Alignment ===== */
+
+.data-table th,
+.data-table td {
+    text-align: left !important;
+    vertical-align: middle !important;
+}
+
+    .data-table td > span {
+        display: block;
+        width: 100%;
+        text-align: left !important;
+    }
+
+.cell-name,
+.cell-secondary,
+.cell-id {
+    display: block;
+    text-align: left !important;
+}
+
+.branch-tag {
+    display: inline-flex !important;
+    justify-content: flex-start !important;
+    align-items: center;
+    margin: 0 !important;
+}
+
+.cell-actions {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center;
+    gap: 8px;
+}
+
+.th-sort-wrap {
+    display: flex !important;
+    justify-content: flex-start !important;
+    align-items: center;
+    gap: 5px;
+}
