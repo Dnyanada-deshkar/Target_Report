@@ -149,7 +149,7 @@ html, body {
     margin-bottom: 36px;
 }
 
-.identity-mark {
+/*.identity-mark {
     width: 52px;
     height: 52px;
     border-radius: 12px;
@@ -163,6 +163,39 @@ html, body {
     color: #FFFFFF;
     margin-bottom: 18px;
     box-shadow: 0 6px 16px -4px rgba(15, 23, 42, 0.35);
+}*/
+
+/*.identity-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 18px;
+    background: transparent;
+    box-shadow: none;
+    width: auto;
+    height: auto;
+}*/
+
+.identity-mark {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 18px;
+}
+/*
+.identity-logo{
+    width:190px;
+    height:auto;
+    object-fit:contain;
+}*/
+
+.identity-logo {
+   display: block;
+    width: 190px;
+    height: auto;
+    margin: 0 auto;
+    transform: translateX(-8px);
 }
 
 .identity-company {
@@ -466,15 +499,19 @@ html, body {
                  no marketing content, no imagery -->
             <div class="bg-frame-line-top" aria-hidden="true"></div>
             <div class="bg-frame-line-bottom" aria-hidden="true"></div>
-            <span class="bg-frame-tag" aria-hidden="true">XYZ Company</span>
+            <span class="bg-frame-tag" aria-hidden="true">Ally Solutions</span>
             <span class="bg-frame-tag is-right" aria-hidden="true">Internal System</span>
 
             <div class="login-column">
 
                 <!-- Identity: logo mark, company, system name -->
                 <div class="identity-block">
-                    <div class="identity-mark">XYZ</div>
-                    <p class="identity-company">XYZ Company</p>
+                    <!-- <div class="identity-mark">XYZ</div> -->
+                    <div class="identity-mark">
+    <img src="Images/allylogo.png" alt="Ally Solutions Logo" class="identity-logo" />
+</div>
+
+                    <p class="identity-company">Ally Solutions</p>
                     <h1 class="identity-system">Sales Target Report Management System</h1>
                     <p class="identity-description">Sign in with your administrator account to access the management console.</p>
                 </div>
@@ -545,7 +582,7 @@ html, body {
                 <div class="login-footer">
                     <span class="version-tag">v1.0.0</span>
                     <span class="dot" aria-hidden="true"></span>
-                    <span>&copy; <%= DateTime.Now.Year %> XYZ Company</span>
+                    <span>&copy; <%= DateTime.Now.Year %> Ally Solutions</span>
                     <span class="dot" aria-hidden="true"></span>
                     <span>All rights reserved</span>
                 </div>

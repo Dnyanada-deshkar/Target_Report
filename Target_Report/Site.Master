@@ -18,13 +18,27 @@
                  SIDEBAR
                  ================================================ -->
             <aside class="app-sidebar">
+               <!-- <div class="sidebar-brand">
+                    <div class="sidebar-brand-mark">
+    <img src="Images/allylogo.png"
+         alt="Ally Solutions"
+         class="sidebar-logo" />
+</div> -->
+
                 <div class="sidebar-brand">
-                    <div class="sidebar-brand-mark">XYZ</div>
-                    <div class="sidebar-brand-text">
-                        <span class="sidebar-brand-company">XYZ Company</span>
-                        <span class="sidebar-brand-app">Sales Target Report System</span>
-                    </div>
-                </div>
+
+    <img src="Images/allylogo.png"
+         alt="Ally Solutions"
+         class="sidebar-logo" />
+
+    <div class="sidebar-brand-text">
+        <span class="sidebar-brand-app">
+            Sales Target Report System
+        </span>
+    </div>
+
+</div>
+                   
 
                 <nav class="sidebar-nav">
                     <div class="sidebar-nav-section">
@@ -61,7 +75,7 @@
                 </nav>
 
                 <div class="sidebar-footer">
-                    <span>v1.0.0 &middot; &copy; <%= DateTime.Now.Year %> XYZ Company</span>
+                    <span>v1.0.0 &middot; &copy; <%= DateTime.Now.Year %> Ally Solutions</span>
                 </div>
             </aside>
 

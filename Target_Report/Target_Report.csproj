@@ -126,6 +126,7 @@
     <Content Include="Dashboard.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\allylogo.png" />
     <Content Include="Login.aspx" />
     <Content Include="MonthlySnapshotReport.aspx" />
     <Content Include="MonthlySnapshotReport.css" />
