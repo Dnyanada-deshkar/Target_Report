@@ -192,7 +192,7 @@ html, body {
 
 .identity-logo {
    display: block;
-    width: 190px;
+    width: 200px;
     height: auto;
     margin: 0 auto;
     transform: translateX(-8px);
