@@ -527,7 +527,7 @@ html, body {
                                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
                                 <circle cx="12" cy="7" r="4"></circle>
                             </svg>
-                            <asp:TextBox ID="txtUsername" runat="server" CssClass="field-input" placeholder="Enter your username"    AutoCompleteType="Disabled" />
+                            <asp:TextBox ID="txtUsername" runat="server" CssClass="field-input" placeholder="Enter your username"    AutoCompleteType="Disabled"   onkeydown="return moveToPassword(event);" />
                         </div>
                     </div>
 
@@ -601,6 +601,16 @@ html, body {
             pwd.type = isHidden ? 'text' : 'password';
             btn.setAttribute('aria-label', isHidden ? 'Hide password' : 'Show password');
         }
+
+        function moveToPassword(event) {
+            if (event.key === "Enter") {
+                event.preventDefault();
+                document.getElementById('<%= txtPassword.ClientID %>').focus();
+                return false;
+            }
+            return true;
+        }
+
     </script>
 </body>
 </html>
