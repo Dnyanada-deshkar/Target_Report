@@ -184,14 +184,17 @@
                 </div>
 
                 <div class="table-scroll">
-                    <asp:GridView ID="gvSnapshot" runat="server"
-                        CssClass="data-table"
-                        AutoGenerateColumns="false"
-                        GridLines="None"
-                        ShowHeaderWhenEmpty="false"
-                        AllowSorting="true"
-                        OnSorting="gvSnapshot_Sorting"
-                        DataKeyNames="PartnerName">
+                    <asp:GridView
+                                    ID="gvSnapshot"
+                                    runat="server"
+                                    CssClass="data-table"
+                                    AutoGenerateColumns="false"
+                                    GridLines="None"
+                                    UseAccessibleHeader="true"
+                                    ShowHeaderWhenEmpty="true"
+                                    AllowSorting="true"
+                                    OnSorting="gvSnapshot_Sorting"
+                                    DataKeyNames="PartnerName">
                         <Columns>
                             <asp:TemplateField HeaderText="Partner Name" SortExpression="PartnerName">
                                 <HeaderTemplate>

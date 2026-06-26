@@ -527,10 +527,10 @@ a {
 }
 
 .cell-numeric {
-    color: var(--color-text);
-    font-variant-numeric: tabular-nums;
+    display: inline-block;
+    width: 100%;
     text-align: right;
-    display: block;
+    font-variant-numeric: tabular-nums;
 }
 
 .branch-tag {
@@ -543,6 +543,8 @@ a {
     border-radius: var(--radius-pill);
     background-color: #EEF2FB;
     color: var(--color-primary);
+    width: 92px;
+    margin: auto;
 }
 
     .branch-tag .dot {
@@ -563,11 +565,10 @@ a {
 
 .achievement-pct-tag {
     display: inline-flex;
+    justify-content: center;
     align-items: center;
-    font-size: 12.5px;
-    font-weight: 700;
-    padding: 3px 9px;
-    border-radius: var(--radius-pill);
+    width: 72px;
+    margin: auto;
 }
 
     .achievement-pct-tag.is-high {
@@ -875,4 +876,73 @@ a {
     * {
         transition: none !important;
     }
+}
+}
+
+/* ===== LEFT ALIGNED GRID ===== */
+
+.data-table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+    .data-table th,
+    .data-table td {
+        padding: 14px 18px;
+        height: 56px;
+        vertical-align: middle;
+        text-align: left;
+    }
+
+    /* Header */
+    .data-table thead th {
+        font-size: 13px;
+        font-weight: 700;
+        color: #6B7280;
+    }
+
+    /* Numeric columns bhi left */
+    .data-table td:nth-child(3),
+    .data-table td:nth-child(4),
+    .data-table td:nth-child(5),
+    .data-table td:nth-child(6),
+    .data-table td:nth-child(7) {
+        text-align: left;
+    }
+
+    /* Header bhi left */
+    .data-table th:nth-child(3),
+    .data-table th:nth-child(4),
+    .data-table th:nth-child(5),
+    .data-table th:nth-child(6),
+    .data-table th:nth-child(7) {
+        text-align: left;
+    }
+
+/* Sort icon */
+.th-sort-wrap {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Number span */
+.cell-numeric {
+    display: inline;
+    width: auto;
+    text-align: left;
+}
+
+/* Branch badge */
+.branch-tag {
+    margin: 0;
+}
+
+/* Achievement badge */
+.achievement-pct-tag {
+    margin: 0;
+    width: auto;
+    min-width: 70px;
+    justify-content: center;
 }

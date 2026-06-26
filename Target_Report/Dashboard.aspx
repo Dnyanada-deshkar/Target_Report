@@ -129,8 +129,8 @@
                         <canvas id="chartTargetVsAchievement"></canvas>
                     </div>
                     <div class="chart-legend-row">
-                        <span class="chart-legend-item"><span class="chart-legend-dot is-target"></span>Target</span>
-                        <span class="chart-legend-item"><span class="chart-legend-dot is-achievement"></span>Achievement</span>
+                        <span class="chart-legend-item"><span class="chart-legend-dot is-target"></span><h3>Target</h3></span>
+                        <span class="chart-legend-item"><span class="chart-legend-dot is-achievement"></span><h3>Achievement</h3></span>
                     </div>
                 </div>
             </section>
