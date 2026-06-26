@@ -110,10 +110,6 @@
             </div>
 
         </div>
-
-        <!-- =================================================
-             CHARTS — row 1: Target vs Achievement | Branch Performance
-             ================================================= -->
         <div class="charts-grid">
 
             <section class="panel">
