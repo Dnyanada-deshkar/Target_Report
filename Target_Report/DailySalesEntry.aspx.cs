@@ -19,9 +19,10 @@ namespace Target_Report
         {
             if (!IsPostBack)
             {
-               
                 LoadPartners();
-                
+
+                BindTodaySales();
+                BindCurrentMonthSales();
             }
         }
 
@@ -110,8 +111,8 @@ namespace Target_Report
 
 
         protected void btnSave_Click(
-    object sender,
-    EventArgs e)
+            object sender,
+            EventArgs e)
         {
             decimal sale;
 
@@ -145,7 +146,8 @@ namespace Target_Report
             }
 
             LoadPartnerTarget();
-
+            BindTodaySales();
+            BindCurrentMonthSales();
             txtDailySale.Text = "";
 
             ShowToast(
@@ -169,6 +171,148 @@ namespace Target_Report
             return "₹" + string.Format(culture, "{0:N0}", value);
         }
 
+        private void BindTodaySales()
+        {
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_GetTodaySales", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                DataTable dt = new DataTable();
+
+                con.Open();
+
+                dt.Load(cmd.ExecuteReader());
+
+                gvTodaySales.DataSource = dt;
+                gvTodaySales.DataBind();
+            }
+        }
+
+        private void BindCurrentMonthSales()
+        {
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_GetCurrentMonthSales", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Month", DateTime.Now.Month);
+                cmd.Parameters.AddWithValue("@Year", DateTime.Now.Year);
+
+                DataTable dt = new DataTable();
+
+                con.Open();
+
+                dt.Load(cmd.ExecuteReader());
+
+                gvMonthSales.DataSource = dt;
+                gvMonthSales.DataBind();
+            }
+        }
+        protected void gvTodaySales_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            gvTodaySales.EditIndex = e.NewEditIndex;
+            BindTodaySales();
+        }
+        protected void gvTodaySales_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            gvTodaySales.EditIndex = -1;
+            BindTodaySales();
+        }
+        protected void gvTodaySales_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvTodaySales.PageIndex = e.NewPageIndex;
+            BindTodaySales();
+        }
+        protected void gvMonthSales_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvMonthSales.PageIndex = e.NewPageIndex;
+            BindCurrentMonthSales();
+        }
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_GetCurrentMonthSales", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@Month", DateTime.Now.Month);
+                cmd.Parameters.AddWithValue("@Year", DateTime.Now.Year);
+
+                DataTable dt = new DataTable();
+
+                con.Open();
+                dt.Load(cmd.ExecuteReader());
+
+                DataView dv = dt.DefaultView;
+                dv.RowFilter = $"PartnerName LIKE '%{txtSearch.Text.Trim().Replace("'", "''")}%'";
+
+                gvMonthSales.DataSource = dv;
+                gvMonthSales.DataBind();
+            }
+        }
+        protected void btnResetSearch_Click(object sender, EventArgs e)
+        {
+            txtSearch.Text = "";
+            BindCurrentMonthSales();
+        }
+        protected void gvTodaySales_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            int saleID = Convert.ToInt32(gvTodaySales.DataKeys[e.RowIndex].Value);
+
+            TextBox txtSale =
+                (TextBox)gvTodaySales.Rows[e.RowIndex].Cells[3].Controls[0];
+
+            decimal sale;
+
+            if (!decimal.TryParse(txtSale.Text.Trim(), out sale))
+            {
+                ShowToast("Error", "Invalid sale amount.", true);
+                return;
+            }
+
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_UpdateDailySale", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@SaleID", saleID);
+                cmd.Parameters.AddWithValue("@SalesAchieved", sale);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+
+            gvTodaySales.EditIndex = -1;
+
+            LoadPartnerTarget();
+            BindTodaySales();
+            BindCurrentMonthSales();
+
+            ShowToast("Success", "Daily sale updated successfully.");
+        }
+
+        protected void gvTodaySales_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            int saleID = Convert.ToInt32(gvTodaySales.DataKeys[e.RowIndex].Value);
+
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_DeleteDailySale", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@SaleID", saleID);
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+
+            LoadPartnerTarget();
+            BindTodaySales();
+            BindCurrentMonthSales();
+
+            ShowToast("Success", "Daily sale deleted successfully.");
+        }
         private void ShowToast(string title, string text, bool isError = false)
         {
             litToastTitle.Text = title;

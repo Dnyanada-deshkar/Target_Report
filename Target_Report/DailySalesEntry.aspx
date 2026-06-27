@@ -135,6 +135,15 @@
                     CssClass="field-input dse-sale-input">
                 </asp:TextBox>
 
+                <asp:RegularExpressionValidator
+                    ID="revDailySale"
+                    runat="server"
+                    ControlToValidate="txtDailySale"
+                    ValidationExpression="^\d+(\.\d{1,2})?$"
+                    ErrorMessage="Invalid Amount"
+                    CssClass="field-error"
+                    ValidationGroup="SaleGroup" />
+
                 <asp:RequiredFieldValidator
                     ID="rfvDailySale"
                     runat="server"
@@ -167,6 +176,13 @@
 
 
     <div class="form-actions">
+
+        <asp:ValidationSummary
+            ID="vsSale"
+            runat="server"
+            ValidationGroup="SaleGroup"
+            CssClass="field-error" />
+
     <asp:Button
         ID="btnSave"
         runat="server"
@@ -190,7 +206,265 @@
 </section>
 
 </asp:Panel>
+<!-- =====================================================
+     TODAY'S SALES
+===================================================== -->
 
+<section class="panel">
+
+    <div class="panel-header">
+        <div class="panel-header-title">
+            <span>Today's Sales</span>
+        </div>
+    </div>
+
+    <div class="panel-body">
+
+        <asp:GridView
+            ID="gvTodaySales"
+            runat="server"
+            Width="100%"
+            CssClass="table-grid"
+            AutoGenerateColumns="False"
+            GridLines="Horizontal"
+            DataKeyNames="SaleID"
+            AllowPaging="true"
+            PageSize="10"
+            OnRowEditing="gvTodaySales_RowEditing"
+            OnRowUpdating="gvTodaySales_RowUpdating"
+            OnRowCancelingEdit="gvTodaySales_RowCancelingEdit"
+            OnRowDeleting="gvTodaySales_RowDeleting"
+            OnPageIndexChanging="gvTodaySales_PageIndexChanging"
+            RowStyle-CssClass="grid-row"
+            HeaderStyle-CssClass="grid-header"
+            PagerStyle-CssClass="grid-pager">
+
+            <Columns>
+
+                <asp:BoundField
+                    DataField="SaleID"
+                    HeaderText="SaleID"
+                    Visible="false" />
+
+               
+                <asp:BoundField
+                    DataField="SaleDate"
+                    HeaderText="Sale Date"
+                    ReadOnly="true"
+                    DataFormatString="{0:dd-MMM-yyyy}" />
+
+
+                <asp:BoundField
+                    DataField="PartnerName"
+                    HeaderText="Partner Name"
+                    ReadOnly="true" />
+
+                <asp:BoundField
+                    DataField="SalesAchieved"
+                    HeaderText="Sales Achieved"
+                    HtmlEncode="false"
+                    DataFormatString="₹ {0:N2}" />
+
+                <asp:BoundField
+                    DataField="TargetBalance"
+                    HeaderText="Target Balance"
+                    ReadOnly="true"
+                    HtmlEncode="false"
+                    DataFormatString="₹ {0:N2}" />
+
+                <asp:BoundField
+                    DataField="CreatedDate"
+                    HeaderText="Created"
+                    ReadOnly="true"
+                    DataFormatString="{0:dd-MMM-yyyy hh:mm tt}" />
+
+               
+               <%-- <asp:CommandField
+    HeaderText="Actions"
+    ShowEditButton="true"
+    ShowDeleteButton="true"
+    ButtonType="Button"
+    EditText="Edit"
+    UpdateText="Update"
+    CancelText="Cancel"
+    DeleteText="Delete"
+    CausesValidation="false"
+    ControlStyle-CssClass="btn btn-primary" /> --%>
+
+                <asp:TemplateField HeaderText="Edit">
+    <ItemTemplate>
+        <asp:LinkButton
+            ID="btnEdit"
+            runat="server"
+            CommandName="Edit"
+            CssClass="action-btn edit-btn"
+            ToolTip="Edit">
+            🖊️
+        </asp:LinkButton>
+    </ItemTemplate>
+
+    <EditItemTemplate>
+        <asp:LinkButton
+            ID="btnUpdate"
+            runat="server"
+            CommandName="Update"
+            CssClass="action-btn update-btn"
+            ToolTip="Update">
+            ↻
+        </asp:LinkButton>
+
+        <asp:LinkButton
+            ID="btnCancel"
+            runat="server"
+            CommandName="Cancel"
+            CssClass="action-btn cancel-btn"
+            ToolTip="Cancel">
+            ✖
+        </asp:LinkButton>
+    </EditItemTemplate>
+</asp:TemplateField>
+
+<asp:TemplateField HeaderText="Delete">
+    <ItemTemplate>
+        <asp:LinkButton
+            ID="btnDelete"
+            runat="server"
+            CommandName="Delete"
+            CssClass="action-btn delete-btn"
+            OnClientClick="return confirm('Delete this record?');"
+            ToolTip="Delete">
+            🗑
+        </asp:LinkButton>
+    </ItemTemplate>
+</asp:TemplateField>
+
+            </Columns>
+
+            <EmptyDataTemplate>
+
+                <div class="empty-grid">
+                    No Sales Found For Today.
+                </div>
+
+            </EmptyDataTemplate>
+
+            <PagerStyle CssClass="grid-pager" />
+
+        </asp:GridView>
+
+    </div>
+
+</section>
+
+<!-- =====================================================
+     CURRENT MONTH SALES
+===================================================== -->
+
+<section class="panel">
+
+    <div class="panel-header">
+
+        <div class="panel-header-title">
+            <span>Current Month Sales</span>
+        </div>
+
+        <div style="margin-left:auto;display:flex;gap:10px;align-items:center;">
+
+            <asp:TextBox
+                ID="txtSearch"
+                runat="server"
+                CssClass="field-input"
+                Width="220px"
+                placeholder="Search Partner..." />
+
+            <asp:Button
+                ID="btnSearch"
+                runat="server"
+                Text="Search"
+                CssClass="btn btn-primary"
+                OnClick="btnSearch_Click" />
+
+            <asp:Button
+                ID="btnResetSearch"
+                runat="server"
+                Text="Reset"
+                CssClass="btn btn-muted"
+                OnClick="btnResetSearch_Click" />
+
+        </div>
+
+    </div>
+
+    <div class="panel-body">
+
+        <asp:GridView
+            ID="gvMonthSales"
+            runat="server"
+            CssClass="table-grid"
+            AutoGenerateColumns="False"
+            GridLines="Horizontal"
+            AllowPaging="true"
+            PageSize="10"
+            DataKeyNames="SaleID"
+            OnPageIndexChanging="gvMonthSales_PageIndexChanging"
+            RowStyle-CssClass="grid-row"
+            HeaderStyle-CssClass="grid-header"
+            PagerStyle-CssClass="grid-pager">
+
+            <Columns>
+
+                 <asp:BoundField
+        DataField="SaleID"
+        HeaderText="Sale ID"
+        Visible="false" />
+
+    <asp:BoundField
+        DataField="SaleDate"
+        HeaderText="Sale Date"
+        ReadOnly="true"
+        DataFormatString="{0:dd-MMM-yyyy}" />
+
+    <asp:BoundField
+        DataField="PartnerName"
+        HeaderText="Partner Name"
+        ReadOnly="true" />
+
+    <asp:BoundField
+        DataField="SalesAchieved"
+        HeaderText="Sales Achieved"
+        DataFormatString="₹ {0:N2}"
+        HtmlEncode="false" />
+
+    <asp:BoundField
+        DataField="TargetBalance"
+        HeaderText="Target Balance"
+        ReadOnly="true"
+        DataFormatString="₹ {0:N2}"
+        HtmlEncode="false" />
+
+    <asp:BoundField
+        DataField="CreatedDate"
+        HeaderText="Created On"
+        ReadOnly="true"
+        DataFormatString="{0:dd-MMM-yyyy hh:mm tt}" />
+
+            </Columns>
+
+            <EmptyDataTemplate>
+
+               <div class="empty-grid">
+                No Sales Found For Current Month.
+            </div>
+
+            </EmptyDataTemplate>
+
+            <PagerStyle CssClass="grid-pager" />
+
+        </asp:GridView>
+
+    </div>
+
+</section>
         </div>
     </div>
 
