@@ -3,6 +3,7 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Globalization;
+using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -17,6 +18,9 @@ namespace Target_Report
        
         protected void Page_Load(object sender, EventArgs e)
         {
+            pnlToast.Visible = false;   
+
+
             if (!IsPostBack)
             {
                 LoadPartners();
@@ -239,15 +243,20 @@ namespace Target_Report
                 cmd.Parameters.AddWithValue("@Month", DateTime.Now.Month);
                 cmd.Parameters.AddWithValue("@Year", DateTime.Now.Year);
 
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
+                da.Fill(dt);
 
-                con.Open();
-                dt.Load(cmd.ExecuteReader());
+                string search = txtSearch.Text.Trim().ToLower();
 
-                DataView dv = dt.DefaultView;
-                dv.RowFilter = $"PartnerName LIKE '%{txtSearch.Text.Trim().Replace("'", "''")}%'";
+                var rows = dt.AsEnumerable()
+                             .Where(r => r["PartnerName"].ToString().ToLower().Contains(search));
 
-                gvMonthSales.DataSource = dv;
+                if (rows.Any())
+                    gvMonthSales.DataSource = rows.CopyToDataTable();
+                else
+                    gvMonthSales.DataSource = null;
+
                 gvMonthSales.DataBind();
             }
         }

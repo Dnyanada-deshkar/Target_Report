@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Daily Sales Entry" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="DailySalesEntry.aspx.cs" Inherits="Target_Report.DailySalesEntry" %>
+﻿<%@ Page Title="Daily Sales Entry" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeBehind="DailySalesEntry.aspx.cs" Inherits="Target_Report.DailySalesEntry" %>
 
 <asp:Content ID="cntTitle" ContentPlaceHolderID="cphTitle" runat="server">
     Daily Sales Entry · Sales Target Report Management System

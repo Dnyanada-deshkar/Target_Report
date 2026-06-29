@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" Inherits="Target_Report.Dashboard" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeBehind="Dashboard.aspx.cs" Inherits="Target_Report.Dashboard" %>
 <asp:Content ID="cntTitle" ContentPlaceHolderID="cphTitle" runat="server">
     Dashboard · Sales Target Report Management System
 </asp:Content>

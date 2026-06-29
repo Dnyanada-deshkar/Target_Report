@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="TargetMaster.aspx.cs" Inherits="Target_Report.TargetMaster" %>
+﻿<%@ Page Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeBehind="TargetMaster.aspx.cs" Inherits="Target_Report.TargetMaster" %>
 
 
 <asp:Content ID="cntTitle" ContentPlaceHolderID="cphTitle" runat="server">

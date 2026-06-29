@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Monthly Snapshot Report" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="MonthlySnapshotReport.aspx.cs" Inherits="Target_Report.MonthlySnapshotReport" %>
+﻿<%@ Page Title="Monthly Snapshot Report" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeBehind="MonthlySnapshotReport.aspx.cs" Inherits="Target_Report.MonthlySnapshotReport" %>
 <asp:Content ID="cntTitle" ContentPlaceHolderID="cphTitle" runat="server">
     Monthly Snapshot Report · Sales Target Report Management System
 </asp:Content>

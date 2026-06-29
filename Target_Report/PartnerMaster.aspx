@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Partner Master" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="PartnerMaster.aspx.cs" Inherits="Target_Report.PartnerMaster" %>
+﻿<%@ Page Title="Partner Master" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeBehind="PartnerMaster.aspx.cs" Inherits="Target_Report.PartnerMaster" %>
 
 <asp:Content ID="ContentHead" ContentPlaceHolderID="cphHead" runat="server">
     <link rel="stylesheet" href="PartnerMaster.css" />

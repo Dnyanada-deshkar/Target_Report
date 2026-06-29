@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Target_Report.Login" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" MaintainScrollPositionOnPostback="true" Inherits="Target_Report.Login" %>
 
 <!DOCTYPE html>
 <html lang="en">
