@@ -194,8 +194,6 @@ This project demonstrates:
 
 # 👨‍💻 Developed By
 
-**Your Name**
-
 GitHub: [https://github.com/Dnyanada-deshkar]
 GitHub: [https://github.com/Abhishek400217]
 
