@@ -15,15 +15,14 @@ namespace Target_Report
         private string ConnString =>
             ConfigurationManager.ConnectionStrings["Sale_TargetDB"].ConnectionString;
 
-               protected void Page_Load(object sender, EventArgs e)
-        {
-            pnlToast.Visible = false;   
-
+        protected void Page_Load(object sender, EventArgs e)
+            {
 
             if (!IsPostBack)
             {
-                LoadPartners();
+                pnlToast.Visible = false;
 
+                LoadPartners();
                 BindTodaySales();
                 BindCurrentMonthSales();
             }
@@ -56,6 +55,10 @@ namespace Target_Report
 
         protected void ddlPartner_SelectedIndexChanged(object sender, EventArgs e)
         {
+            
+            txtRemark.Text = "";
+            txtFollowDate.Text = "";
+
             if (ddlPartner.SelectedValue == "0")
             {
                 txtTargetBalance.Text = "";
@@ -66,6 +69,8 @@ namespace Target_Report
 
             LoadPartnerTarget();
             LoadPartnerContact();
+
+            txtDailySale.Focus();
         }
 
         private void LoadPartnerTarget()
@@ -169,20 +174,53 @@ namespace Target_Report
             LoadPartnerTarget();
             BindTodaySales();
             BindCurrentMonthSales();
+
             txtDailySale.Text = "";
+            ddlPartner.SelectedIndex = 0;
+            txtTargetBalance.Text = "";
+            txtPartnerNameFollow.Text = "";
+            txtContactNumber.Text = "";
+            txtRemark.Text = "";
+            txtFollowDate.Text = "";
+
+            ddlPartner.Focus();
 
             ShowToast(
-                "Success",
-                "Daily sale saved successfully.");
+     "Success",
+     "Follow-up saved successfully.",
+     "success");
         }
         protected void btnSaveFollowup_Click(object sender, EventArgs e)
         {
             if (ddlPartner.SelectedValue == "0")
             {
-                ShowToast("Warning", "Please select partner.");
+                ShowToast(
+                    "Warning",
+                    "Please select partner.",
+                    "warning");
+
                 return;
             }
 
+            DateTime followDate;
+
+            if (!DateTime.TryParse(txtFollowDate.Text, out followDate))
+            {
+                ShowToast(
+                    "Warning",
+                    "Please select follow-up date.",
+                    "warning");
+                return;
+            }
+
+            if (followDate.Date < DateTime.Today)
+            {
+                ShowToast(
+                    "Warning",
+                    "Past follow-up date is not allowed.",
+                    "warning");
+                return;
+            }
             using (SqlConnection con = new SqlConnection(ConnString))
             using (SqlCommand cmd = new SqlCommand("USP_SavePartnerFollowUp", con))
             {
@@ -198,8 +236,17 @@ namespace Target_Report
 
             txtRemark.Text = "";
             txtFollowDate.Text = "";
+            ddlPartner.SelectedIndex = 0;
+            txtTargetBalance.Text = "";
+            txtPartnerNameFollow.Text = "";
+            txtContactNumber.Text = "";
 
-            ShowToast("Success", "Follow-up saved successfully.");
+            ddlPartner.Focus();
+
+            ShowToast(
+                    "Success",
+                    "Follow-up saved successfully.",
+                    "success");
         }
 
 
@@ -318,7 +365,7 @@ namespace Target_Report
 
             if (!decimal.TryParse(txtSale.Text.Trim(), out sale))
             {
-                ShowToast("Error", "Invalid sale amount.", true);
+                ShowToast("Error", "Invalid sale amount.", "error");
                 return;
             }
 
@@ -364,14 +411,33 @@ namespace Target_Report
 
             ShowToast("Success", "Daily sale deleted successfully.");
         }
-        private void ShowToast(string title, string text, bool isError = false)
+        private void ShowToast(string title, string text, string type = "success")
         {
             litToastTitle.Text = title;
             litToastText.Text = text;
+
             pnlToast.Visible = true;
-            pnlToast.CssClass = isError ? "toast-stack is-error" : "toast-stack";
+
+            switch (type.ToLower())
+            {
+                case "warning":
+                    pnlToast.CssClass = "toast-stack toast-warning";
+                    break;
+
+                case "error":
+                    pnlToast.CssClass = "toast-stack toast-error";
+                    break;
+
+                case "info":
+                    pnlToast.CssClass = "toast-stack toast-info";
+                    break;
+
+                default:
+                    pnlToast.CssClass = "toast-stack toast-success";
+                    break;
+            }
         }
-        
+
 
     }
 }
