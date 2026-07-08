@@ -1,0 +1,537 @@
+﻿<%@ Page Title="Sales Executive Master"
+    Language="C#"
+    MasterPageFile="~/Site.Master"
+    AutoEventWireup="true"
+    CodeBehind="SalesExecutiveMaster.aspx.cs"
+    Inherits="Target_Report.SalesExecutiveMaster" %>
+
+<asp:Content ID="cntTitle" ContentPlaceHolderID="cphTitle" runat="server">
+    Sales Executive Master · Sales Target Report Management System
+</asp:Content>
+
+<asp:Content ID="cntHead" ContentPlaceHolderID="cphHead" runat="server">
+
+    <link rel="stylesheet" href="/SalesExecutiveMaster.css" />
+
+</asp:Content>
+
+<asp:Content ID="cntBody" ContentPlaceHolderID="cphBody" runat="server">
+
+<div class="module-page">
+<div class="module-container">
+
+    <!-- =====================================================
+         PAGE HEADER
+    ====================================================== -->
+
+    <div class="module-header">
+
+        <div class="module-heading-block">
+
+            <h1 class="module-title">
+                Sales Executive Master
+            </h1>
+
+            <p class="module-subtitle">
+                Manage sales executives responsible for partner sales activities.
+            </p>
+
+        </div>
+
+        <nav class="module-breadcrumb">
+
+            <span>Dashboard</span>
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <path d="M9 18l6-6-6-6"></path>
+
+            </svg>
+
+            <span>Masters</span>
+
+            <svg viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <path d="M9 18l6-6-6-6"></path>
+
+            </svg>
+
+            <span class="crumb-current">
+                Sales Executive Master
+            </span>
+
+        </nav>
+
+    </div>
+
+    <!-- =====================================================
+         TOAST
+    ====================================================== -->
+
+    <asp:Panel ID="pnlToast"
+        runat="server"
+        CssClass="toast-stack"
+        Visible="false">
+
+        <div class="toast">
+
+            <svg class="toast-icon"
+                style="width:18px;height:18px;flex-shrink:0;margin-top:2px;"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#16A34A"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+
+            </svg>
+
+            <div class="toast-content">
+
+                <p class="toast-title">
+                    <asp:Literal ID="litToastTitle" runat="server" />
+                </p>
+
+                <p class="toast-text">
+                    <asp:Literal ID="litToastText" runat="server" />
+                </p>
+
+            </div>
+
+        </div>
+
+    </asp:Panel>
+
+    <!-- =====================================================
+         EXECUTIVE FORM
+    ====================================================== -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <div class="panel-header-title">
+
+                <svg viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="1.8"
+                    stroke-linecap="round"
+                    stroke-linejoin="round">
+
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                    <circle cx="12" cy="7" r="4"></circle>
+
+                </svg>
+
+                <span>
+                    Sales Executive Information
+                </span>
+
+            </div>
+
+            <asp:Panel ID="pnlFormMode"
+                runat="server"
+                CssClass="form-mode-tag">
+
+                <span class="dot"></span>
+
+                <asp:Literal ID="litFormMode"
+                    runat="server"
+                    Text="New Executive" />
+
+            </asp:Panel>
+
+        </div>
+
+        <div class="panel-body">
+
+            <div class="form-grid">
+
+                <asp:HiddenField
+                    ID="hdnExecutiveID"
+                    runat="server"
+                    Value="0" />
+
+                                <!-- Executive Name -->
+                <div class="field-group">
+
+                    <asp:Label
+                        runat="server"
+                        AssociatedControlID="txtExecutiveName"
+                        CssClass="field-label">
+
+                        Executive Name
+                        <span class="required-mark">*</span>
+
+                    </asp:Label>
+
+                    <asp:TextBox
+                        ID="txtExecutiveName"
+                        runat="server"
+                        CssClass="field-input"
+                        MaxLength="200"
+                        placeholder="Enter Executive Name" />
+
+                    <asp:RequiredFieldValidator
+                        ID="rfvExecutiveName"
+                        runat="server"
+                        ControlToValidate="txtExecutiveName"
+                        ValidationGroup="ExecutiveGroup"
+                        CssClass="field-error"
+                        ErrorMessage="Executive Name is required." />
+
+                </div>
+
+
+                <!-- Contact Number -->
+                <div class="field-group">
+
+                    <asp:Label
+                        runat="server"
+                        AssociatedControlID="txtContactNumber"
+                        CssClass="field-label">
+
+                        Contact Number
+                        <span class="required-mark">*</span>
+
+                    </asp:Label>
+
+                    <asp:TextBox
+                        ID="txtContactNumber"
+                        runat="server"
+                        CssClass="field-input"
+                        MaxLength="10"
+                        placeholder="Enter Contact Number" />
+
+                    <asp:RequiredFieldValidator
+                        ID="rfvContactNumber"
+                        runat="server"
+                        ControlToValidate="txtContactNumber"
+                        ValidationGroup="ExecutiveGroup"
+                        CssClass="field-error"
+                        ErrorMessage="Contact Number is required." />
+
+                    <asp:RegularExpressionValidator
+                        ID="revContactNumber"
+                        runat="server"
+                        ControlToValidate="txtContactNumber"
+                        ValidationGroup="ExecutiveGroup"
+                        CssClass="field-error"
+                        ValidationExpression="^[0-9]{10}$"
+                        ErrorMessage="Enter a valid 10 digit mobile number." />
+
+                </div>
+
+
+                <!-- Native Branch -->
+                <div class="field-group">
+
+                    <asp:Label
+                        runat="server"
+                        AssociatedControlID="ddlBranch"
+                        CssClass="field-label">
+
+                        Native Branch
+                        <span class="required-mark">*</span>
+
+                    </asp:Label>
+
+                    <asp:DropDownList
+                        ID="ddlBranch"
+                        runat="server"
+                        CssClass="field-select">
+
+                    </asp:DropDownList>
+
+                    <asp:RequiredFieldValidator
+                        ID="rfvBranch"
+                        runat="server"
+                        InitialValue="0"
+                        ControlToValidate="ddlBranch"
+                        ValidationGroup="ExecutiveGroup"
+                        CssClass="field-error"
+                        ErrorMessage="Please select a branch." />
+
+                </div>
+
+
+                <!-- Empty Column -->
+                <div class="field-group"></div>
+
+
+                <!-- Action Buttons -->
+                <div class="form-actions">
+
+                    <div class="form-actions-spacer"></div>
+
+                    <asp:Button
+                        ID="btnClear"
+                        runat="server"
+                        Text="Clear"
+                        CssClass="btn btn-muted"
+                        CausesValidation="false"
+                        OnClick="btnClear_Click" />
+
+                    <asp:Button
+                        ID="btnSave"
+                        runat="server"
+                        Text="Save Executive"
+                        CssClass="btn btn-primary"
+                        ValidationGroup="ExecutiveGroup"
+                        OnClick="btnSave_Click" />
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         SALES EXECUTIVE LIST
+    ====================================================== -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <div class="panel-header-title">
+
+                <svg viewBox="0 0 24 24"
+                     fill="none"
+                     stroke="currentColor"
+                     stroke-width="2">
+
+                    <path d="M3 6h18"></path>
+                    <path d="M3 12h18"></path>
+                    <path d="M3 18h18"></path>
+
+                </svg>
+
+                <span>Sales Executive List</span>
+
+            </div>
+
+        </div>
+
+        <div class="panel-body">
+
+            <div class="table-toolbar">
+
+                <div class="table-search">
+
+                    <asp:TextBox
+                        ID="txtSearch"
+                        runat="server"
+                        CssClass="field-input"
+                        AutoPostBack="true"
+                        OnTextChanged="txtSearch_TextChanged"
+                        placeholder="Search Executive..." />
+
+                </div>
+
+                <div>
+
+                    Show
+
+                    <asp:DropDownList
+                        ID="ddlPageSize"
+                        runat="server"
+                        CssClass="field-select"
+                        AutoPostBack="true"
+                        OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged">
+
+                        <asp:ListItem>10</asp:ListItem>
+                        <asp:ListItem>25</asp:ListItem>
+                        <asp:ListItem>50</asp:ListItem>
+
+                    </asp:DropDownList>
+
+                    entries
+
+                </div>
+
+            </div>
+
+                        <!-- ===========================================
+                 SALES EXECUTIVE LIST
+            ============================================ -->
+
+            <section class="panel">
+
+                <div class="panel-header">
+
+                    <div class="panel-header-title">
+                        <span>Sales Executive List</span>
+                    </div>
+
+                </div>
+
+                <div class="panel-body">
+
+                    <!-- Toolbar -->
+
+                    <div class="table-toolbar">
+
+                        <div class="table-search">
+
+                            <asp:TextBox
+                                ID="TextBox1"
+                                runat="server"
+                                CssClass="field-input"
+                                AutoPostBack="true"
+                                OnTextChanged="txtSearch_TextChanged"
+                                placeholder="Search Executive..." />
+
+                        </div>
+
+                        <div class="table-right">
+
+                            Show
+
+                            <asp:DropDownList
+                                ID="DropDownList1"
+                                runat="server"
+                                CssClass="field-select"
+                                AutoPostBack="true"
+                                OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged">
+
+                                <asp:ListItem Selected="True">10</asp:ListItem>
+                                <asp:ListItem>25</asp:ListItem>
+                                <asp:ListItem>50</asp:ListItem>
+
+                            </asp:DropDownList>
+
+                            entries
+
+                        </div>
+
+                    </div>
+
+                    <!-- Grid -->
+
+                    <asp:GridView
+                        ID="gvExecutive"
+                        runat="server"
+                        CssClass="grid"
+                        AutoGenerateColumns="False"
+                        AllowPaging="True"
+                        PageSize="10"
+                        DataKeyNames="ExecutiveID"
+                        OnPageIndexChanging="gvExecutive_PageIndexChanging"
+                        EmptyDataText="No Sales Executive Found">
+
+                        <Columns>
+
+                            <asp:BoundField
+                                DataField="ExecutiveName"
+                                HeaderText="Executive Name" />
+
+                            <asp:BoundField
+                                DataField="ContactNumber"
+                                HeaderText="Contact Number" />
+
+                            <asp:BoundField
+                                DataField="NativeBranch"
+                                HeaderText="Native Branch" />
+
+                            <asp:BoundField
+                                DataField="CreatedDate"
+                                HeaderText="Created On"
+                                DataFormatString="{0:dd MMM yyyy}" />
+
+                            <asp:TemplateField HeaderText="Action">
+
+                                <ItemTemplate>
+
+                                    <asp:LinkButton
+                                        ID="btnEdit"
+                                        runat="server"
+                                        CssClass="table-action edit"
+                                        CommandArgument='<%# Eval("ExecutiveID") %>'
+                                        OnClick="btnEdit_Click">
+
+                                        Edit
+
+                                    </asp:LinkButton>
+
+                                    &nbsp;
+
+                                    <asp:LinkButton
+                                        ID="btnDelete"
+                                        runat="server"
+                                        CssClass="table-action delete"
+                                        CommandArgument='<%# Eval("ExecutiveID") %>'
+                                        OnClick="btnDelete_Click"
+                                        OnClientClick="return confirm('Delete this Sales Executive?');">
+
+                                        Delete
+
+                                    </asp:LinkButton>
+
+                                </ItemTemplate>
+
+                            </asp:TemplateField>
+
+                        </Columns>
+
+                    </asp:GridView>
+
+                </div>
+
+            </section>
+
+        </div>
+
+    </div>
+
+    <!-- ===========================
+         JAVASCRIPT
+    ============================ -->
+
+    <script>
+
+        window.onload = function () {
+
+            var toast = document.querySelector('.toast');
+
+            if (toast) {
+
+                setTimeout(function () {
+
+                    toast.classList.add('toast-hide');
+
+                    setTimeout(function () {
+
+                        var stack = document.querySelector('.toast-stack');
+
+                        if (stack)
+                            stack.style.display = 'none';
+
+                    }, 500);
+
+                }, 3000);
+
+            }
+
+        };
+
+    </script>
+
+</asp:Content>
