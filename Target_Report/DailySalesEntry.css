@@ -450,3 +450,79 @@
     .cancel-btn:hover {
         background: #E5E7EB;
     }
+/*==========================
+  HEADER TOGGLE
+==========================*/
+
+.panel-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.mode-switch {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    background: #eef3ff;
+    border: 1px solid #dbe5ff;
+    border-radius: 14px;
+    padding: 4px;
+}
+
+.mode-btn {
+    appearance: none;
+    border: none;
+    background: transparent;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+    padding: 10px 22px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .25s ease;
+}
+
+    .mode-btn:hover {
+        color: #1d4ed8;
+    }
+
+    .mode-btn.active {
+        background: #1e3a8a;
+        color: #fff;
+        box-shadow: 0 8px 18px rgba(30,58,138,.25);
+    }
+/*==========================================
+  FOLLOW-UP REMARK BOX
+==========================================*/
+
+.remark-box {
+    width: 100%;
+    min-height: 130px;
+    padding: 16px 18px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #1f2937;
+    background: #ffffff;
+    border: 1px solid #dbe4f0;
+    border-radius: 12px;
+    resize: none;
+    transition: .25s ease;
+    font-family: "Segoe UI", sans-serif;
+    box-sizing: border-box;
+}
+
+    .remark-box::placeholder {
+        color: #9aa5b1;
+        font-style: italic;
+    }
+
+    .remark-box:hover {
+        border-color: #b8c7dd;
+    }
+
+    .remark-box:focus {
+        outline: none;
+        border-color: #2b4da2;
+        box-shadow: 0 0 0 4px rgba(43,77,162,.12);
+    }

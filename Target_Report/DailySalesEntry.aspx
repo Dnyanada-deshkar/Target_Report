@@ -88,38 +88,40 @@
     </div>
 </section>
 
-            <!-- =====================================================
-                 SECTION 2 — KPI SUMMARY (visible only when target loads)
-                 ===================================================== -->
-
-                    
-
-           
-
-            <!-- =====================================================
-                 SECTION 3 — NO TARGET BANNER
-                 ===================================================== -->
-            
-
-            <!-- =====================================================
-                 SECTION 4 — TARGET ACHIEVED BANNER
-                 ===================================================== -->
-            
-            <!-- =====================================================
-                 SECTION 5 — ENTRY FORM
-                 ===================================================== -->
            <asp:Panel ID="pnlEntryForm" runat="server" Visible="true">
 
 <section class="panel">
 
-    <div class="panel-header">
-        <div class="panel-header-title">
-            <span>Daily Sales Entry</span>
-        </div>
+    <div class="panel-header panel-header-flex">
+
+    <div class="panel-header-title">
+        <span id="pageModeTitle">Daily Sales Entry</span>
     </div>
 
-    <div class="panel-body">
+    <div class="mode-switch">
 
+        <button
+            type="button"
+            id="btnSalesMode"
+            class="mode-btn active">
+            <i class="fa fa-chart-line"></i>
+            Sales Entry
+        </button>
+
+        <button
+            type="button"
+            id="btnRemarkMode"
+            class="mode-btn">
+            <i class="fa fa-comments"></i>
+            Follow-up
+        </button>
+
+    </div>
+
+</div>
+
+    <div class="panel-body">
+        <div id="salesPanel">
         <div class="form-grid">
 
             <div class="field-group">
@@ -199,13 +201,124 @@
         CausesValidation="false"
         OnClick="btnClear_Click" />
 
-     </div>
+        </div>
 
     </div>
+
+        <div id="followPanel" style="display:none;">
+
+         <div class="form-grid">
+
+                <div class="field-group">
+
+            <label class="field-label">
+                Partner Name
+            </label>
+
+            <asp:TextBox
+                ID="txtPartnerNameFollow"
+                runat="server"
+                CssClass="field-input dse-readonly"
+                ReadOnly="true" />
+
+        </div>
+
+
+        <div class="field-group">
+
+            <label class="field-label">
+                Contact Number
+            </label>
+
+            <asp:TextBox
+                ID="txtContactNumber"
+                runat="server"
+                CssClass="field-input dse-readonly"
+                ReadOnly="true" />
+
+        </div>
+
+        <div class="field-group">
+
+            <label class="field-label">
+                Follow-up Date
+            </label>
+
+            <asp:TextBox
+                ID="txtFollowDate"
+                runat="server"
+                CssClass="field-input"
+                TextMode="Date" />
+
+        </div>
+
+    </div>
+
+    <div class="field-group" style="margin-top:20px;">
+
+        <label class="field-label">
+
+            Customer's Remark
+
+        </label>
+
+        <asp:TextBox
+    ID="txtRemark"
+    runat="server"
+    CssClass="field-input remark-box"
+    TextMode="MultiLine"
+    Rows="5"
+    placeholder="Write Client's Follow-up Here ....">
+</asp:TextBox>
+
+        <asp:RequiredFieldValidator
+    ID="rfvRemark"
+    runat="server"
+    ControlToValidate="txtRemark"
+    ErrorMessage="Please enter remark."
+    CssClass="field-error"
+    ValidationGroup="FollowUpGroup" />
+
+<asp:RegularExpressionValidator
+    ID="revRemark"
+    runat="server"
+    ControlToValidate="txtRemark"
+    ValidationExpression="^.{10,}$"
+    ErrorMessage="Remark should contain at least 10 characters."
+    CssClass="field-error"
+    ValidationGroup="FollowUpGroup" />
+
+<asp:RequiredFieldValidator
+    ID="rfvFollowDate"
+    runat="server"
+    ControlToValidate="txtFollowDate"
+    ErrorMessage="Select follow-up date."
+    CssClass="field-error"
+    ValidationGroup="FollowUpGroup" />
+
+    </div>
+
+    <div class="form-actions">
+
+       <asp:Button
+    ID="btnSaveFollowup"
+    runat="server"
+    Text="Save Follow-up"
+    CssClass="btn btn-primary"
+    ValidationGroup="FollowUpGroup"
+    OnClick="btnSaveFollowup_Click" />
+
+    </div>
+
+</div>
+</div>
 
 </section>
 
 </asp:Panel>
+
+
+
 <!-- =====================================================
      TODAY'S SALES
 ===================================================== -->
@@ -485,6 +598,36 @@
                     }, 500);
                 }, 3000);
             }
+        };
+
+
+        const btnSales = document.getElementById("btnSalesMode");
+        const btnRemark = document.getElementById("btnRemarkMode");
+
+        const salesPanel = document.getElementById("salesPanel");
+        const followPanel = document.getElementById("followPanel");
+        const title = document.getElementById("pageModeTitle");
+
+        btnSales.onclick = function () {
+
+            btnSales.classList.add("active");
+            btnRemark.classList.remove("active");
+
+            salesPanel.style.display = "block";
+            followPanel.style.display = "none";
+
+            title.innerHTML = "Daily Sales Entry";
+        };
+
+        btnRemark.onclick = function () {
+
+            btnRemark.classList.add("active");
+            btnSales.classList.remove("active");
+
+            salesPanel.style.display = "none";
+            followPanel.style.display = "block";
+
+            title.innerHTML = "Partner Follow-up";
         };
 
     </script>

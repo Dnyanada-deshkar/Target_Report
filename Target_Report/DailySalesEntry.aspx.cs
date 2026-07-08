@@ -15,8 +15,7 @@ namespace Target_Report
         private string ConnString =>
             ConfigurationManager.ConnectionStrings["Sale_TargetDB"].ConnectionString;
 
-       
-        protected void Page_Load(object sender, EventArgs e)
+               protected void Page_Load(object sender, EventArgs e)
         {
             pnlToast.Visible = false;   
 
@@ -53,19 +52,20 @@ namespace Target_Report
             }
         }
 
-       
 
-        protected void ddlPartner_SelectedIndexChanged(
-    object sender,
-    EventArgs e)
+
+        protected void ddlPartner_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (ddlPartner.SelectedValue == "0")
             {
                 txtTargetBalance.Text = "";
+                txtPartnerNameFollow.Text = "";
+                txtContactNumber.Text = "";
                 return;
             }
 
             LoadPartnerTarget();
+            LoadPartnerContact();
         }
 
         private void LoadPartnerTarget()
@@ -104,8 +104,27 @@ namespace Target_Report
                 }
             }
         }
+        private void LoadPartnerContact()
+        {
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_GetPartnerContact", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
 
-      
+                cmd.Parameters.AddWithValue("@PartnerID", ddlPartner.SelectedValue);
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    txtPartnerNameFollow.Text = dr["PartnerName"].ToString();
+                    txtContactNumber.Text = dr["ContactNumber"].ToString();
+                }
+            }
+        }
+
 
         protected void cvDailySale_ServerValidate(object source, ServerValidateEventArgs args)
         {
@@ -114,9 +133,7 @@ namespace Target_Report
         }
 
 
-        protected void btnSave_Click(
-            object sender,
-            EventArgs e)
+        protected void btnSave_Click(object sender, EventArgs e)
         {
             decimal sale;
 
@@ -158,8 +175,33 @@ namespace Target_Report
                 "Success",
                 "Daily sale saved successfully.");
         }
+        protected void btnSaveFollowup_Click(object sender, EventArgs e)
+        {
+            if (ddlPartner.SelectedValue == "0")
+            {
+                ShowToast("Warning", "Please select partner.");
+                return;
+            }
 
-      
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_SavePartnerFollowUp", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@PartnerID", ddlPartner.SelectedValue);
+                cmd.Parameters.AddWithValue("@Remark", txtRemark.Text.Trim());
+                cmd.Parameters.AddWithValue("@FollowUpDate", Convert.ToDateTime(txtFollowDate.Text));
+
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+
+            txtRemark.Text = "";
+            txtFollowDate.Text = "";
+
+            ShowToast("Success", "Follow-up saved successfully.");
+        }
+
 
         protected void btnClear_Click(object sender, EventArgs e)
         {
@@ -178,7 +220,7 @@ namespace Target_Report
         private void BindTodaySales()
         {
             using (SqlConnection con = new SqlConnection(ConnString))
-            using (SqlCommand cmd = new SqlCommand("USP_GetTodaySales", con))
+            using (SqlCommand cmd = new SqlCommand("USP_GetCurrentDaySales", con))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -192,7 +234,7 @@ namespace Target_Report
                 gvTodaySales.DataBind();
             }
         }
-
+       
         private void BindCurrentMonthSales()
         {
             using (SqlConnection con = new SqlConnection(ConnString))
@@ -329,7 +371,7 @@ namespace Target_Report
             pnlToast.Visible = true;
             pnlToast.CssClass = isError ? "toast-stack is-error" : "toast-stack";
         }
+        
 
-       
     }
 }
