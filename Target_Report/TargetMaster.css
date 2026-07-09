@@ -59,7 +59,6 @@ a {
 
 
 .module-page {
-    min-height: 100vh;
     width: 100%;
     background: transparent;
 }
@@ -515,6 +514,7 @@ a {
 }
 
 .search-control {
+    position: relative;
     flex: 1;
     max-width: 460px;
 }
@@ -605,10 +605,24 @@ a {
     overflow-x: auto;
 }
 
-.data-table thead th {
+/*.data-table thead th {
     position: sticky;
     top: 0;
     z-index: 1;
+    background-color: #FAFBFC;
+    text-align: left;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--color-text-faint);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--color-border);
+    white-space: nowrap;
+}*/
+
+.data-table thead th {
+    position: static;
     background-color: #FAFBFC;
     text-align: left;
     font-size: 11.5px;
