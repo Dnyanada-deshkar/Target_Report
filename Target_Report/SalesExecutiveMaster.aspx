@@ -303,71 +303,7 @@
     </section>
 
 
-    <!-- =====================================================
-         SALES EXECUTIVE LIST
-    ====================================================== -->
-
-    <section class="panel">
-
-        <div class="panel-header">
-
-            <div class="panel-header-title">
-
-                <svg viewBox="0 0 24 24"
-                     fill="none"
-                     stroke="currentColor"
-                     stroke-width="2">
-
-                    <path d="M3 6h18"></path>
-                    <path d="M3 12h18"></path>
-                    <path d="M3 18h18"></path>
-
-                </svg>
-
-                <span>Sales Executive List</span>
-
-            </div>
-
-        </div>
-
-        <div class="panel-body">
-
-            <div class="table-toolbar">
-
-                <div class="table-search">
-
-                    <asp:TextBox
-                        ID="txtSearch"
-                        runat="server"
-                        CssClass="field-input"
-                        AutoPostBack="true"
-                        OnTextChanged="txtSearch_TextChanged"
-                        placeholder="Search Executive..." />
-
-                </div>
-
-                <div>
-
-                    Show
-
-                    <asp:DropDownList
-                        ID="ddlPageSize"
-                        runat="server"
-                        CssClass="field-select"
-                        AutoPostBack="true"
-                        OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged">
-
-                        <asp:ListItem>10</asp:ListItem>
-                        <asp:ListItem>25</asp:ListItem>
-                        <asp:ListItem>50</asp:ListItem>
-
-                    </asp:DropDownList>
-
-                    entries
-
-                </div>
-
-            </div>
+    
 
                         <!-- ===========================================
                  SALES EXECUTIVE LIST
@@ -392,7 +328,7 @@
                         <div class="table-search">
 
                             <asp:TextBox
-                                ID="TextBox1"
+                                ID="txtSearch"
                                 runat="server"
                                 CssClass="field-input"
                                 AutoPostBack="true"
@@ -406,7 +342,7 @@
                             Show
 
                             <asp:DropDownList
-                                ID="DropDownList1"
+                                ID="ddlPageSize"
                                 runat="server"
                                 CssClass="field-select"
                                 AutoPostBack="true"
