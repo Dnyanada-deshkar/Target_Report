@@ -27,8 +27,9 @@ namespace Target_Report
                 BindTargetVsAchievementChart();
                 BindBranchPerformanceChart();
                 BindAchievementTrendChart();
-                BindTopPartners();
                 BindRecentActivity();
+                LoadReminderPopup();
+                LoadNextPendingFollowup();
             }
         }
         private void BindKpiCards()
@@ -435,10 +436,82 @@ namespace Target_Report
                 AddDummyPartnerRow(table, 10, "Joshi Agencies", "Nagpur", 260000, 153400);
             }
 
-            gvTopPartners.DataSource = table;
-            gvTopPartners.DataBind();
+            //gvTopPartners.DataSource = table;
+            //gvTopPartners.DataBind();
         }
+        private void LoadReminderPopup()
+        {
+            DataRow dr = GetNextPendingFollowup();
 
+            if (dr == null)
+            {
+                pnlReminderPopup.Visible = false;
+                return;
+            }
+
+            pnlReminderPopup.Visible = true;
+
+            hdnFollowupID.Value = dr["FollowUpID"].ToString();
+
+            lblPopupPartner.Text = dr["PartnerName"].ToString();
+
+            lblPopupContact.Text = dr["ContactNo"].ToString();
+
+            lblPopupDate.Text =
+                Convert.ToDateTime(dr["FollowUpDate"])
+                .ToString("dd MMM yyyy");
+
+            txtOldRemark.Text = dr["Remark"].ToString();
+
+            txtNewRemark.Text = "";
+        }
+        protected void btnCompleteFollowup_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection con = new SqlConnection(ConnString))
+            {
+                con.Open();
+
+                SqlCommand cmd = new SqlCommand(@"
+                            INSERT INTO PartnerFollowUp
+                            (
+                                PartnerID,
+                                ContactNo,
+                                Remark,
+                                FollowUpDate,
+                                Status,
+                                CreatedBy,
+                                CreatedDate
+                            )
+                            SELECT
+                                PartnerID,
+                                ContactNo,
+                                @Remark,
+                                DATEADD(DAY,1,GETDATE()),
+                                'Pending',
+                                CreatedBy,
+                                GETDATE()
+                            FROM PartnerFollowUp
+                            WHERE FollowUpID=@FollowUpID;
+
+                            UPDATE PartnerFollowUp
+                            SET
+                            Status='Completed',
+                            CompletedDate=GETDATE()
+                            WHERE FollowUpID=@FollowUpID;
+                            ", con);
+
+                cmd.Parameters.AddWithValue("@Remark", txtNewRemark.Text.Trim());
+                cmd.Parameters.AddWithValue("@FollowUpID", Convert.ToInt32(hdnFollowupID.Value));
+
+                cmd.ExecuteNonQuery();
+            }
+
+            // Clear textbox
+            txtNewRemark.Text = "";
+
+            // Reload next pending follow-up
+            LoadNextPendingFollowup();
+        }
         private void AddDummyPartnerRow(DataTable table, int rank, string partnerName, string branch, decimal target, decimal achievement)
         {
             decimal pct = target > 0 ? Math.Round((achievement / target) * 100, 1) : 0;
@@ -465,11 +538,70 @@ namespace Target_Report
             if (achievementPercentage >= 50) return " is-warning";
             return " is-danger";
         }
+        private void LoadNextPendingFollowup()
+        {
+            using (SqlConnection con = new SqlConnection(ConnString))
+            {
+                SqlCommand cmd = new SqlCommand("USP_GetNextPendingFollowup", con);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-        // =====================================================
-        // RECENT ACTIVITY FEED
-        // =====================================================
+                con.Open();
 
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                if (dr.Read())
+                {
+                    lblPopupPartner.Text = "TEST";
+                    lblPopupContact.Text = "9876543210";
+                    lblPopupDate.Text = DateTime.Now.ToString("dd MMM yyyy");
+                    txtOldRemark.Text = "Old Remark";
+                    txtNewRemark.Text = "";
+
+                    hdnFollowupID.Value = dr["FollowUpID"].ToString();
+
+                    lblPopupPartner.Text = dr["PartnerName"].ToString();
+
+                    lblPopupContact.Text = dr["ContactNo"].ToString();
+
+                    lblPopupDate.Text =
+                        Convert.ToDateTime(dr["FollowUpDate"])
+                        .ToString("dd MMM yyyy");
+
+                    txtOldRemark.Text = dr["Remark"].ToString();
+
+                    txtNewRemark.Text = "";
+
+                    txtOldRemark.Visible = true;
+                    txtNewRemark.Visible = true;
+                    btnCompleteFollowup.Visible = true;
+
+                    txtNewRemark.ReadOnly = false;
+
+                    pnlReminderPopup.Visible = true;
+                }
+                else
+                {
+                    pnlReminderPopup.Visible = true;
+
+                    lblPopupPartner.Text = "";
+                    lblPopupContact.Text = "";
+                    lblPopupDate.Text = "";
+
+                    txtOldRemark.Visible = false;
+                    txtNewRemark.Visible = false;
+
+                    btnCompleteFollowup.Visible = false;
+
+                    txtOldRemark.Text = "";
+
+                    txtNewRemark.Text =
+                @"🎉 All Follow-ups Completed Great Job!
+                    There are no pending follow-ups for today.";
+
+                    txtNewRemark.ReadOnly = true;
+                }
+            }
+        }
         private void BindRecentActivity()
         {
             List<ActivityFeedItem> activities = new List<ActivityFeedItem>();
@@ -556,7 +688,30 @@ namespace Target_Report
                 IconSvg = GetActivityIconSvg(iconType)
             };
         }
+    //    protected void rptPendingFollowups_ItemCommand(object source,
+    //RepeaterCommandEventArgs e)
+    //    {
 
+    //    }
+        private void LoadPendingFollowups()
+        {
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_GetTodayFollowUps", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                DataTable dt = new DataTable();
+
+                con.Open();
+
+                dt.Load(cmd.ExecuteReader());
+
+                //rptPendingFollowups.DataSource = dt;
+                //rptPendingFollowups.DataBind();
+
+                //pnlFollowupPopup.Visible = dt.Rows.Count > 0;
+            }
+        }
         private string GetTimeAgo(DateTime activityDate)
         {
             TimeSpan span = DateTime.Now - activityDate;
@@ -624,7 +779,6 @@ namespace Target_Report
             public string TimeAgo { get; set; }
             public string IconSvg { get; set; }
         }
-
         protected string GetAchievementWidth(object value)
         {
             double percentage = 0;
@@ -635,6 +789,25 @@ namespace Target_Report
             }
 
             return Math.Min(100, percentage) + "%";
+        }
+        private DataRow GetNextPendingFollowup()
+        {
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_GetNextPendingFollowup", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                DataTable dt = new DataTable();
+
+                con.Open();
+
+                dt.Load(cmd.ExecuteReader());
+
+                if (dt.Rows.Count == 0)
+                    return null;
+
+                return dt.Rows[0];
+            }
         }
     }
 }

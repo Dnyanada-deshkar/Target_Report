@@ -27,10 +27,6 @@ namespace Target_Report
                 BindCurrentMonthSales();
             }
         }
-
-       
-
-
         private void LoadPartners()
         {
             using (SqlConnection con = new SqlConnection(ConnString))

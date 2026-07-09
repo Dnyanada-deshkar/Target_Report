@@ -190,70 +190,10 @@
              LOWER GRID — Top Partners | Recent Activity + Quick Actions
              ================================================= -->
         <div class="lower-grid">
-
-            <!-- Top Partners -->
-            <section class="panel">
-                <div class="panel-header">
-                    <div class="panel-header-title">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"></path><path d="M12 2v3"></path><path d="M12 19v3"></path><path d="M4.93 4.93l2.12 2.12"></path><path d="M16.95 16.95l2.12 2.12"></path></svg>
-                        <span>Top Partners</span>
-                    </div>
-                    <span class="panel-header-meta">Top 10 this month</span>
-                </div>
-                <div class="panel-body" style="padding: 0;">
-                    <asp:GridView ID="gvTopPartners" runat="server"
-                        CssClass="data-table"
-                        AutoGenerateColumns="false"
-                        GridLines="None"
-                        ShowHeaderWhenEmpty="false">
-                        <Columns>
-                            <asp:TemplateField HeaderText="Rank">
-                                <ItemTemplate>
-                                    <span class='<%# "cell-rank" + (Convert.ToInt32(Eval("Rank")) <= 3 ? " is-top3" : "") %>'><%# Eval("Rank") %></span>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Partner Name">
-                                <ItemTemplate>
-                                    <span class="cell-name"><%# Eval("PartnerName") %></span>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Branch">
-                                <ItemTemplate>
-                                    <span class='<%# "branch-tag" + (Eval("Branch").ToString() == "Nagpur" ? " is-nagpur" : "") %>'>
-                                        <span class="dot"></span><%# Eval("Branch") %>
-                                    </span>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Target">
-                                <ItemTemplate>
-                                    <span class="cell-secondary"><%# Eval("Target", "{0:N0}") %></span>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Achievement">
-                                <ItemTemplate>
-                                    <span class="cell-secondary"><%# Eval("Achievement", "{0:N0}") %></span>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                            <asp:TemplateField HeaderText="Achievement %">
-                                <ItemTemplate>
-                                    <div class="achievement-bar-wrap">
-                                        <div class="achievement-bar-track">
-                                            <div class='<%# "achievement-bar-fill" + GetAchievementBarClass(Convert.ToDouble(Eval("AchievementPercentage"))) %>'
-     style='<%# "width:" + GetAchievementWidth(Eval("AchievementPercentage")) + "%;" %>'>
-</div>
-                                        </div>
-                                        <span class="achievement-bar-text"><%# Eval("AchievementPercentage", "{0:N0}%") %></span>
-                                    </div>
-                                </ItemTemplate>
-                            </asp:TemplateField>
-                        </Columns>
-                    </asp:GridView>
-                </div>
-            </section>
-
+          
             <!-- Recent Activity + Quick Actions -->
             <div class="lower-grid-side">
-
+               
                 <section class="panel">
                     <div class="panel-header">
                         <div class="panel-header-title">
@@ -323,6 +263,132 @@
 
     </div>
 
+
+    <!-- ========================================================= -->
+<!-- FOLLOWUP POPUP -->
+<!-- ========================================================= -->
+
+ <asp:Panel ID="pnlReminderPopup"
+    runat="server"
+    CssClass="followup-overlay"
+    Visible="false">
+
+    <div class="followup-popup">
+
+        <div class="popup-header">
+
+            <div>
+
+                <div class="popup-title">
+                    🔔 Pending Follow-up
+                </div>
+
+                <div class="popup-subtitle">
+                    Please complete today's follow-up
+                </div>
+
+            </div>
+
+            <span class="badge-today">
+                TODAY
+            </span>
+
+        </div>
+
+
+        <div class="popup-body">
+
+            <div class="info-card">
+
+                <div class="info-item">
+
+                    <span class="label">Partner</span>
+
+                    <div class="value">
+                        <asp:Label ID="lblPopupPartner"
+                            runat="server" />
+                    </div>
+
+                </div>
+
+                <div class="info-item">
+
+                    <span class="label">Contact</span>
+
+                    <div class="value">
+                        <asp:Label ID="lblPopupContact"
+                            runat="server" />
+                    </div>
+
+                </div>
+
+                <div class="info-item">
+
+                    <span class="label">Follow-up Date</span>
+
+                    <div class="value">
+                        <asp:Label ID="lblPopupDate"
+                            runat="server" />
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="remark-card">
+
+                <div class="remark-title">
+                    Previous Remark
+                </div>
+
+                <asp:TextBox
+                    ID="txtOldRemark"
+                    runat="server"
+                    CssClass="remark-view"
+                    ReadOnly="true"
+                    TextMode="MultiLine" />
+
+            </div>
+
+
+            <div class="remark-card">
+
+                <div class="remark-title">
+                    Today's Remark
+                </div>
+
+                <asp:TextBox
+                    ID="txtNewRemark"
+                    runat="server"
+                    CssClass="remark-input"
+                    TextMode="MultiLine" />
+
+            </div>
+
+        </div>
+
+
+        <div class="popup-footer">
+
+    <asp:HiddenField
+        ID="hdnFollowupID"
+        runat="server" />
+
+    <asp:Button
+        ID="btnCompleteFollowup"
+        runat="server"
+        Text="✔ Complete Follow-up"
+        CssClass="btn-complete"
+        OnClick="btnCompleteFollowup_Click" />
+
+
+
+        </div>
+
+    </div>
+
+</asp:Panel>
     <!-- =====================================================
          CHART DATA HANDOFF — server-rendered JSON consumed by
          Chart.js below. Hidden fields keep the data layer and
