@@ -235,6 +235,34 @@
                                 </div>
                                 <span class="quick-action-label">Add Partner</span>
                             </asp:HyperLink>
+
+                            <asp:HyperLink ID="lnkQuickAddExecutive"
+    runat="server"
+    NavigateUrl="~/SalesExecutiveMaster.aspx"
+    CssClass="quick-action-card">
+
+    <div class="quick-action-icon">
+
+        <svg viewBox="0 0 24 24"
+             fill="none"
+             stroke="currentColor"
+             stroke-width="1.8"
+             stroke-linecap="round"
+             stroke-linejoin="round">
+
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+
+        </svg>
+
+    </div>
+
+    <span class="quick-action-label">
+        Add Sales Executive
+    </span>
+
+</asp:HyperLink>
+
                             <asp:HyperLink ID="lnkQuickAddTarget" runat="server" NavigateUrl="~/TargetMaster.aspx" CssClass="quick-action-card">
                                 <div class="quick-action-icon">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>

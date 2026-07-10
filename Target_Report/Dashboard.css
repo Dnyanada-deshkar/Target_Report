@@ -517,8 +517,8 @@
 
 .quick-actions-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
+    grid-template-columns: repeat(3,1fr);
+    gap: 16px;
 }
 
 .quick-action-card {
