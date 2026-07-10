@@ -184,7 +184,8 @@
                         runat="server"
                         CssClass="field-input"
                         MaxLength="200"
-                        placeholder="Enter Executive Name" />
+                        placeholder="Enter Executive Name"
+                        autocomplete="off"/>
 
                     <asp:RequiredFieldValidator
                         ID="rfvExecutiveName"
@@ -215,7 +216,8 @@
                         runat="server"
                         CssClass="field-input"
                         MaxLength="10"
-                        placeholder="Enter Contact Number" />
+                        placeholder="Enter Contact Number"
+                        autocomplete="off"/>
 
                     <asp:RequiredFieldValidator
                         ID="rfvContactNumber"
@@ -333,7 +335,8 @@
                                 CssClass="field-input"
                                 AutoPostBack="true"
                                 OnTextChanged="txtSearch_TextChanged"
-                                placeholder="Search Executive..." />
+                                placeholder="Search Executive..."
+                                autocomplete="off"/>
 
                         </div>
 
