@@ -385,9 +385,21 @@
                                 DataField="ContactNumber"
                                 HeaderText="Contact Number" />
 
-                            <asp:BoundField
-                                DataField="NativeBranch"
-                                HeaderText="Native Branch" />
+                            <asp:TemplateField HeaderText="Native Branch">
+    <ItemTemplate>
+
+        <span class='<%# Eval("NativeBranch").ToString() == "Nagpur"
+            ? "branch-badge branch-green"
+            : "branch-badge branch-blue" %>'>
+
+            <span class="branch-dot"></span>
+
+            <%# Eval("NativeBranch") %>
+
+        </span>
+
+    </ItemTemplate>
+</asp:TemplateField>
 
                             <asp:BoundField
                                 DataField="CreatedDate"
