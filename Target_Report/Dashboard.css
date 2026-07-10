@@ -317,11 +317,11 @@
     grid-template-columns: 1.6fr 1fr;
     gap: 20px;
 }
-
 .lower-grid-side {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: 95% 67.5%;
     gap: 20px;
+    align-items: start;
 }
 
 /* --- Top Partners table --- */
