@@ -22,6 +22,9 @@ namespace Target_Report
             {
                 pnlToast.Visible = false;
 
+                txtFollowDate.Attributes["min"] =
+                        DateTime.Today.ToString("yyyy-MM-dd");
+
                 LoadPartners();
                 BindTodaySales();
                 BindCurrentMonthSales();
@@ -209,11 +212,11 @@ namespace Target_Report
                 return;
             }
 
-            if (followDate.Date < DateTime.Today)
+            if (followDate.Date <= DateTime.Today)
             {
                 ShowToast(
                     "Warning",
-                    "Past follow-up date is not allowed.",
+                        "Past follow-up date is not allowed.",
                     "warning");
                 return;
             }
