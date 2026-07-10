@@ -362,17 +362,19 @@
 
                     <!-- Grid -->
 
-                    <asp:GridView
-                        ID="gvExecutive"
-                        runat="server"
-                        CssClass="grid"
-                        AutoGenerateColumns="False"
-                        AllowPaging="True"
-                        PageSize="10"
-                        DataKeyNames="ExecutiveID"
-                        OnPageIndexChanging="gvExecutive_PageIndexChanging"
-                        EmptyDataText="No Sales Executive Found">
-
+                   <asp:GridView
+    ID="gvExecutive"
+    runat="server"
+    CssClass="grid"
+    AutoGenerateColumns="False"
+    AllowPaging="True"
+    PageSize="10"
+    DataKeyNames="ExecutiveID"
+    OnPageIndexChanging="gvExecutive_PageIndexChanging"
+    OnRowCommand="gvExecutive_RowCommand"
+    OnRowDataBound="gvExecutive_RowDataBound"
+    OnPreRender="gvExecutive_PreRender"
+    EmptyDataText="No Sales Executive Found">
                         <Columns>
 
                             <asp:BoundField
@@ -393,37 +395,51 @@
                                 DataFormatString="{0:dd MMM yyyy}" />
 
                             <asp:TemplateField HeaderText="Action">
+    <ItemTemplate>
 
-                                <ItemTemplate>
+        <div class="cell-actions">
 
-                                    <asp:LinkButton
-                                        ID="btnEdit"
-                                        runat="server"
-                                        CssClass="table-action edit"
-                                        CommandArgument='<%# Eval("ExecutiveID") %>'
-                                        OnClick="btnEdit_Click">
+           <asp:LinkButton
+    ID="lnkEdit"
+    runat="server"
+    CssClass="icon-btn icon-btn-edit"
+    CommandName="EditExecutive"
+    CommandArgument='<%# Eval("ExecutiveID") %>'
+    CausesValidation="false"
+    ToolTip="Edit">
 
-                                        Edit
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                    <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path>
+                </svg>
 
-                                    </asp:LinkButton>
+            </asp:LinkButton>
 
-                                    &nbsp;
+           <asp:LinkButton
+    ID="lnkDelete"
+    runat="server"
+    CssClass="icon-btn icon-btn-delete"
+    CommandName="DeleteExecutive"
+    CommandArgument='<%# Eval("ExecutiveID") %>'
+    CausesValidation="false"
+    ToolTip="Delete">
 
-                                    <asp:LinkButton
-                                        ID="btnDelete"
-                                        runat="server"
-                                        CssClass="table-action delete"
-                                        CommandArgument='<%# Eval("ExecutiveID") %>'
-                                        OnClick="btnDelete_Click"
-                                        OnClientClick="return confirm('Delete this Sales Executive?');">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="3 6 5 6 21 6"></polyline>
+                    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                    <path d="M10 11v6"></path>
+                    <path d="M14 11v6"></path>
+                    <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
+                </svg>
 
-                                        Delete
+            </asp:LinkButton>
 
-                                    </asp:LinkButton>
+        </div>
 
-                                </ItemTemplate>
-
-                            </asp:TemplateField>
+    </ItemTemplate>
+</asp:TemplateField>
 
                         </Columns>
 

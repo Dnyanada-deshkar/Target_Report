@@ -14,6 +14,8 @@ namespace Target_Report
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            pnlToast.Visible = false;
             if (!IsPostBack)
             {
                 LoadBranches();
@@ -72,6 +74,7 @@ namespace Target_Report
 
         private void ClearForm()
         {
+            
             hdnExecutiveID.Value = "0";
 
             txtExecutiveName.Text = "";
@@ -217,6 +220,7 @@ namespace Target_Report
 
         private void LoadExecutive(int executiveId)
         {
+            
             using (SqlConnection con = new SqlConnection(ConnString))
             using (SqlCommand cmd = new SqlCommand("USP_SalesExecutive_GetByID", con))
             {
@@ -311,7 +315,7 @@ namespace Target_Report
                 return;
 
             LinkButton btnDelete =
-                e.Row.FindControl("btnDelete") as LinkButton;
+                e.Row.FindControl("lnkDelete") as LinkButton;
 
             if (btnDelete != null)
             {

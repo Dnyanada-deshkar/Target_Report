@@ -701,3 +701,41 @@ a {
 .mb-20 {
     margin-bottom: 20px;
 }
+
+.cell-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.icon-btn {
+    width: 34px;
+    height: 34px;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    background: #fff;
+    color: #94A3B8;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: all .2s ease;
+}
+
+    .icon-btn svg {
+        width: 16px;
+        height: 16px;
+    }
+
+.icon-btn-edit:hover {
+    color: #2563EB;
+    border-color: #2563EB;
+    background: #EFF6FF;
+}
+
+.icon-btn-delete:hover {
+    color: #DC2626;
+    border-color: #DC2626;
+    background: #FEF2F2;
+}
