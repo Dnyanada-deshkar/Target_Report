@@ -28,7 +28,6 @@ namespace Target_Report
                 BindBranchPerformanceChart();
                 BindAchievementTrendChart();
                 BindRecentActivity();
-                LoadReminderPopup();
                 LoadNextPendingFollowup();
             }
         }
@@ -439,77 +438,72 @@ namespace Target_Report
             //gvTopPartners.DataSource = table;
             //gvTopPartners.DataBind();
         }
-        private void LoadReminderPopup()
-        {
-            DataRow dr = GetNextPendingFollowup();
+        //private void LoadReminderPopup()
+        //{
+        //    DataRow dr = GetNextPendingFollowup();
 
-            if (dr == null)
+        //    if (dr == null)
+        //    {
+        //        pnlReminderPopup.Visible = false;
+        //        return;
+        //    }
+
+        //    pnlReminderPopup.Visible = true;
+
+        //    hdnFollowupID.Value = dr["FollowUpID"].ToString();
+
+        //    lblPopupPartner.Text = dr["PartnerName"].ToString();
+
+        //    lblPopupContact.Text = dr["ContactNo"].ToString();
+
+        //    lblPopupDate.Text =
+        //        Convert.ToDateTime(dr["FollowUpDate"])
+        //        .ToString("dd MMM yyyy");
+
+        //    txtOldRemark.Text = dr["Remark"].ToString();
+
+        //    txtNewRemark.Text = "";
+        //}
+        protected void btnCompleteFollowup_Click(object sender, EventArgs e)
+        {
+            // Validation
+            if (string.IsNullOrWhiteSpace(txtNewRemark.Text))
             {
-                pnlReminderPopup.Visible = false;
+                ScriptManager.RegisterStartupScript(
+                    this,
+                    GetType(),
+                    "msg",
+                    "alert('Please enter today\\'s remark.');",
+                    true);
+
                 return;
             }
 
-            pnlReminderPopup.Visible = true;
-
-            hdnFollowupID.Value = dr["FollowUpID"].ToString();
-
-            lblPopupPartner.Text = dr["PartnerName"].ToString();
-
-            lblPopupContact.Text = dr["ContactNo"].ToString();
-
-            lblPopupDate.Text =
-                Convert.ToDateTime(dr["FollowUpDate"])
-                .ToString("dd MMM yyyy");
-
-            txtOldRemark.Text = dr["Remark"].ToString();
-
-            txtNewRemark.Text = "";
-        }
-        protected void btnCompleteFollowup_Click(object sender, EventArgs e)
-        {
             using (SqlConnection con = new SqlConnection(ConnString))
             {
                 con.Open();
 
                 SqlCommand cmd = new SqlCommand(@"
-                            INSERT INTO PartnerFollowUp
-                            (
-                                PartnerID,
-                                ContactNo,
-                                Remark,
-                                FollowUpDate,
-                                Status,
-                                CreatedBy,
-                                CreatedDate
-                            )
-                            SELECT
-                                PartnerID,
-                                ContactNo,
-                                @Remark,
-                                DATEADD(DAY,1,GETDATE()),
-                                'Pending',
-                                CreatedBy,
-                                GETDATE()
-                            FROM PartnerFollowUp
-                            WHERE FollowUpID=@FollowUpID;
 
-                            UPDATE PartnerFollowUp
-                            SET
-                            Status='Completed',
-                            CompletedDate=GETDATE()
-                            WHERE FollowUpID=@FollowUpID;
-                            ", con);
+            UPDATE PartnerFollowUp
+            SET
+                Status = 'Completed',
+                CompletedDate = GETDATE(),
+                CompletionRemark = @CompletionRemark
+            WHERE FollowUpID = @FollowUpID;
 
-                cmd.Parameters.AddWithValue("@Remark", txtNewRemark.Text.Trim());
-                cmd.Parameters.AddWithValue("@FollowUpID", Convert.ToInt32(hdnFollowupID.Value));
+        ", con);
+
+                cmd.Parameters.AddWithValue("@CompletionRemark", txtNewRemark.Text.Trim());
+
+                cmd.Parameters.AddWithValue(
+                    "@FollowUpID",
+                    Convert.ToInt32(hdnFollowupID.Value));
 
                 cmd.ExecuteNonQuery();
             }
 
-            // Clear textbox
             txtNewRemark.Text = "";
-
-            // Reload next pending follow-up
             LoadNextPendingFollowup();
         }
         private void AddDummyPartnerRow(DataTable table, int rank, string partnerName, string branch, decimal target, decimal achievement)
@@ -551,16 +545,9 @@ namespace Target_Report
 
                 if (dr.Read())
                 {
-                    lblPopupPartner.Text = "TEST";
-                    lblPopupContact.Text = "9876543210";
-                    lblPopupDate.Text = DateTime.Now.ToString("dd MMM yyyy");
-                    txtOldRemark.Text = "Old Remark";
-                    txtNewRemark.Text = "";
-
                     hdnFollowupID.Value = dr["FollowUpID"].ToString();
 
                     lblPopupPartner.Text = dr["PartnerName"].ToString();
-
                     lblPopupContact.Text = dr["ContactNo"].ToString();
 
                     lblPopupDate.Text =
@@ -570,35 +557,18 @@ namespace Target_Report
                     txtOldRemark.Text = dr["Remark"].ToString();
 
                     txtNewRemark.Text = "";
+                    txtNewRemark.ReadOnly = false;
 
                     txtOldRemark.Visible = true;
                     txtNewRemark.Visible = true;
-                    btnCompleteFollowup.Visible = true;
 
-                    txtNewRemark.ReadOnly = false;
+                    btnCompleteFollowup.Visible = true;
 
                     pnlReminderPopup.Visible = true;
                 }
                 else
                 {
-                    pnlReminderPopup.Visible = true;
-
-                    lblPopupPartner.Text = "";
-                    lblPopupContact.Text = "";
-                    lblPopupDate.Text = "";
-
-                    txtOldRemark.Visible = false;
-                    txtNewRemark.Visible = false;
-
-                    btnCompleteFollowup.Visible = false;
-
-                    txtOldRemark.Text = "";
-
-                    txtNewRemark.Text =
-                @"🎉 All Follow-ups Completed Great Job!
-                    There are no pending follow-ups for today.";
-
-                    txtNewRemark.ReadOnly = true;
+                    pnlReminderPopup.Visible = false;
                 }
             }
         }
