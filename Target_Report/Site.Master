@@ -11,20 +11,15 @@
 </head>
 <body>
     <form id="frmShell" runat="server">
-
+            <asp:ScriptManager
+                ID="ScriptManager1"
+                runat="server" />
         <div class="app-shell">
 
             <!-- ================================================
                  SIDEBAR
                  ================================================ -->
             <aside class="app-sidebar">
-               <!-- <div class="sidebar-brand">
-                    <div class="sidebar-brand-mark">
-    <img src="Images/allylogo.png"
-         alt="Ally Solutions"
-         class="sidebar-logo" />
-</div> -->
-
                 <div class="sidebar-brand">
 
     <img src="Images/allylogo.png"
