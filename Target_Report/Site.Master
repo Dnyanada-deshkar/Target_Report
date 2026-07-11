@@ -51,6 +51,31 @@
 
                     <div class="sidebar-nav-section">
                         <p class="sidebar-nav-label">Masters</p>
+
+
+                                                <asp:HyperLink
+    ID="lnkBrandMaster"
+    runat="server"
+    NavigateUrl="~/BrandMaster.aspx"
+    CssClass="sidebar-nav-link">
+
+    <svg viewBox="0 0 24 24"
+         fill="none"
+         stroke="currentColor"
+         stroke-width="2"
+         stroke-linecap="round"
+         stroke-linejoin="round">
+
+        <path d="M20 7L12 3 4 7l8 4 8-4z"></path>
+        <path d="M4 7v10l8 4 8-4V7"></path>
+        <path d="M12 11v10"></path>
+
+    </svg>
+
+    <span>Brand Master</span>
+
+</asp:HyperLink>
+
                         <asp:HyperLink ID="lnkNavPartnerMaster" runat="server" NavigateUrl="~/PartnerMaster.aspx" CssClass="sidebar-nav-link">
                            <svg viewBox="0 0 24 24"
      fill="none"
@@ -69,6 +94,11 @@
                             <span>Partner Master</span>
 
                            </asp:HyperLink>
+
+
+
+                        
+
                        
                             <asp:HyperLink ID="lnkNavSalesExecutiveMaster"
     runat="server"

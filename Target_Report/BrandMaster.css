@@ -1,0 +1,759 @@
+﻿/* ===========================================================
+   BRAND MASTER
+   PART 1
+   Layout + Header + Panels + Form
+=========================================================== */
+
+:root {
+    --brand-primary: #1E3A8A;
+    --brand-primary-light: #EEF4FF;
+    --brand-success: #16A34A;
+    --brand-success-light: #ECFDF3;
+    --brand-danger: #DC2626;
+    --brand-border: #E5E7EB;
+    --brand-text: #111827;
+    --brand-muted: #6B7280;
+    --brand-bg: #F4F7FB;
+    --panel-shadow: 0 10px 30px rgba(15,23,42,.08);
+}
+
+.module-page {
+    padding: 34px;
+    background: var(--brand-bg);
+    min-height: calc(100vh - 70px);
+}
+
+.module-container {
+    max-width: 1500px;
+    margin: auto;
+}
+
+/* ===========================================================
+   HEADER
+=========================================================== */
+
+.module-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 28px;
+}
+
+.module-heading-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.module-title {
+    margin: 0;
+    font-size: 34px;
+    font-weight: 800;
+    color: var(--brand-text);
+    letter-spacing: -.4px;
+}
+
+.module-subtitle {
+    margin: 0;
+    font-size: 15px;
+    color: var(--brand-muted);
+}
+
+.module-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: #94A3B8;
+    font-weight: 600;
+}
+
+    .module-breadcrumb svg {
+        width: 15px;
+        height: 15px;
+    }
+
+.crumb-current {
+    color: var(--brand-primary);
+}
+
+/* ===========================================================
+   PANEL
+=========================================================== */
+
+.panel {
+    background: #fff;
+    border: 1px solid var(--brand-border);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 28px;
+    box-shadow: var(--panel-shadow);
+}
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--brand-border);
+}
+
+.panel-header-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--brand-text);
+}
+
+    .panel-header-title svg {
+        width: 22px;
+        height: 22px;
+        color: var(--brand-primary);
+    }
+
+.panel-body {
+    padding: 30px;
+}
+
+/* ===========================================================
+   FORM MODE
+=========================================================== */
+
+.form-mode-tag {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #EEF2FF;
+    color: var(--brand-primary);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+    .form-mode-tag .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: var(--brand-primary);
+    }
+
+/* ===========================================================
+   FORM GRID
+=========================================================== */
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    column-gap: 26px;
+    row-gap: 26px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.field-label {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--brand-text);
+    margin-bottom: 10px;
+}
+
+.required-mark {
+    color: #DC2626;
+}
+
+/* ===========================================================
+   INPUTS
+=========================================================== */
+
+.field-input,
+.field-select {
+    width: 100%;
+    height: 54px;
+    border: 1px solid #D8DEE8;
+    border-radius: 12px;
+    background: #fff;
+    padding: 0 18px;
+    font-size: 15px;
+    color: var(--brand-text);
+    transition: .25s;
+    outline: none;
+}
+
+    .field-input::placeholder {
+        color: #9CA3AF;
+    }
+
+    .field-input:focus,
+    .field-select:focus {
+        border-color: var(--brand-primary);
+        box-shadow: 0 0 0 4px rgba(30,58,138,.08);
+    }
+
+/* ===========================================================
+   VALIDATION
+=========================================================== */
+
+.field-error {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #DC2626;
+    font-weight: 600;
+}
+
+/* ===========================================================
+   BUTTONS
+=========================================================== */
+
+.form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 14px;
+    padding-top: 10px;
+    border-top: 1px solid var(--brand-border);
+}
+
+.form-actions-spacer {
+    flex: 1;
+}
+
+.btn {
+    min-width: 145px;
+    height: 48px;
+    border-radius: 12px;
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: .25s;
+}
+
+.btn-primary {
+    background: var(--brand-primary);
+    color: #fff;
+}
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 12px 24px rgba(30,58,138,.25);
+    }
+
+.btn-muted {
+    background: #fff;
+    color: var(--brand-text);
+    border: 1px solid var(--brand-border);
+}
+
+    .btn-muted:hover {
+        background: #F8FAFC;
+    }
+/* =========================================================
+   BRAND LIST SECTION
+========================================================= */
+
+.brand-list-card {
+    background: #fff;
+    border-radius: 18px;
+    border: 1px solid #e8edf5;
+    box-shadow: 0 10px 28px rgba(15,23,42,.08);
+    overflow: hidden;
+    margin-top: 30px;
+}
+
+.brand-list-header {
+    padding: 22px 28px;
+    border-bottom: 1px solid #edf2f7;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.brand-list-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+    .brand-list-title svg {
+        width: 22px;
+        height: 22px;
+        color: var(--color-primary);
+    }
+
+    .brand-list-title h3 {
+        font-size: 22px;
+        font-weight: 700;
+        color: #16213e;
+        margin: 0;
+    }
+
+.brand-table-wrapper {
+    padding: 22px 28px 28px;
+}
+
+    /* =========================================================
+   DATATABLE TOP
+========================================================= */
+
+    .brand-table-wrapper .dataTables_filter {
+        float: left !important;
+        text-align: left !important;
+        margin-bottom: 18px;
+    }
+
+        .brand-table-wrapper .dataTables_filter input {
+            width: 350px !important;
+            height: 48px;
+            border-radius: 12px;
+            border: 1px solid #dbe4f0;
+            padding: 0 16px;
+            font-size: 15px;
+            background: #fff;
+            transition: .25s;
+        }
+
+            .brand-table-wrapper .dataTables_filter input:focus {
+                outline: none;
+                border-color: var(--color-primary);
+                box-shadow: 0 0 0 4px rgba(30,58,138,.08);
+            }
+
+    .brand-table-wrapper .dataTables_length {
+        float: right !important;
+        margin-bottom: 18px;
+    }
+
+        .brand-table-wrapper .dataTables_length select {
+            height: 42px;
+            border-radius: 10px;
+            border: 1px solid #dbe4f0;
+            padding: 0 10px;
+        }
+
+    .brand-table-wrapper .dataTables_info {
+        padding-top: 18px;
+        color: #64748b;
+    }
+
+    .brand-table-wrapper .dataTables_paginate {
+        padding-top: 15px;
+    }
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.brand-table {
+    width: 100% !important;
+    border-collapse: separate !important;
+    border-spacing: 0;
+}
+
+    .brand-table thead th {
+        background: #f8fafc;
+        color: #16213e;
+        font-size: 17px;
+        font-weight: 700;
+        padding: 18px;
+        border-top: 1px solid #e6edf5;
+        border-bottom: 1px solid #e6edf5;
+        white-space: nowrap;
+    }
+
+        .brand-table thead th:first-child {
+            border-top-left-radius: 12px;
+        }
+
+        .brand-table thead th:last-child {
+            border-top-right-radius: 12px;
+        }
+
+    .brand-table tbody td {
+        padding: 20px 18px;
+        font-size: 15px;
+        color: #334155;
+        border-bottom: 1px solid #eef3f8;
+        vertical-align: middle;
+    }
+
+    .brand-table tbody tr:hover {
+        background: #fbfcff;
+    }
+
+/* =========================================================
+   BRAND LIST CARD
+========================================================= */
+
+.brand-list-card {
+    background: #fff;
+    border: 1px solid #e7edf5;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(16,24,40,.08);
+    margin-top: 26px;
+}
+
+.brand-list-header {
+    padding: 20px 26px;
+    border-bottom: 1px solid #eef2f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-list-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #13254d;
+}
+
+.brand-table-wrapper {
+    padding: 24px 26px 26px;
+}
+
+/* =========================================================
+   SEARCH + ENTRIES
+========================================================= */
+
+.brand-table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.brand-search {
+    width: 350px;
+    max-width: 100%;
+    height: 46px;
+    border-radius: 12px;
+    border: 1px solid #d8e1ee;
+    padding: 0 16px;
+    font-size: 15px;
+    transition: .25s;
+}
+
+    .brand-search:focus {
+        outline: none;
+        border-color: #27459b;
+        box-shadow: 0 0 0 4px rgba(39,69,155,.12);
+    }
+
+.brand-entries {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #5b6475;
+    font-size: 15px;
+}
+
+    .brand-entries select {
+        width: 86px;
+        height: 42px;
+        border: 1px solid #d8e1ee;
+        border-radius: 10px;
+        padding: 0 10px;
+        background: #fff;
+        font-weight: 600;
+    }
+
+/* =========================================================
+   GRIDVIEW TABLE
+========================================================= */
+
+.brand-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+    .brand-table thead th {
+        background: #f6f8fc;
+        color: #13254d;
+        font-size: 15px;
+        font-weight: 700;
+        padding: 18px 18px;
+        text-align: left;
+        border-bottom: 1px solid #e7edf5;
+        border-right: 1px solid #edf2f7;
+    }
+
+        .brand-table thead th:last-child {
+            border-right: none;
+        }
+
+    .brand-table tbody td {
+        padding: 18px;
+        font-size: 15px;
+        color: #475467;
+        border-bottom: 1px solid #edf2f7;
+        border-right: 1px solid #edf2f7;
+        vertical-align: middle;
+    }
+
+        .brand-table tbody td:last-child {
+            border-right: none;
+        }
+
+    .brand-table tbody tr:hover {
+        background: #fafcff;
+    }
+
+.brand-name {
+    font-weight: 700;
+    color: #13254d;
+}
+
+.brand-date {
+    font-weight: 600;
+    color: #475467;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.brand-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid #dfe6f2;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .25s;
+    cursor: pointer;
+}
+
+    .brand-icon-btn svg {
+        width: 18px;
+        height: 18px;
+        stroke: #8ea0bf;
+    }
+
+    .brand-icon-btn:hover {
+        transform: translateY(-2px);
+        border-color: #27459b;
+        box-shadow: 0 6px 18px rgba(39,69,155,.15);
+    }
+
+    .brand-icon-btn.edit:hover svg {
+        stroke: #27459b;
+    }
+
+    .brand-icon-btn.delete:hover svg {
+        stroke: #dc3545;
+    }
+
+/* =========================================================
+   EMPTY ROW
+========================================================= */
+
+.brand-empty {
+    text-align: center;
+    padding: 35px;
+    color: #7d8797;
+    font-size: 15px;
+}
+
+/* =========================================================
+   BRAND LIST CARD
+========================================================= */
+
+.brand-list-card {
+    background: #fff;
+    border: 1px solid #e7edf5;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(16,24,40,.08);
+    margin-top: 26px;
+}
+
+.brand-list-header {
+    padding: 20px 26px;
+    border-bottom: 1px solid #eef2f7;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.brand-list-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #13254d;
+}
+
+.brand-table-wrapper {
+    padding: 24px 26px 26px;
+}
+
+/* =========================================================
+   SEARCH + ENTRIES
+========================================================= */
+
+.brand-table-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+    flex-wrap: wrap;
+    gap: 16px;
+}
+
+.brand-search {
+    width: 350px;
+    max-width: 100%;
+    height: 46px;
+    border-radius: 12px;
+    border: 1px solid #d8e1ee;
+    padding: 0 16px;
+    font-size: 15px;
+    transition: .25s;
+}
+
+    .brand-search:focus {
+        outline: none;
+        border-color: #27459b;
+        box-shadow: 0 0 0 4px rgba(39,69,155,.12);
+    }
+
+.brand-entries {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #5b6475;
+    font-size: 15px;
+}
+
+    .brand-entries select {
+        width: 86px;
+        height: 42px;
+        border: 1px solid #d8e1ee;
+        border-radius: 10px;
+        padding: 0 10px;
+        background: #fff;
+        font-weight: 600;
+    }
+
+/* =========================================================
+   GRIDVIEW TABLE
+========================================================= */
+
+.brand-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+    .brand-table thead th {
+        background: #f6f8fc;
+        color: #13254d;
+        font-size: 15px;
+        font-weight: 700;
+        padding: 18px 18px;
+        text-align: left;
+        border-bottom: 1px solid #e7edf5;
+        border-right: 1px solid #edf2f7;
+    }
+
+        .brand-table thead th:last-child {
+            border-right: none;
+        }
+
+    .brand-table tbody td {
+        padding: 18px;
+        font-size: 15px;
+        color: #475467;
+        border-bottom: 1px solid #edf2f7;
+        border-right: 1px solid #edf2f7;
+        vertical-align: middle;
+    }
+
+        .brand-table tbody td:last-child {
+            border-right: none;
+        }
+
+    .brand-table tbody tr:hover {
+        background: #fafcff;
+    }
+
+.brand-name {
+    font-weight: 700;
+    color: #13254d;
+}
+
+.brand-date {
+    font-weight: 600;
+    color: #475467;
+}
+
+/* =========================================================
+   ACTION BUTTONS
+========================================================= */
+
+.brand-action {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.brand-icon-btn {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    border: 1px solid #dfe6f2;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .25s;
+    cursor: pointer;
+}
+
+    .brand-icon-btn svg {
+        width: 18px;
+        height: 18px;
+        stroke: #8ea0bf;
+    }
+
+    .brand-icon-btn:hover {
+        transform: translateY(-2px);
+        border-color: #27459b;
+        box-shadow: 0 6px 18px rgba(39,69,155,.15);
+    }
+
+    .brand-icon-btn.edit:hover svg {
+        stroke: #27459b;
+    }
+
+    .brand-icon-btn.delete:hover svg {
+        stroke: #dc3545;
+    }
+
+/* =========================================================
+   EMPTY ROW
+========================================================= */
+
+.brand-empty {
+    text-align: center;
+    padding: 35px;
+    color: #7d8797;
+    font-size: 15px;
+}

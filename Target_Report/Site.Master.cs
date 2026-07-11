@@ -54,6 +54,10 @@ namespace Target_Report
             {
                 lnkNavReports.CssClass = "sidebar-nav-link is-active";
             }
+            else if (string.Equals(currentPage, "BrandMaster.aspx", StringComparison.OrdinalIgnoreCase))
+            {
+                lnkBrandMaster.CssClass = "sidebar-nav-link is-active";
+            }
         }
 
         /// <summary>

@@ -11,142 +11,124 @@ namespace Target_Report
 {
 
 
-    public partial class SiteMaster
+    public partial class BrandMaster
     {
 
         /// <summary>
-        /// cphTitle control.
+        /// pnlToast control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphTitle;
+        protected global::System.Web.UI.WebControls.Panel pnlToast;
 
         /// <summary>
-        /// cphHead control.
+        /// litToastTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphHead;
+        protected global::System.Web.UI.WebControls.Literal litToastTitle;
 
         /// <summary>
-        /// frmShell control.
+        /// litToastText control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm frmShell;
+        protected global::System.Web.UI.WebControls.Literal litToastText;
 
         /// <summary>
-        /// lnkNavDashboard control.
+        /// pnlFormMode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkNavDashboard;
+        protected global::System.Web.UI.WebControls.Panel pnlFormMode;
 
         /// <summary>
-        /// lnkBrandMaster control.
+        /// litFormMode control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkBrandMaster;
+        protected global::System.Web.UI.WebControls.Literal litFormMode;
 
         /// <summary>
-        /// lnkNavPartnerMaster control.
+        /// hdnBrandID control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkNavPartnerMaster;
+        protected global::System.Web.UI.WebControls.HiddenField hdnBrandID;
 
         /// <summary>
-        /// lnkNavSalesExecutiveMaster control.
+        /// txtBrandName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkNavSalesExecutiveMaster;
+        protected global::System.Web.UI.WebControls.TextBox txtBrandName;
 
         /// <summary>
-        /// lnkNavTargetMaster control.
+        /// rfvBrandName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkNavTargetMaster;
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvBrandName;
 
         /// <summary>
-        /// lnkNavSalesEntry control.
+        /// btnClear control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkNavSalesEntry;
+        protected global::System.Web.UI.WebControls.Button btnClear;
 
         /// <summary>
-        /// lnkNavReports control.
+        /// btnSave control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkNavReports;
+        protected global::System.Web.UI.WebControls.Button btnSave;
 
         /// <summary>
-        /// LinkButton1 control.
+        /// txtSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
+        protected global::System.Web.UI.WebControls.TextBox txtSearch;
 
         /// <summary>
-        /// litUserInitials control.
+        /// ddlPageSize control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litUserInitials;
+        protected global::System.Web.UI.WebControls.DropDownList ddlPageSize;
 
         /// <summary>
-        /// litUserName control.
+        /// gvBrand control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litUserName;
-
-        /// <summary>
-        /// litUserRole control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal litUserRole;
-
-        /// <summary>
-        /// cphBody control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphBody;
+        protected global::System.Web.UI.WebControls.GridView gvBrand;
     }
 }
