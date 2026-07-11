@@ -45,14 +45,6 @@ html, body {
     -webkit-font-smoothing: antialiased;
 }
 
-/* =========================================================
-   ENTERPRISE BACKGROUND
-   Flat, light surface with a faint structural grid and a
-   barely-visible vignette toward the edges. No color, no
-   gradient — just quiet geometry, like a dashboard canvas
-   waiting for content.
-   ========================================================= */
-
 .page-bg {
     position: relative;
     min-height: 100vh;
@@ -61,7 +53,7 @@ html, body {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 24px;
+    padding: 28px 24px;
     overflow: hidden;
 }
 
@@ -84,9 +76,6 @@ html, body {
     pointer-events: none;
 }
 
-/* Two faint hairline rules and corner tags — the kind of
-   restrained structural device an enterprise console uses
-   to give a blank canvas quiet authority. */
 .bg-frame-line-top,
 .bg-frame-line-bottom {
     position: absolute;
@@ -125,21 +114,16 @@ html, body {
     }
 }
 
-/* =========================================================
-   CENTERED LOGIN COLUMN
-   ========================================================= */
-
 .login-column {
     position: relative;
+    top: -17px;
     z-index: 1;
     width: 100%;
-    max-width: 420px;
+    max-width: 460px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
-
-/* --- Identity block: logo mark, company, system name --- */
 
 .identity-block {
     display: flex;
@@ -149,33 +133,6 @@ html, body {
     margin-bottom: 36px;
 }
 
-/*.identity-mark {
-    width: 52px;
-    height: 52px;
-    border-radius: 12px;
-    background-color: var(--color-sidebar);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 17px;
-    letter-spacing: 0.5px;
-    color: #FFFFFF;
-    margin-bottom: 18px;
-    box-shadow: 0 6px 16px -4px rgba(15, 23, 42, 0.35);
-}*/
-
-/*.identity-mark {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 18px;
-    background: transparent;
-    box-shadow: none;
-    width: auto;
-    height: auto;
-}*/
-
 .identity-mark {
     width: 100%;
     display: flex;
@@ -183,12 +140,6 @@ html, body {
     align-items: center;
     margin: 0 auto 18px;
 }
-/*
-.identity-logo{
-    width:190px;
-    height:auto;
-    object-fit:contain;
-}*/
 
 .identity-logo {
    display: block;
@@ -222,8 +173,6 @@ html, body {
     margin: 0;
     max-width: 320px;
 }
-
-/* --- Login card --- */
 
 .login-card {
     width: 100%;
@@ -424,8 +373,6 @@ html, body {
     flex-shrink: 0;
 }
 
-/* --- Footer beneath the card --- */
-
 .login-footer {
     margin-top: 28px;
     display: flex;
@@ -448,10 +395,6 @@ html, body {
     letter-spacing: 0.2px;
 }
 
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
-
 @media (max-width: 480px) {
     .login-card {
         padding: 28px 22px 24px;
@@ -472,7 +415,6 @@ html, body {
     }
 }
 
-/* Accessibility: visible keyboard focus */
 .field-input:focus-visible,
 .btn-signin:focus-visible,
 .toggle-password:focus-visible,
