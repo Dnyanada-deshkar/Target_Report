@@ -1,11 +1,5 @@
 ﻿
 
-/* ==========================================================================
-   DailySalesEntry.css
-   Extends the shared module/panel/kpi classes already defined in the
-   project's Site.Master stylesheet. Only page-specific overrides live here.
-   ========================================================================== */
-
 /* ── Progress bar ──────────────────────────────────────────────────────── */
 .dse-progress-track {
     height: 8px;

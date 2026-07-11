@@ -306,6 +306,7 @@
     Text="Save Follow-up"
     CssClass="btn btn-primary"
     ValidationGroup="FollowUpGroup"
+    UseSubmitBehavior="false"
     OnClick="btnSaveFollowup_Click" />
 
     </div>
@@ -390,19 +391,6 @@
                     HeaderText="Created"
                     ReadOnly="true"
                     DataFormatString="{0:dd-MMM-yyyy hh:mm tt}" />
-
-               
-               <%-- <asp:CommandField
-    HeaderText="Actions"
-    ShowEditButton="true"
-    ShowDeleteButton="true"
-    ButtonType="Button"
-    EditText="Edit"
-    UpdateText="Update"
-    CancelText="Cancel"
-    DeleteText="Delete"
-    CausesValidation="false"
-    ControlStyle-CssClass="btn btn-primary" /> --%>
 
                 <asp:TemplateField HeaderText="Edit">
     <ItemTemplate>

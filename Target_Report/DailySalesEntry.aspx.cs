@@ -23,11 +23,23 @@ namespace Target_Report
                 pnlToast.Visible = false;
 
                 txtFollowDate.Attributes["min"] =
-                        DateTime.Today.ToString("yyyy-MM-dd");
+                    DateTime.Today.ToString("yyyy-MM-dd");
 
                 LoadPartners();
                 BindTodaySales();
                 BindCurrentMonthSales();
+
+                if (Session["ToastTitle"] != null)
+                {
+                    ShowToast(
+                        Session["ToastTitle"].ToString(),
+                        Session["ToastText"].ToString(),
+                        Session["ToastType"].ToString());
+
+                    Session.Remove("ToastTitle");
+                    Session.Remove("ToastText");
+                    Session.Remove("ToastType");
+                }
             }
         }
         private void LoadPartners()
@@ -185,12 +197,13 @@ namespace Target_Report
             ddlPartner.Focus();
 
             ShowToast(
-     "Success",
-     "Follow-up saved successfully.",
-     "success");
+                "Success",
+                "Daily sales saved successfully.",
+                "success");
         }
         protected void btnSaveFollowup_Click(object sender, EventArgs e)
-        {
+        {  
+
             if (ddlPartner.SelectedValue == "0")
             {
                 ShowToast(
@@ -212,7 +225,7 @@ namespace Target_Report
                 return;
             }
 
-            if (followDate.Date <= DateTime.Today)
+            if (followDate.Date < DateTime.Today)
             {
                 ShowToast(
                     "Warning",
@@ -240,12 +253,11 @@ namespace Target_Report
             txtPartnerNameFollow.Text = "";
             txtContactNumber.Text = "";
 
-            ddlPartner.Focus();
+            Session["ToastTitle"] = "Success";
+            Session["ToastText"] = "Follow-up saved successfully.";
+            Session["ToastType"] = "success";
 
-            ShowToast(
-                    "Success",
-                    "Follow-up saved successfully.",
-                    "success");
+            Response.Redirect("~/DailySalesEntry.aspx", false);
         }
 
 
@@ -435,6 +447,19 @@ namespace Target_Report
                     pnlToast.CssClass = "toast-stack toast-success";
                     break;
             }
+
+            ScriptManager.RegisterStartupScript(
+                    this,
+                    GetType(),
+                    "HideToast",
+                    @"
+                    setTimeout(function () {
+                        var t=document.getElementById('" + pnlToast.ClientID + @"');
+                        if(t) t.style.display='none';
+                    },3000);
+                    ",
+                    true);
+
         }
 
 
