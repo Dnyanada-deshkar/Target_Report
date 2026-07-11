@@ -297,106 +297,103 @@
            
 
             <asp:GridView
-                ID="gvBrand"
-                runat="server"
-                CssClass="grid"
-                AutoGenerateColumns="False"
-                AllowPaging="True"
-                PageSize="10"
-                DataKeyNames="BrandID"
-                OnPageIndexChanging="gvBrand_PageIndexChanging"
-                OnRowCommand="gvBrand_RowCommand"
-                OnRowDataBound="gvBrand_RowDataBound"
-                OnPreRender="gvBrand_PreRender"
-                EmptyDataText="No Brand Found">
+    ID="gvBrand"
+    runat="server"
+    CssClass="grid"
+    AutoGenerateColumns="False"
+    AllowPaging="True"
+    PageSize="10"
+    DataKeyNames="BrandID"
+    OnPageIndexChanging="gvBrand_PageIndexChanging"
+    OnRowCommand="gvBrand_RowCommand"
+    OnRowDataBound="gvBrand_RowDataBound"
+    OnPreRender="gvBrand_PreRender"
+    EmptyDataText="No Brand Found">
 
-                <Columns>
+    <Columns>
 
-                   
+        <asp:BoundField
+            DataField="BrandName"
+            HeaderText="Brand Name" />
 
-                    <asp:TemplateField HeaderText="Brand Name">
+        <asp:BoundField
+            DataField="CreatedDate"
+            HeaderText="Created On"
+            DataFormatString="{0:dd MMM yyyy}" />
 
-                        <ItemTemplate>
+        <asp:TemplateField HeaderText="Action">
 
-                            <span class="cell-name">
-                                <%# Eval("BrandName") %>
-                            </span>
+            <ItemTemplate>
 
-                        </ItemTemplate>
+                <div class="cell-actions">
 
-                    </asp:TemplateField>
- 
-                    <asp:BoundField
-                        DataField="CreatedDate"
-                        HeaderText="Created On"
-                        DataFormatString="{0:dd MMM yyyy}" />
+                    <!-- EDIT -->
 
-                   
+                    <asp:LinkButton
+                        ID="lnkEdit"
+                        runat="server"
+                        CssClass="icon-btn icon-btn-edit"
+                        CommandName="EditBrand"
+                        CommandArgument='<%# Eval("BrandID") %>'
+                        CausesValidation="false"
+                        ToolTip="Edit">
 
-                    <asp:TemplateField HeaderText="Action">
+                        <svg viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="1.8"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
 
-                        <ItemTemplate>
+                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
 
-                            <div class="cell-actions">
+                            <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path>
 
-                                <asp:LinkButton
-                                    ID="lnkEdit"
-                                    runat="server"
-                                    CssClass="icon-btn icon-btn-edit"
-                                    CommandName="EditBrand"
-                                    CommandArgument='<%# Eval("BrandID") %>'
-                                    CausesValidation="false"
-                                    ToolTip="Edit">
+                        </svg>
 
-                                    <svg viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round">
+                    </asp:LinkButton>
 
-                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
-                                        <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path>
+                    <!-- DELETE -->
 
-                                    </svg>
+                    <asp:LinkButton
+                        ID="lnkDelete"
+                        runat="server"
+                        CssClass="icon-btn icon-btn-delete"
+                        CommandName="DeleteBrand"
+                        CommandArgument='<%# Eval("BrandID") %>'
+                        CausesValidation="false"
+                        ToolTip="Delete">
 
-                                </asp:LinkButton>
+                        <svg viewBox="0 0 24 24"
+                             fill="none"
+                             stroke="currentColor"
+                             stroke-width="1.8"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
 
-                                <asp:LinkButton
-                                    ID="lnkDelete"
-                                    runat="server"
-                                    CssClass="icon-btn icon-btn-delete"
-                                    CommandName="DeleteBrand"
-                                    CommandArgument='<%# Eval("BrandID") %>'
-                                    CausesValidation="false"
-                                    ToolTip="Delete">
+                            <polyline points="3 6 5 6 21 6"></polyline>
 
-                                    <svg viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        stroke-width="1.8"
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round">
+                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
 
-                                        <polyline points="3 6 5 6 21 6"></polyline>
-                                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
-                                        <path d="M10 11v6"></path>
-                                        <path d="M14 11v6"></path>
-                                        <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
+                            <path d="M10 11v6"></path>
 
-                                    </svg>
+                            <path d="M14 11v6"></path>
 
-                                </asp:LinkButton>
+                            <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
 
-                            </div>
+                        </svg>
 
-                        </ItemTemplate>
+                    </asp:LinkButton>
 
-                    </asp:TemplateField>
+                </div>
 
-                </Columns>
+            </ItemTemplate>
 
-            </asp:GridView>
+        </asp:TemplateField>
+
+    </Columns>
+
+</asp:GridView>
 
         </div>
 

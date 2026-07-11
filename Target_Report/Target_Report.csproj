@@ -103,6 +103,7 @@
   <ItemGroup>
     <Content Include="About.aspx" />
     <Content Include="BrandMaster.aspx" />
+    <Content Include="BrandMaster.css" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />

@@ -14,6 +14,7 @@ namespace Target_Report
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            pnlToast.Visible = false;
             if (!IsPostBack)
             {
                 ddlPageSize.SelectedValue = "10";
@@ -256,9 +257,10 @@ namespace Target_Report
                 "Success",
                 "Brand deleted successfully.");
 
-            ClearForm();
+            //ClearForm();
 
-            LoadGrid();
+            //LoadGrid();
+            return;
         }
 
         protected void gvBrand_RowDataBound(
