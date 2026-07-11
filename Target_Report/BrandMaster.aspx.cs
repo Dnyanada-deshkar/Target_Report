@@ -15,15 +15,24 @@ namespace Target_Report
         protected void Page_Load(object sender, EventArgs e)
         {
             pnlToast.Visible = false;
+
             if (!IsPostBack)
             {
                 ddlPageSize.SelectedValue = "10";
 
                 LoadGrid();
 
-                litFormMode.Text = "New Brand";
+                ClearForm();
 
-                hdnBrandID.Value = "0";
+                if (Session["ToastMessage"] != null)
+                {
+                    ShowToast(
+                        Session["ToastTitle"].ToString(),
+                        Session["ToastMessage"].ToString());
+
+                    Session.Remove("ToastTitle");
+                    Session.Remove("ToastMessage");
+                }
             }
         }
 
@@ -127,6 +136,7 @@ namespace Target_Report
                 ShowToast(
                     "Success",
                     "Brand added successfully.");
+                
             }
             else
             {
@@ -138,6 +148,12 @@ namespace Target_Report
             ClearForm();
 
             LoadGrid();
+
+            Session["ToastTitle"] = "Success";
+            Session["ToastMessage"] = "Brand added successfully.";
+
+            Response.Redirect("BrandMaster.aspx", false);
+            Context.ApplicationInstance.CompleteRequest();
         }
 
         protected void btnClear_Click(object sender, EventArgs e)

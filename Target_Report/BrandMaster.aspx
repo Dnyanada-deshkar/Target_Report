@@ -243,161 +243,165 @@
          BRAND LIST
     ============================================ -->
 
-    <section class="panel">
+   <section class="panel">
 
-        <div class="panel-header">
+    <div class="panel-header">
 
-            <div class="panel-header-title">
-                <span>Brand List</span>
+        <div class="panel-header-title">
+            <span>Brand List</span>
+        </div>
+
+    </div>
+
+    <div class="panel-body">
+
+        <div class="table-toolbar">
+
+            <div class="table-search">
+
+                <asp:TextBox
+                    ID="txtSearch"
+                    runat="server"
+                    CssClass="field-input search-input"
+                    AutoPostBack="true"
+                    OnTextChanged="txtSearch_TextChanged"
+                    autocomplete="off"
+                    placeholder="Search Brand..." />
+
+            </div>
+
+            <div class="table-toolbar-right">
+
+                <span class="rows-label">
+                    Rows per page
+                </span>
+
+                <asp:DropDownList
+                    ID="ddlPageSize"
+                    runat="server"
+                    CssClass="field-select"
+                    AutoPostBack="true"
+                    OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged">
+
+                    <asp:ListItem Selected="True">10</asp:ListItem>
+                    <asp:ListItem>25</asp:ListItem>
+                    <asp:ListItem>50</asp:ListItem>
+
+                </asp:DropDownList>
+
             </div>
 
         </div>
 
-        <div class="panel-body">
-
-           
-
-            <div class="table-toolbar">
-
-                <div class="table-search">
-
-                    <asp:TextBox
-                        ID="txtSearch"
-                        runat="server"
-                        CssClass="field-input"
-                        AutoPostBack="true"
-                        OnTextChanged="txtSearch_TextChanged"
-                        placeholder="Search Brand..." />
-
-                </div>
-
-                <div class="table-right">
-
-                    Show
-
-                    <asp:DropDownList
-                        ID="ddlPageSize"
-                        runat="server"
-                        CssClass="field-select"
-                        AutoPostBack="true"
-                        OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged">
-
-                        <asp:ListItem Selected="True">10</asp:ListItem>
-                        <asp:ListItem>25</asp:ListItem>
-                        <asp:ListItem>50</asp:ListItem>
-
-                    </asp:DropDownList>
-
-                    entries
-
-                </div>
-
-            </div>
-
-           
+        <div class="table-wrapper">
 
             <asp:GridView
-    ID="gvBrand"
-    runat="server"
-    CssClass="grid"
-    AutoGenerateColumns="False"
-    AllowPaging="True"
-    PageSize="10"
-    DataKeyNames="BrandID"
-    OnPageIndexChanging="gvBrand_PageIndexChanging"
-    OnRowCommand="gvBrand_RowCommand"
-    OnRowDataBound="gvBrand_RowDataBound"
-    OnPreRender="gvBrand_PreRender"
-    EmptyDataText="No Brand Found">
+                ID="gvBrand"
+                runat="server"
+                CssClass="grid"
+                AutoGenerateColumns="False"
+                AllowPaging="True"
+                PageSize="10"
+                Width="100%"
+                GridLines="None"
+                BorderStyle="None"
+                CellPadding="0"
+                CellSpacing="0"
+                DataKeyNames="BrandID"
+                EmptyDataText="No Brand Found"
+                OnPageIndexChanging="gvBrand_PageIndexChanging"
+                OnRowCommand="gvBrand_RowCommand"
+                OnRowDataBound="gvBrand_RowDataBound"
+                OnPreRender="gvBrand_PreRender">
 
-    <Columns>
+                <Columns>
 
-        <asp:BoundField
-            DataField="BrandName"
-            HeaderText="Brand Name" />
+                    <asp:BoundField
+                        DataField="BrandName"
+                        HeaderText="Brand Name" />
 
-        <asp:BoundField
-            DataField="CreatedDate"
-            HeaderText="Created On"
-            DataFormatString="{0:dd MMM yyyy}" />
+                    <asp:BoundField
+                        DataField="CreatedDate"
+                        HeaderText="Created Date"
+                        DataFormatString="{0:dd MMM yyyy}" />
 
-        <asp:TemplateField HeaderText="Action">
+                    <asp:TemplateField
+                        HeaderText="Actions"
+                        ItemStyle-Width="110">
 
-            <ItemTemplate>
+                        <ItemTemplate>
 
-                <div class="cell-actions">
+                            <div class="cell-actions">
 
-                    <!-- EDIT -->
+                                <asp:LinkButton
+                                    ID="lnkEdit"
+                                    runat="server"
+                                    CssClass="table-action edit"
+                                    CommandName="EditBrand"
+                                    CommandArgument='<%# Eval("BrandID") %>'
+                                    CausesValidation="false"
+                                    ToolTip="Edit">
 
-                    <asp:LinkButton
-                        ID="lnkEdit"
-                        runat="server"
-                        CssClass="icon-btn icon-btn-edit"
-                        CommandName="EditBrand"
-                        CommandArgument='<%# Eval("BrandID") %>'
-                        CausesValidation="false"
-                        ToolTip="Edit">
+                                    <svg viewBox="0 0 24 24"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         stroke-width="2"
+                                         stroke-linecap="round"
+                                         stroke-linejoin="round">
 
-                        <svg viewBox="0 0 24 24"
-                             fill="none"
-                             stroke="currentColor"
-                             stroke-width="1.8"
-                             stroke-linecap="round"
-                             stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
 
-                            <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path>
 
-                            <path d="M18.5 2.5a2.12 2.12 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5Z"></path>
+                                    </svg>
 
-                        </svg>
+                                </asp:LinkButton>
 
-                    </asp:LinkButton>
+                                <asp:LinkButton
+                                    ID="lnkDelete"
+                                    runat="server"
+                                    CssClass="table-action delete"
+                                    CommandName="DeleteBrand"
+                                    CommandArgument='<%# Eval("BrandID") %>'
+                                    CausesValidation="false"
+                                    ToolTip="Delete">
 
-                    <!-- DELETE -->
+                                    <svg viewBox="0 0 24 24"
+                                         fill="none"
+                                         stroke="currentColor"
+                                         stroke-width="2"
+                                         stroke-linecap="round"
+                                         stroke-linejoin="round">
 
-                    <asp:LinkButton
-                        ID="lnkDelete"
-                        runat="server"
-                        CssClass="icon-btn icon-btn-delete"
-                        CommandName="DeleteBrand"
-                        CommandArgument='<%# Eval("BrandID") %>'
-                        CausesValidation="false"
-                        ToolTip="Delete">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
 
-                        <svg viewBox="0 0 24 24"
-                             fill="none"
-                             stroke="currentColor"
-                             stroke-width="1.8"
-                             stroke-linecap="round"
-                             stroke-linejoin="round">
+                                        <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
 
-                            <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M10 11v6"></path>
 
-                            <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path>
+                                        <path d="M14 11v6"></path>
 
-                            <path d="M10 11v6"></path>
+                                        <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
 
-                            <path d="M14 11v6"></path>
+                                    </svg>
 
-                            <path d="M9 6V4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"></path>
+                                </asp:LinkButton>
 
-                        </svg>
+                            </div>
 
-                    </asp:LinkButton>
+                        </ItemTemplate>
 
-                </div>
+                    </asp:TemplateField>
 
-            </ItemTemplate>
+                </Columns>
 
-        </asp:TemplateField>
-
-    </Columns>
-
-</asp:GridView>
+            </asp:GridView>
 
         </div>
 
-    </section>
+    </div>
+
+</section>
 
 </div>
 
