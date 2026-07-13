@@ -452,11 +452,20 @@ namespace Target_Report
             if (e.CommandName == "EditPartner")
             {
                 LoadPartnerIntoForm(partnerId);
+
+                ScriptManager.RegisterStartupScript(
+                        Page,
+                        Page.GetType(),
+                        "ScrollTop",@" setTimeout(function () {
+                        window.scrollTo({ top: 0, behavior: 'smooth' }); },100); ", true);
             }
             else if (e.CommandName == "DeletePartner")
             {
                 OpenDeleteConfirmation(partnerId);
             }
+
+            btnSave.Text = "Update";
+            btnClear.Text = "Cancel";
         }
 
         private void LoadPartnerIntoForm(int partnerId)
@@ -477,6 +486,8 @@ namespace Target_Report
             LoadPartnerBrands(partnerId);
             SetFormMode(isEditing: true);
             ClearFormMessage();
+
+            btnSave.Text = "Update";
         }
         private void DeletePartnerBrands(int partnerId)
         {
@@ -538,6 +549,8 @@ namespace Target_Report
                         "This partner may be referenced by existing target or sales records.",
                         isError: true);
                 }
+                btnSave.Text = "Save";
+                btnClear.Text = "Clear";
             }
 
             ViewState[VS_DELETE_TARGET_ID] = null;
@@ -584,11 +597,6 @@ namespace Target_Report
             SavePartnerBrands(partnerId);
 
             ShowToast("Partner saved", $"\"{name}\" has been added to the partner list.");
-
-            ResetFormToAddMode();
-            ViewState[VS_CURRENT_PAGE] = 1;
-            BindGrid();
-
 
             ResetFormToAddMode();
             ViewState[VS_CURRENT_PAGE] = 1;
@@ -693,12 +701,10 @@ namespace Target_Report
 
         protected void btnClear_Click(object sender, EventArgs e)
         {
-            // Clear wipes the fields but keeps current Add/Edit mode
-            txtPartnerName.Text = "";
-            txtContactNumber.Text = "";
-            txtCity.Text = "";
-            ddlNativeBranch.SelectedValue = "";
-            ClearFormMessage();
+            ResetFormToAddMode();
+
+            btnSave.Text = "Save";
+            btnClear.Text = "Clear";
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
@@ -713,20 +719,33 @@ namespace Target_Report
         private void ResetFormToAddMode()
         {
             hdnPartnerId.Value = "0";
+
             txtPartnerName.Text = "";
             txtContactNumber.Text = "";
             txtCity.Text = "";
             ddlNativeBranch.SelectedValue = "";
+
+            foreach (ListItem item in cblBrands.Items)
+                item.Selected = false;
+
+            btnSave.Text = "Save";
+            btnClear.Text = "Clear";
+
             ClearFormMessage();
-            SetFormMode(isEditing: false);
+
+            SetFormMode(false);
         }
 
         private void SetFormMode(bool isEditing)
         {
             litFormMode.Text = isEditing ? "Editing Partner" : "New Partner";
-            pnlFormMode.CssClass = isEditing ? "form-mode-tag is-editing" : "form-mode-tag";
+            pnlFormMode.CssClass = isEditing
+                ? "form-mode-tag is-editing"
+                : "form-mode-tag";
 
             btnSave.Visible = !isEditing;
+            btnClear.Visible = !isEditing;
+
             btnUpdate.Visible = isEditing;
             btnCancel.Visible = isEditing;
         }
