@@ -18,6 +18,7 @@ The system allows administrators to manage partners, assign monthly sales target
 ---
 
 ## 👥 Partner Master
+
 - Add New Partner
 - Update Partner Details
 - Delete Partner
@@ -25,6 +26,11 @@ The system allows administrators to manage partners, assign monthly sales target
 - Pagination
 - Input Validation
 - Toast Notifications
+- Multiple Brand Assignment
+- Brand Mapping Support
+- Auto Scroll to Edit Form
+- Duplicate Partner Validation
+- Duplicate Contact Validation
 
 ---
 
@@ -89,6 +95,8 @@ Automatically stores monthly achievement details including:
 # 🗂 Database Tables
 
 - PartnerMaster
+- BrandMaster
+- PartnerBrandMapping
 - TargetMaster
 - DailySalesEntry
 - MonthlyTargetSnapshot
