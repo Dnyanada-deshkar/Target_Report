@@ -1192,3 +1192,35 @@ a {
     align-items: center;
     gap: 5px;
 }
+/*=============================
+ BRAND CHECKBOX LIST
+==============================*/
+
+.brand-field {
+    grid-column: 1/-1;
+}
+
+.brand-checkbox-list {
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 16px 18px;
+    background: #fff;
+}
+
+    .brand-checkbox-list td {
+        padding: 8px 12px 8px 0;
+        vertical-align: top;
+    }
+
+    .brand-checkbox-list input[type=checkbox] {
+        margin-right: 8px;
+        transform: scale(1.08);
+        accent-color: #1E3A8A;
+    }
+
+    .brand-checkbox-list label {
+        font-size: 14px;
+        color: #374151;
+        cursor: pointer;
+    }

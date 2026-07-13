@@ -26,6 +26,7 @@ namespace Target_Report
                 ViewState[VS_SORT_EXPR] = "PartnerID";
                 ViewState[VS_SORT_DIR] = "ASC";
                 ViewState[VS_CURRENT_PAGE] = 1;
+                LoadBrands();
 
                 ResetFormToAddMode();
                 BindGrid();
@@ -140,24 +141,43 @@ FETCH NEXT @PageSize ROWS ONLY";
             }
         }
 
-        private void InsertPartner(string name, string contact, string city, string branch)
+        private int InsertPartner(string name, string contact, string city, string branch)
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_Partner_Insert", conn))
             {
-                const string query = @"INSERT INTO Partnermaster (PartnerName, ContactNumber, City, NativeBranch, CreatedDate)
-                                        VALUES (@PartnerName, @ContactNumber, @City, @NativeBranch, GETDATE())";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@PartnerName", name);
-                    cmd.Parameters.AddWithValue("@ContactNumber", contact);
-                    cmd.Parameters.AddWithValue("@City", city);
-                    cmd.Parameters.AddWithValue("@NativeBranch", branch);
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@PartnerName", name);
+                cmd.Parameters.AddWithValue("@ContactNumber", contact);
+                cmd.Parameters.AddWithValue("@City", city);
+                cmd.Parameters.AddWithValue("@NativeBranch", branch);
+
+                conn.Open();
+
+                return Convert.ToInt32(cmd.ExecuteScalar());
             }
         }
 
+        private void LoadBrands()
+        {
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_Brand_GetAll", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@SearchText", "");
+
+                con.Open();
+
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                cblBrands.DataSource = dr;
+                cblBrands.DataTextField = "BrandName";
+                cblBrands.DataValueField = "BrandID";
+                cblBrands.DataBind();
+            }
+        }
         private void UpdatePartner(int partnerId, string name, string contact, string city, string branch)
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
@@ -396,11 +416,24 @@ FETCH NEXT @PageSize ROWS ONLY";
             txtContactNumber.Text = partner["ContactNumber"].ToString();
             txtCity.Text = partner["City"].ToString();
             ddlNativeBranch.SelectedValue = partner["NativeBranch"].ToString();
-
+            LoadPartnerBrands(partnerId);
             SetFormMode(isEditing: true);
             ClearFormMessage();
         }
+        private void DeletePartnerBrands(int partnerId)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_PartnerBrandMapping_DeleteByPartnerID", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
 
+                cmd.Parameters.AddWithValue("@PartnerID", partnerId);
+
+                conn.Open();
+
+                cmd.ExecuteNonQuery();
+            }
+        }
         private void OpenDeleteConfirmation(int partnerId)
         {
             DataRow partner = GetPartnerById(partnerId);
@@ -460,6 +493,22 @@ FETCH NEXT @PageSize ROWS ONLY";
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+
+            foreach (ListItem x in cblBrands.Items)
+            {
+                System.Diagnostics.Debug.WriteLine(
+                    x.Text + " = " + x.Selected);
+            }
+
+            bool brandSelected = cblBrands.Items.Cast<ListItem>()
+                                    .Any(x => x.Selected);
+
+            if (!brandSelected)
+            {
+                ShowFormMessage("Please select at least one Brand.");
+                return;
+            }
+
             if (!Page.IsValid) return;
 
             string name = txtPartnerName.Text.Trim();
@@ -479,12 +528,73 @@ FETCH NEXT @PageSize ROWS ONLY";
                 return;
             }
 
-            InsertPartner(name, contact, city, branch);
+            int partnerId = InsertPartner(name, contact, city, branch);
+            SavePartnerBrands(partnerId);
+
             ShowToast("Partner saved", $"\"{name}\" has been added to the partner list.");
 
             ResetFormToAddMode();
             ViewState[VS_CURRENT_PAGE] = 1;
             BindGrid();
+
+
+            ResetFormToAddMode();
+            ViewState[VS_CURRENT_PAGE] = 1;
+            BindGrid();
+        }
+        private void LoadPartnerBrands(int partnerId)
+        {
+          
+            foreach (ListItem item in cblBrands.Items)
+            {
+                item.Selected = false;
+            }
+
+            using (SqlConnection conn = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_PartnerBrandMapping_GetByPartnerID", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PartnerID", partnerId);
+
+                conn.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        string brandId = dr["BrandID"].ToString();
+
+                        ListItem item = cblBrands.Items.FindByValue(brandId);
+
+                        if (item != null)
+                            item.Selected = true;
+                    }
+                }
+            }
+        }
+
+        private void SavePartnerBrands(int partnerId)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnString))
+            {
+                conn.Open();
+
+                foreach (ListItem item in cblBrands.Items)
+                {
+                    if (!item.Selected)
+                        continue;
+
+                    using (SqlCommand cmd = new SqlCommand("USP_PartnerBrandMapping_Save", conn))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.Add("@PartnerID", SqlDbType.Int).Value = partnerId;
+                        cmd.Parameters.Add("@BrandID", SqlDbType.Int).Value = Convert.ToInt32(item.Value);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
         }
 
         protected void btnUpdate_Click(object sender, EventArgs e)
@@ -497,6 +607,14 @@ FETCH NEXT @PageSize ROWS ONLY";
             string contact = txtContactNumber.Text.Trim();
             string city = txtCity.Text.Trim();
             string branch = ddlNativeBranch.SelectedValue;
+
+            bool brandSelected = cblBrands.Items.Cast<ListItem>().Any(x => x.Selected);
+
+            if (!brandSelected)
+            {
+                ShowFormMessage("Please select at least one Brand.");
+                return;
+            }
 
             if (PartnerNameExists(name, partnerId))
             {
@@ -511,9 +629,16 @@ FETCH NEXT @PageSize ROWS ONLY";
             }
 
             UpdatePartner(partnerId, name, contact, city, branch);
-            ShowToast("Partner updated", $"Changes to \"{name}\" have been saved.");
+
+            DeletePartnerBrands(partnerId);
+
+            SavePartnerBrands(partnerId);
+
+            ShowToast("Partner updated",
+                $"Changes to \"{name}\" have been saved.");
 
             ResetFormToAddMode();
+
             BindGrid();
         }
 

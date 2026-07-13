@@ -119,6 +119,27 @@
                                     ValidationGroup="PartnerForm" />
                             </div>
 
+                            <div class="field-group brand-group">
+
+                                <asp:Label
+                                    runat="server"
+                                    CssClass="field-label">
+
+                                    Brands
+                                    <span class="required-mark">*</span>
+
+                                </asp:Label>
+
+                                <asp:CheckBoxList
+                                    ID="cblBrands"
+                                    runat="server"
+                                    CssClass="brand-checkbox-list"
+                                    RepeatColumns="2"
+                                    RepeatDirection="Horizontal">
+                                </asp:CheckBoxList>
+
+                            </div>
+
                             <!-- Server-side duplicate / business-rule message -->
                             <asp:Panel ID="pnlFormMessage" runat="server" CssClass="field-error" Style="grid-column: 1 / -1; margin-top: -6px;">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>

@@ -123,6 +123,15 @@ namespace Target_Report
         protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvNativeBranch;
 
         /// <summary>
+        /// cblBrands control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CheckBoxList cblBrands;
+
+        /// <summary>
         /// pnlFormMessage control.
         /// </summary>
         /// <remarks>
