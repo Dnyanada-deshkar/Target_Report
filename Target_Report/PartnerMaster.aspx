@@ -242,6 +242,19 @@
                                     </ItemTemplate>
                                 </asp:TemplateField>
 
+                                <asp:TemplateField HeaderText="Brands">
+                                        <ItemTemplate>
+                                            <span class="cell-brands"
+                                                  title='<%# Eval("Brands") %>'>
+
+                                                <%# string.IsNullOrWhiteSpace(Eval("Brands").ToString())
+                                                        ? "-"
+                                                        : Eval("Brands") %>
+
+                                            </span>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+
                                 <asp:TemplateField HeaderText="Created Date" SortExpression="CreatedDate">
                                     <ItemTemplate>
                                         <span class="cell-secondary"><%# Eval("CreatedDate", "{0:dd MMM yyyy}") %></span>
@@ -297,7 +310,6 @@
                             <span>Rows per page</span>
                             <div class="page-size-wrap">
                                 <asp:DropDownList ID="ddlPageSize" runat="server" CssClass="page-size-select" AutoPostBack="true" OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged">
-                                    <asp:ListItem Text="10" Value="10" />
                                     <asp:ListItem Text="25" Value="25" />
                                     <asp:ListItem Text="50" Value="50" />
                                     <asp:ListItem Text="100" Value="100" />

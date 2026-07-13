@@ -1135,13 +1135,31 @@ a {
         width: 170px;
     }
 
+    /* Native Branch */
+
+    .data-table th:nth-child(5),
+    .data-table td:nth-child(5) {
+        width: 160px;
+    }
+
+    /* Brands */
+
     .data-table th:nth-child(6),
     .data-table td:nth-child(6) {
-        width: 170px;
+        width: 220px;
     }
+
+    /* Created Date */
 
     .data-table th:nth-child(7),
     .data-table td:nth-child(7) {
+        width: 160px;
+    }
+
+    /* Actions */
+
+    .data-table th:nth-child(8),
+    .data-table td:nth-child(8) {
         width: 120px;
     }
     .data-table td:nth-child(3),
@@ -1224,3 +1242,9 @@ a {
         color: #374151;
         cursor: pointer;
     }
+.cell-brands {
+    max-width: 220px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

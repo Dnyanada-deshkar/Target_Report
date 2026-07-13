@@ -55,35 +55,93 @@ namespace Target_Report
             {
                 conn.Open();
                 const string query = @"
-                    SELECT PartnerID, PartnerName, ContactNumber, City, NativeBranch, CreatedDate,
-                           COUNT(*) OVER() AS TotalRecords
-                    FROM Partnermaster
-                    WHERE (@Search = '' 
-                           OR PartnerName LIKE '%' + @Search + '%' 
-                           OR ContactNumber LIKE '%' + @Search + '%' 
-                           OR City LIKE '%' + @Search + '%')
-                      AND (@Branch = '' OR NativeBranch = @Branch)
-                   ORDER BY
-    CASE WHEN @SortExpr = 'PartnerID' AND @SortDir = 'ASC' THEN PartnerID END ASC,
-    CASE WHEN @SortExpr = 'PartnerID' AND @SortDir = 'DESC' THEN PartnerID END DESC,
 
-    CASE WHEN @SortExpr = 'PartnerName' AND @SortDir = 'ASC' THEN PartnerName END ASC,
-    CASE WHEN @SortExpr = 'PartnerName' AND @SortDir = 'DESC' THEN PartnerName END DESC,
+                        SELECT
+                            PM.PartnerID,
+                            PM.PartnerName,
+                            PM.ContactNumber,
+                            PM.City,
+                            PM.NativeBranch,
+                            PM.CreatedDate,
 
-    CASE WHEN @SortExpr = 'ContactNumber' AND @SortDir = 'ASC' THEN ContactNumber END ASC,
-    CASE WHEN @SortExpr = 'ContactNumber' AND @SortDir = 'DESC' THEN ContactNumber END DESC,
+                            ISNULL(
+                                STRING_AGG(BM.BrandName, ', ')
+                                WITHIN GROUP (ORDER BY BM.BrandName),
+                                ''
+                            ) AS Brands,
 
-    CASE WHEN @SortExpr = 'NativeBranch' AND @SortDir = 'ASC' THEN NativeBranch END ASC,
-    CASE WHEN @SortExpr = 'NativeBranch' AND @SortDir = 'DESC' THEN NativeBranch END DESC,
+                            COUNT(*) OVER() AS TotalRecords
 
-    CASE WHEN @SortExpr = 'City' AND @SortDir = 'ASC' THEN City END ASC,
-    CASE WHEN @SortExpr = 'City' AND @SortDir = 'DESC' THEN City END DESC,
+                        FROM PartnerMaster PM
 
-    CASE WHEN @SortExpr = 'CreatedDate' AND @SortDir = 'ASC' THEN CreatedDate END ASC,
-    CASE WHEN @SortExpr = 'CreatedDate' AND @SortDir = 'DESC' THEN CreatedDate END DESC
+                        LEFT JOIN PartnerBrandMapping PBM
+                            ON PM.PartnerID = PBM.PartnerID
 
-OFFSET @Offset ROWS
-FETCH NEXT @PageSize ROWS ONLY";
+                        LEFT JOIN BrandMaster BM
+                            ON PBM.BrandID = BM.BrandID
+
+                        WHERE
+                        (
+                            @Search = ''
+                            OR PM.PartnerName LIKE '%' + @Search + '%'
+                            OR PM.ContactNumber LIKE '%' + @Search + '%'
+                            OR PM.City LIKE '%' + @Search + '%'
+                            OR BM.BrandName LIKE '%' + @Search + '%'
+                        )
+                        AND
+                        (
+                            @Branch = ''
+                            OR PM.NativeBranch = @Branch
+                        )
+
+                        GROUP BY
+                            PM.PartnerID,
+                            PM.PartnerName,
+                            PM.ContactNumber,
+                            PM.City,
+                            PM.NativeBranch,
+                            PM.CreatedDate
+
+                        ORDER BY
+
+                        CASE WHEN @SortExpr = 'PartnerID' AND @SortDir = 'ASC'
+                            THEN PM.PartnerID END ASC,
+
+                        CASE WHEN @SortExpr = 'PartnerID' AND @SortDir = 'DESC'
+                            THEN PM.PartnerID END DESC,
+
+                        CASE WHEN @SortExpr = 'PartnerName' AND @SortDir = 'ASC'
+                            THEN PM.PartnerName END ASC,
+
+                        CASE WHEN @SortExpr = 'PartnerName' AND @SortDir = 'DESC'
+                            THEN PM.PartnerName END DESC,
+
+                        CASE WHEN @SortExpr = 'ContactNumber' AND @SortDir = 'ASC'
+                            THEN PM.ContactNumber END ASC,
+
+                        CASE WHEN @SortExpr = 'ContactNumber' AND @SortDir = 'DESC'
+                            THEN PM.ContactNumber END DESC,
+
+                        CASE WHEN @SortExpr = 'NativeBranch' AND @SortDir = 'ASC'
+                            THEN PM.NativeBranch END ASC,
+
+                        CASE WHEN @SortExpr = 'NativeBranch' AND @SortDir = 'DESC'
+                            THEN PM.NativeBranch END DESC,
+
+                        CASE WHEN @SortExpr = 'City' AND @SortDir = 'ASC'
+                            THEN PM.City END ASC,
+
+                        CASE WHEN @SortExpr = 'City' AND @SortDir = 'DESC'
+                            THEN PM.City END DESC,
+
+                        CASE WHEN @SortExpr = 'CreatedDate' AND @SortDir = 'ASC'
+                            THEN PM.CreatedDate END ASC,
+
+                        CASE WHEN @SortExpr = 'CreatedDate' AND @SortDir = 'DESC'
+                            THEN PM.CreatedDate END DESC
+
+                        OFFSET @Offset ROWS
+                        FETCH NEXT @PageSize ROWS ONLY";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
