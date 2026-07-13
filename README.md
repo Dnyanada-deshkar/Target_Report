@@ -57,7 +57,7 @@ The system allows administrators to manage partners, assign monthly sales target
 - Search Today's Entries
 - Edit Daily Sale
 - Delete Daily Sale
-- Pagination
+- Pagination 
 
 ---
 
@@ -104,6 +104,14 @@ Automatically stores monthly achievement details including:
 
 ---
 
+# 🔒 Validation & Data Integrity
+
+- Required Field Validation
+- Duplicate Partner Name Validation
+- Duplicate Contact Number Validation
+- Foreign Key Constraints
+- Server-side Validation
+- SQL Stored Procedure Based Operations
 # ⚙ Stored Procedures
 
 Examples:
