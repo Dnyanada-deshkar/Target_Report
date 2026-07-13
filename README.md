@@ -117,7 +117,12 @@ Examples:
 - USP_DailySales_GetToday
 - USP_DailySales_Update
 - USP_DailySales_Delete
-
+- USP_Partner_Insert
+- USP_Partner_Update
+- USP_Partner_GetAll
+- USP_Partner_GetByID
+- USP_Brand_GetAll
+- USP_PartnerBrandMapping_Save
 ---
 
 # ✨ Project Highlights
@@ -142,6 +147,13 @@ Examples:
 
 ✔ Professional Admin Interface
 
+✔ Brand Mapping (Many-to-Many)
+
+✔ Dynamic Search Filters
+
+✔ Duplicate Record Prevention
+
+✔ SQL Foreign Key Relationships
 ---
 
 # 📂 Project Structure
