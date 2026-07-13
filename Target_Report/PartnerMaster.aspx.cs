@@ -485,12 +485,7 @@ FETCH NEXT @PageSize ROWS ONLY";
             ViewState[VS_DELETE_TARGET_ID] = null;
             pnlDeleteModalOverlay.CssClass = "modal-overlay is-hidden";
             BindGrid();
-        }
-
-        // =====================================================
-        // FORM ACTIONS — Save / Update / Clear / Cancel
-        // =====================================================
-
+        } 
         protected void btnSave_Click(object sender, EventArgs e)
         {
 
@@ -521,7 +516,6 @@ FETCH NEXT @PageSize ROWS ONLY";
                 ShowFormMessage("A partner with this name already exists.");
                 return;
             }
-
             if (ContactNumberExists(contact, excludePartnerId: 0))
             {
                 ShowFormMessage("This contact number is already registered to another partner.");
@@ -615,13 +609,11 @@ FETCH NEXT @PageSize ROWS ONLY";
                 ShowFormMessage("Please select at least one Brand.");
                 return;
             }
-
             if (PartnerNameExists(name, partnerId))
             {
                 ShowFormMessage("A partner with this name already exists.");
                 return;
             }
-
             if (ContactNumberExists(contact, partnerId))
             {
                 ShowFormMessage("This contact number is already registered to another partner.");
@@ -629,7 +621,6 @@ FETCH NEXT @PageSize ROWS ONLY";
             }
 
             UpdatePartner(partnerId, name, contact, city, branch);
-
             DeletePartnerBrands(partnerId);
 
             SavePartnerBrands(partnerId);
