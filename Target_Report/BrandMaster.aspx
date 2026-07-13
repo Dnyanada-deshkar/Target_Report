@@ -270,27 +270,6 @@
 
             </div>
 
-            <div class="table-toolbar-right">
-
-                <span class="rows-label">
-                    Rows per page
-                </span>
-
-                <asp:DropDownList
-                    ID="ddlPageSize"
-                    runat="server"
-                    CssClass="field-select"
-                    AutoPostBack="true"
-                    OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged">
-
-                    <asp:ListItem Selected="True">10</asp:ListItem>
-                    <asp:ListItem>25</asp:ListItem>
-                    <asp:ListItem>50</asp:ListItem>
-
-                </asp:DropDownList>
-
-            </div>
-
         </div>
 
         <div class="table-wrapper">
@@ -300,7 +279,7 @@
                 runat="server"
                 CssClass="grid"
                 AutoGenerateColumns="False"
-                AllowPaging="True"
+                AllowPaging="False"
                 PageSize="10"
                 Width="100%"
                 GridLines="None"
@@ -398,6 +377,27 @@
             </asp:GridView>
 
         </div>
+
+        <div class="table-toolbar-right">
+
+    <span class="rows-label">
+        Rows per page
+    </span>
+
+    <asp:DropDownList
+        ID="ddlPageSize"
+        runat="server"
+        CssClass="page-size-select"
+        AutoPostBack="true"
+        OnSelectedIndexChanged="ddlPageSize_SelectedIndexChanged">
+
+        <asp:ListItem Selected="True">20</asp:ListItem>
+        <asp:ListItem>50</asp:ListItem>
+        <asp:ListItem>100</asp:ListItem>
+
+    </asp:DropDownList>
+
+</div>
 
     </div>
 

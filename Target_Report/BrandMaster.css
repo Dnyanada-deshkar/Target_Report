@@ -1102,3 +1102,14 @@ DELETE
     border-color: #FECACA;
     transform: translateY(-1px);
 }
+.page-size-select {
+    width: 75px;
+    height: 38px;
+    margin:10px;
+    border: 1px solid #D8DEE8;
+    border-radius: 10px;
+    background: #fff;
+    padding: 0 10px;
+    font-size: 15px;
+    cursor: pointer;
+}

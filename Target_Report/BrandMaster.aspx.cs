@@ -53,11 +53,11 @@ namespace Target_Report
 
                 da.Fill(dt);
 
-                gvBrand.PageSize =
-                    Convert.ToInt32(ddlPageSize.SelectedValue);
+                //gvBrand.PageSize =
+                //    Convert.ToInt32(ddlPageSize.SelectedValue);
 
-                gvBrand.DataSource = dt;
-                gvBrand.DataBind();
+                //gvBrand.DataSource = dt;
+                //gvBrand.DataBind();
             }
         }
 
