@@ -18,6 +18,7 @@ The system allows administrators to manage partners, assign monthly sales target
 ---
 
 ## 👥 Partner Master
+
 - Add New Partner
 - Update Partner Details
 - Delete Partner
@@ -25,6 +26,11 @@ The system allows administrators to manage partners, assign monthly sales target
 - Pagination
 - Input Validation
 - Toast Notifications
+- Multiple Brand Assignment
+- Brand Mapping Support
+- Auto Scroll to Edit Form
+- Duplicate Partner Validation
+- Duplicate Contact Validation
 
 ---
 
@@ -51,7 +57,7 @@ The system allows administrators to manage partners, assign monthly sales target
 - Search Today's Entries
 - Edit Daily Sale
 - Delete Daily Sale
-- Pagination
+- Pagination 
 
 ---
 
@@ -89,6 +95,8 @@ Automatically stores monthly achievement details including:
 # 🗂 Database Tables
 
 - PartnerMaster
+- BrandMaster
+- PartnerBrandMapping
 - TargetMaster
 - DailySalesEntry
 - MonthlyTargetSnapshot
@@ -96,6 +104,14 @@ Automatically stores monthly achievement details including:
 
 ---
 
+# 🔒 Validation & Data Integrity
+
+- Required Field Validation
+- Duplicate Partner Name Validation
+- Duplicate Contact Number Validation
+- Foreign Key Constraints
+- Server-side Validation
+- SQL Stored Procedure Based Operations
 # ⚙ Stored Procedures
 
 Examples:
@@ -109,7 +125,12 @@ Examples:
 - USP_DailySales_GetToday
 - USP_DailySales_Update
 - USP_DailySales_Delete
-
+- USP_Partner_Insert
+- USP_Partner_Update
+- USP_Partner_GetAll
+- USP_Partner_GetByID
+- USP_Brand_GetAll
+- USP_PartnerBrandMapping_Save
 ---
 
 # ✨ Project Highlights
@@ -134,8 +155,24 @@ Examples:
 
 ✔ Professional Admin Interface
 
+✔ Brand Mapping (Many-to-Many)
+
+✔ Dynamic Search Filters
+
+✔ Duplicate Record Prevention
+
+✔ SQL Foreign Key Relationships
 ---
 
+# 🎨 User Interface
+
+- Professional Admin Dashboard
+- Responsive Forms
+- Modern Data Grid
+- Search and Filtering
+- Pagination Controls
+- Success & Error Toast Notifications
+- Clean Card-Based Layout
 # 📂 Project Structure
 
 ```
