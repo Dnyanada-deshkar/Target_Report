@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Daily Sales & Follow-up" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeBehind="DailySalesEntry.aspx.cs" Inherits="Target_Report.DailySalesEntry" %>
+﻿<%@ Page Title="Daily Sales & Follow-up" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeBehind="DailySalesFollowup.aspx.cs" Inherits="Target_Report.DailySalesFollowup" %>
 
 <asp:Content ID="cntTitle" ContentPlaceHolderID="cphTitle" runat="server">
     Daily Sales & Follow-up · Sales Target Report Management System
@@ -6,7 +6,7 @@
 
 <asp:Content ID="cntHead" ContentPlaceHolderID="cphHead" runat="server">
    <link rel="stylesheet" href="/Dashboard.css" />
-<link rel="stylesheet" href="/DailySalesEntry.css" />
+<link rel="stylesheet" href="/DailySalesFollowup.css" />
 </asp:Content>
 
 <asp:Content ID="cntBody" ContentPlaceHolderID="cphBody" runat="server">
@@ -95,7 +95,7 @@
     <div class="panel-header panel-header-flex">
 
     <div class="panel-header-title">
-        <span id="pageModeTitle">Daily Sales & Follow-up</span>
+        <span id="pageModeTitle">Daily Sales Entry</span>
     </div>
 
     <div class="mode-switch">
