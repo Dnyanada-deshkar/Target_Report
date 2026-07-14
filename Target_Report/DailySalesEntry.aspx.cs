@@ -26,6 +26,7 @@ namespace Target_Report
                     DateTime.Today.ToString("yyyy-MM-dd");
 
                 LoadPartners();
+                LoadSalesExecutives();
                 BindTodaySales();
                 BindCurrentMonthSales();
 
@@ -63,6 +64,38 @@ namespace Target_Report
         }
 
 
+        private void LoadSalesExecutives()
+        {
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand(
+                @"SELECT ExecutiveID, ExecutiveName
+          FROM WardhaApp.SalesExecutiveMaster
+          ORDER BY ExecutiveName", con))
+            {
+                con.Open();
+
+                DataTable dt = new DataTable();
+                dt.Load(cmd.ExecuteReader());
+
+                ddlSalesExecutive.DataSource = dt;
+                ddlSalesExecutive.DataTextField = "ExecutiveName";
+                ddlSalesExecutive.DataValueField = "ExecutiveID";
+                ddlSalesExecutive.DataBind();
+
+                ddlSalesExecutive.Items.Insert(0,
+                    new ListItem("-- Select Executive --", "0"));
+
+
+
+                ddlSalesExecutiveFollow.DataSource = dt;
+                ddlSalesExecutiveFollow.DataTextField = "ExecutiveName";
+                ddlSalesExecutiveFollow.DataValueField = "ExecutiveID";
+                ddlSalesExecutiveFollow.DataBind();
+
+                ddlSalesExecutiveFollow.Items.Insert(0,
+                    new ListItem("-- Select Executive --", "0"));
+            }
+        }
 
         protected void ddlPartner_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -212,6 +245,10 @@ namespace Target_Report
                     "@SalesAchieved",
                     sale);
 
+                cmd.Parameters.AddWithValue(
+    "@ExecutiveID",
+    ddlSalesExecutive.SelectedValue);
+
                 con.Open();
                 cmd.ExecuteNonQuery();
             }
@@ -275,6 +312,9 @@ namespace Target_Report
                 cmd.Parameters.AddWithValue("@PartnerID", ddlPartner.SelectedValue);
                 cmd.Parameters.AddWithValue("@Remark", txtRemark.Text.Trim());
                 cmd.Parameters.AddWithValue("@FollowUpDate", Convert.ToDateTime(txtFollowDate.Text));
+                cmd.Parameters.AddWithValue(
+    "@ExecutiveID",
+    ddlSalesExecutiveFollow.SelectedValue);
 
                 con.Open();
                 cmd.ExecuteNonQuery();

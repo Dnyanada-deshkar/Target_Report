@@ -89,6 +89,8 @@
 </section>
 
 
+
+
             
 <asp:Panel ID="pnlPartnerBrands" runat="server" Visible="false" CssClass="card shadow-sm partner-brand-card">
     <div class="card-header">
@@ -188,6 +190,23 @@
 
             <div class="field-group">
 
+    <asp:Label
+        runat="server"
+        AssociatedControlID="ddlSalesExecutive"
+        CssClass="field-label">
+        Sales Executive *
+    </asp:Label>
+
+    <asp:DropDownList
+        ID="ddlSalesExecutive"
+        runat="server"
+        CssClass="field-select">
+    </asp:DropDownList>
+
+</div>
+
+            <div class="field-group">
+
                 <asp:Label runat="server"
                     AssociatedControlID="txtTargetBalance"
                     CssClass="field-label">
@@ -202,6 +221,9 @@
                 </asp:TextBox>
 
             </div>
+
+
+           
 
         </div>
 
@@ -253,6 +275,8 @@
         </div>
 
 
+
+
         <div class="field-group">
 
             <label class="field-label">
@@ -266,6 +290,21 @@
                 ReadOnly="true" />
 
         </div>
+
+             <div class="field-group">
+    <asp:Label
+        runat="server"
+        AssociatedControlID="ddlSalesExecutiveFollow"
+        CssClass="field-label">
+        Sales Executive *
+    </asp:Label>
+
+    <asp:DropDownList
+        ID="ddlSalesExecutiveFollow"
+        runat="server"
+        CssClass="field-select">
+    </asp:DropDownList>
+</div>
 
         <div class="field-group">
 
@@ -591,7 +630,7 @@
             </EmptyDataTemplate>
 
             <PagerStyle CssClass="grid-pager" />
-
+            
         </asp:GridView>
 
     </div>
