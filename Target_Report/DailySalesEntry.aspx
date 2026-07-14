@@ -88,6 +88,35 @@
     </div>
 </section>
 
+
+            
+<asp:Panel ID="pnlPartnerBrands" runat="server" Visible="false" CssClass="card shadow-sm partner-brand-card">
+    <div class="card-header">
+    <h5 class="mb-0 fw-semibold">
+        Partner Brands
+    </h5>
+</div>
+
+<div class="card-body">
+
+    <div class="brand-card-container">
+
+        <asp:Repeater ID="rptPartnerBrands" runat="server">
+            <ItemTemplate>
+
+                <div class="brand-card">
+                    <%# Eval("BrandName") %>
+                </div>
+
+            </ItemTemplate>
+        </asp:Repeater>
+    </div>
+
+    </div>
+
+</asp:Panel>
+
+
            <asp:Panel ID="pnlEntryForm" runat="server" Visible="true">
 
 <section class="panel">
@@ -317,6 +346,8 @@
 </section>
 
 </asp:Panel>
+
+
 
 
 

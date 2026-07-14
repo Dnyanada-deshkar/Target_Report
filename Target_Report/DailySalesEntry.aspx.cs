@@ -81,7 +81,41 @@ namespace Target_Report
             LoadPartnerTarget();
             LoadPartnerContact();
 
+           
+
+            if (!string.IsNullOrEmpty(ddlPartner.SelectedValue))
+            {
+                LoadPartnerBrands(Convert.ToInt32(ddlPartner.SelectedValue));
+            }
+            else
+            {
+                rptPartnerBrands.DataSource = null;
+                rptPartnerBrands.DataBind();
+                pnlPartnerBrands.Visible = false;
+            }
+
             txtDailySale.Focus();
+        }
+
+        private void LoadPartnerBrands(int partnerId)
+        {
+            using (SqlConnection conn = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("usp_DailySales_GetPartnerBrands", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PartnerID", partnerId);
+
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    rptPartnerBrands.DataSource = dt;
+                    rptPartnerBrands.DataBind();
+
+                    pnlPartnerBrands.Visible = dt.Rows.Count > 0;
+                }
+            }
         }
 
         private void LoadPartnerTarget()
