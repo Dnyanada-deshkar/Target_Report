@@ -31,6 +31,9 @@ namespace Target_Report
                 LoadNextPendingFollowup();
             }
         }
+
+
+
         private void BindKpiCards()
         {
             int totalPartners = 0;
@@ -45,7 +48,7 @@ namespace Target_Report
                 {
                     const string query = @"
                                             SELECT (SELECT COUNT(*) FROM PartnerMaster) AS TotalPartners, (SELECT ISNULL(SUM(SalesTarget),0)
-                                                 FROM TargetMaster WHERE TargetMonth = MONTH(GETDATE()) AND TargetYear = YEAR(GETDATE()) ) AS MonthlyTarget,
+                                            FROM TargetMaster WHERE TargetMonth = MONTH(GETDATE()) AND TargetYear = YEAR(GETDATE()) ) AS MonthlyTarget,
 
                                                 (SELECT ISNULL(SUM(SalesAchieved),0) FROM DailySalesEntry WHERE MONTH(SaleDate)=MONTH(GETDATE()) AND YEAR(SaleDate)=YEAR(GETDATE())) AS Achievement,
                                                 (SELECT COUNT(DISTINCT NativeBranch) FROM PartnerMaster ) AS ActiveBranches";
