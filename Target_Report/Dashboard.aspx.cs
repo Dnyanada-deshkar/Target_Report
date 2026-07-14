@@ -520,12 +520,6 @@ namespace Target_Report
             table.Rows.Add(row);
         }
 
-        /// <summary>
-        /// Called from the inline data-binding expression in Dashboard.aspx
-        /// (GetAchievementBarClass) — must remain protected/public since
-        /// ItemTemplate expressions are compiled against the page's public
-        /// surface, not its private members.
-        /// </summary>
         protected string GetAchievementBarClass(double achievementPercentage)
         {
             if (achievementPercentage >= 80) return "";
