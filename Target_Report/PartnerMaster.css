@@ -1218,33 +1218,104 @@ a {
     grid-column: 1/-1;
 }
 
+.brand-field{
+    grid-column:1/-1;
+}
+
+.brand-field {
+    grid-column: 1/-1;
+}
+
 .brand-checkbox-list {
     width: 100%;
-    border: 1px solid var(--color-border);
-    border-radius: 8px;
-    padding: 16px 18px;
+    max-width: 720px;
+    padding: 18px 22px;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
     background: #fff;
 }
 
+    .brand-checkbox-list table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .brand-checkbox-list:hover {
+        border-color: #C7D7F7;
+        box-shadow: 0 12px 30px rgba(0,0,0,.05);
+    }
     .brand-checkbox-list td {
         padding: 8px 12px 8px 0;
         vertical-align: top;
     }
 
     .brand-checkbox-list input[type=checkbox] {
-        margin-right: 8px;
-        transform: scale(1.08);
-        accent-color: #1E3A8A;
+        width: 18px;
+        height: 18px;
+        accent-color: #2952CC;
+        flex-shrink: 0;
     }
 
     .brand-checkbox-list label {
-        font-size: 14px;
-        color: #374151;
+        /*        display: flex;*/
+        /*        align-items: center;*/
+        gap: 20%;
+        padding: 6px 8px;
+        border: 1px solid #E5E7EB;
+        border-radius: 10px;
+        background: white;
         cursor: pointer;
+        transition: .25s;
+        font-size: 15px;
+        font-weight: 500;
+        color: #334155;
+        min-height: 48px;
     }
+        .brand-checkbox-list label:hover {
+            border-color: #2952CC;
+            background: #F5F9FF;
+            box-shadow: 0 6px 14px rgba(41,82,204,.08);
+            transform: translateY(-2px);
+        }
+    
+    
 .cell-brands {
     max-width: 220px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+.form-label {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1e293b;
+}
+.btn-save {
+    transition: .25s;
+}
+
+    .btn-save:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 22px rgba(37,99,235,.28);
+    }
+.partner-grid tbody tr {
+    transition: .25s;
+}
+
+    .partner-grid tbody tr:hover {
+        background: #fbfdff;
+        transform: scale(1.002);
+        box-shadow: 0 8px 20px rgba(0,0,0,.04);
+    }
+.brand-tag {
+    display: inline-block;
+    padding: 4px 10px;
+    margin: 2px;
+    border-radius: 20px;
+    background: #eef4ff;
+    color: #2952CC;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+    

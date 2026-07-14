@@ -134,8 +134,9 @@
                                     ID="cblBrands"
                                     runat="server"
                                     CssClass="brand-checkbox-list"
-                                    RepeatColumns="2"
-                                    RepeatDirection="Horizontal">
+                                    RepeatColumns="4"
+                                    RepeatDirection="Horizontal"
+                                    RepeatLayout="Table">
                                 </asp:CheckBoxList>
 
                             </div>
