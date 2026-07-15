@@ -11,7 +11,7 @@ namespace Target_Report
 {
 
 
-    public partial class Default
+    public partial class Login
     {
 
         /// <summary>
