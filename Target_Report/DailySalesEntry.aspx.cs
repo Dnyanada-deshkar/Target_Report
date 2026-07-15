@@ -111,17 +111,6 @@ namespace Target_Report
                 return;
             }
 
-            if (ddlSalesExecutiveFollow.SelectedValue == "0")
-            {
-                ShowToast(
-                    "Warning",
-                    "Please select sales executive.",
-                    "warning");
-
-                ddlSalesExecutiveFollow.Focus();
-
-                return;
-            }
 
             LoadPartnerTarget();
             LoadPartnerContact();
