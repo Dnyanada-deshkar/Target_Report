@@ -114,7 +114,7 @@
     }
 
 .panel-body {
-    padding: 30px;
+    padding: 22px;
 }
 
 /* ===========================================================
@@ -786,7 +786,8 @@ TABLE WRAPPER
 ==================================================*/
 
 .table-wrapper {
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
     overflow-x: auto;
     border: 1px solid #E7ECF5;
     border-radius: 18px;
@@ -903,8 +904,8 @@ ACTION BUTTONS
 }
 
 .table-action {
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -914,8 +915,8 @@ ACTION BUTTONS
 }
 
     .table-action svg {
-        width: 17px;
-        height: 17px;
+        width: 15px;
+        height: 15px;
     }
 
 
@@ -992,10 +993,10 @@ TABLE HEADER
 .grid th {
     background: #F8FAFD;
     color: #0F172A;
-    font-size: 15px;
+    padding: 14px 18px;
+    font-size: 14px;
     font-weight: 700;
     letter-spacing: .2px;
-    padding: 20px 22px;
     border-bottom: 1px solid #E8EDF6;
 }
 
@@ -1005,8 +1006,8 @@ TABLE BODY
 ==================================================*/
 
 .grid td {
-    padding: 22px 22px;
-    font-size: 15px;
+    padding: 14px 18px;
+    font-size: 14px;
     color: #475569;
     border-bottom: 1px solid #EDF2F7;
     vertical-align: middle;
@@ -1019,9 +1020,9 @@ BRAND NAME COLUMN
 ==================================================*/
 
     .grid td:first-child {
-        font-size: 17px;
-        font-weight: 700;
         color: #0F172A;
+        font-size: 15px;
+        font-weight: 600;
     }
 
 
