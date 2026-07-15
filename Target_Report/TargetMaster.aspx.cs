@@ -33,11 +33,10 @@ namespace Target_Report
                 ViewState[VS_SORT_DIR] = "DESC";
                 ViewState[VS_CURRENT_PAGE] = 1;
 
-                litTargetYear.Text = DateTime.Now.Year.ToString();
-
+                litTargetYear.Text = IndianNow().Year.ToString();
                 LoadPartnerDropdown();
                 ResetFormToAddMode();
-                txtTargetMonth.Text = DateTime.Now.ToString("MMMM");
+                txtTargetMonth.Text = IndianNow().ToString("MMMM");
                 BindGrid();
             }
         }
@@ -442,8 +441,8 @@ namespace Target_Report
             if (!Page.IsValid) return;
 
             int partnerId = Convert.ToInt32(ddlPartner.SelectedValue);
-            int targetMonth = DateTime.Now.Month;
-            int targetYear = DateTime.Now.Year;
+            int targetMonth = IndianNow().Month;
+            int targetYear = IndianNow().Year;
             decimal purchasePotential = Convert.ToDecimal(txtPurchasePotential.Text.Trim());
             decimal salesTarget = Convert.ToDecimal(txtSalesTarget.Text.Trim());
             string remarks = txtRemarks.Text.Trim();
@@ -472,8 +471,8 @@ namespace Target_Report
 
             int targetId = Convert.ToInt32(hdnTargetId.Value);
             int partnerId = Convert.ToInt32(ddlPartner.SelectedValue);
-            int targetMonth = DateTime.Now.Month;
-            int targetYear = DateTime.Now.Year;
+            int targetMonth = IndianNow().Month;
+            int targetYear = IndianNow().Year;
             decimal purchasePotential = Convert.ToDecimal(txtPurchasePotential.Text.Trim());
             decimal salesTarget = Convert.ToDecimal(txtSalesTarget.Text.Trim());
             string remarks = txtRemarks.Text.Trim();
@@ -503,7 +502,7 @@ namespace Target_Report
             txtPartnerContact.Text = "";
             txtCity.Text = "";
             txtBranch.Text = "";
-            txtTargetMonth.Text = DateTime.Now.ToString("MMMM");
+            txtTargetMonth.Text = IndianNow().ToString("MMMM");
             txtSalesTarget.Text = "";
             txtRemarks.Text = "";
             ClearFormMessage();
@@ -582,20 +581,20 @@ namespace Target_Report
 
         private void ResetFormToAddMode()
 {
-    hdnTargetId.Value = "0";
-    ddlPartner.SelectedValue = "";
-    txtPartnerContact.Text = "";
-    txtCity.Text = "";
-    txtBranch.Text = "";
+                hdnTargetId.Value = "0";
+                ddlPartner.SelectedValue = "";
+                txtPartnerContact.Text = "";
+                txtCity.Text = "";
+                txtBranch.Text = "";
 
-    txtTargetMonth.Text = DateTime.Now.ToString("MMMM");
+                txtTargetMonth.Text = IndianNow().ToString("MMMM");
 
-    txtSalesTarget.Text = "";
-    txtRemarks.Text = "";
+                txtSalesTarget.Text = "";
+                txtRemarks.Text = "";
 
-    ClearFormMessage();
-    SetFormMode(isEditing: false);
-}
+                ClearFormMessage();
+                SetFormMode(isEditing: false);
+        }
 
         private void SetFormMode(bool isEditing)
         {
@@ -612,7 +611,12 @@ namespace Target_Report
             litFormMessage.Text = message;
             pnlFormMessage.Visible = true;
         }
-
+        private DateTime IndianNow()
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(
+                DateTime.UtcNow,
+                TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+        }
         private void ClearFormMessage()
         {
             litFormMessage.Text = "";

@@ -43,7 +43,10 @@ namespace Target_Report
                 FormsAuthentication.SetAuthCookie(username, chkRememberMe.Checked);
 
                 Session["AdminUsername"] = username;
-                Session["LoginTime"] = DateTime.Now;
+                Session["LoginTime"] =
+                TimeZoneInfo.ConvertTimeFromUtc(
+                DateTime.UtcNow,
+                TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
 
                 Response.Redirect("~/Dashboard.aspx", false);
             }
@@ -80,7 +83,11 @@ namespace Target_Report
             {
                 HttpCookie cookie = new HttpCookie("XYZ_RememberedUser", username)
                 {
-                    Expires = DateTime.Now.AddDays(30),
+                    Expires =
+                                TimeZoneInfo.ConvertTimeFromUtc(
+                                DateTime.UtcNow,
+                                TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"))
+                                .AddDays(30),
                     HttpOnly = true
                 };
                 Response.Cookies.Add(cookie);
@@ -89,7 +96,11 @@ namespace Target_Report
             {
                 HttpCookie cookie = new HttpCookie("XYZ_RememberedUser", "")
                 {
-                    Expires = DateTime.Now.AddDays(-1)
+                    Expires =
+                                TimeZoneInfo.ConvertTimeFromUtc(
+                                DateTime.UtcNow,
+                                TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"))
+                                .AddDays(-1)
                 };
                 Response.Cookies.Add(cookie);
             }

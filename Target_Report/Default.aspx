@@ -524,8 +524,7 @@ html, body {
                 <div class="login-footer">
                     <span class="version-tag">v1.0.0</span>
                     <span class="dot" aria-hidden="true"></span>
-                    <span>&copy; <%= DateTime.Now.Year %> Ally Solutions</span>
-                    <span class="dot" aria-hidden="true"></span>
+                    <span>&copy; <%= TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("India Standard Time")).Year %> Ally Solutions</span>                    <span class="dot" aria-hidden="true"></span>
                     <span>All rights reserved</span>
                 </div>
 

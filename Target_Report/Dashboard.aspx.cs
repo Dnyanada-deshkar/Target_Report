@@ -20,7 +20,11 @@ namespace Target_Report
         {
             if (!IsPostBack)
             {
-                litCurrentDate.Text = DateTime.Now.ToString("dd MMM yyyy", CultureInfo.InvariantCulture);
+                litCurrentDate.Text =
+                                        TimeZoneInfo.ConvertTimeFromUtc(
+                                            DateTime.UtcNow,
+                                            TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"))
+                                        .ToString("dd MMM yyyy", CultureInfo.InvariantCulture);
 
                 BindKpiCards();
                 BindTargetStatusChart(); 
@@ -36,6 +40,8 @@ namespace Target_Report
 
         private void BindKpiCards()
         {
+            DateTime now = IndianNow();
+
             int totalPartners = 0;
             decimal monthlyTarget = 0;
             decimal achievement = 0;
@@ -47,14 +53,35 @@ namespace Target_Report
                 using (SqlConnection conn = new SqlConnection(ConnString))
                 {
                     const string query = @"
-                                            SELECT (SELECT COUNT(*) FROM PartnerMaster) AS TotalPartners, (SELECT ISNULL(SUM(SalesTarget),0)
-                                            FROM TargetMaster WHERE TargetMonth = MONTH(GETDATE()) AND TargetYear = YEAR(GETDATE()) ) AS MonthlyTarget,
+                                                SELECT
+                                                (
+                                                    SELECT COUNT(*) FROM PartnerMaster
+                                                ) AS TotalPartners,
 
-                                                (SELECT ISNULL(SUM(SalesAchieved),0) FROM DailySalesEntry WHERE MONTH(SaleDate)=MONTH(GETDATE()) AND YEAR(SaleDate)=YEAR(GETDATE())) AS Achievement,
-                                                (SELECT COUNT(DISTINCT NativeBranch) FROM PartnerMaster ) AS ActiveBranches";
+                                                (
+                                                    SELECT ISNULL(SUM(SalesTarget),0)
+                                                    FROM TargetMaster
+                                                    WHERE TargetMonth=@Month
+                                                      AND TargetYear=@Year
+                                                ) AS MonthlyTarget,
+
+                                                (
+                                                    SELECT ISNULL(SUM(SalesAchieved),0)
+                                                    FROM DailySalesEntry
+                                                    WHERE MONTH(SaleDate)=@Month
+                                                      AND YEAR(SaleDate)=@Year
+                                                ) AS Achievement,
+
+                                                (
+                                                    SELECT COUNT(DISTINCT NativeBranch)
+                                                    FROM PartnerMaster
+                                                ) AS ActiveBranches";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
+                        cmd.Parameters.AddWithValue("@Month", now.Month);
+                        cmd.Parameters.AddWithValue("@Year", now.Year);
+
                         conn.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -117,23 +144,26 @@ namespace Target_Report
         // =====================================================
         private void BindTargetStatusChart()
         {
+
+            DateTime now = IndianNow();
             using (SqlConnection conn = new SqlConnection(ConnString))
             {
                 string query = @"
                         SELECT
                             ISNULL((SELECT SUM(SalesTarget)
                             FROM TargetMaster
-                             WHERE TargetMonth=MONTH(GETDATE())
-                             AND TargetYear=YEAR(GETDATE())
+                             WHERE TargetMonth=@TargetMonth
+                             AND TargetYear=@TargetYear
                              AND ISNULL(IsDeleted,0)=0),0) AS TotalTarget,
 
                             ISNULL((SELECT SUM(SalesAchieved)
                              FROM DailySalesEntry
-                                WHERE MONTH(SaleDate)=MONTH(GETDATE())
-                                AND YEAR(SaleDate)=YEAR(GETDATE())),0) AS TotalAchievement";
+                                WHERE MONTH(SaleDate)=@TargetMonth
+                                AND YEAR(SaleDate)=@TargetYear),0) AS TotalAchievement";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
-
+                cmd.Parameters.AddWithValue("@TargetMonth", now.Month);
+                cmd.Parameters.AddWithValue("@TargetYear", now.Year);
                 conn.Open();
 
                 SqlDataReader dr = cmd.ExecuteReader();
@@ -151,6 +181,7 @@ namespace Target_Report
         }
         private void BindTargetVsAchievementChart()
         {
+            DateTime now = IndianNow();
             List<string> months = new List<string>();
             List<decimal> targets = new List<decimal>();
             List<decimal> achievements = new List<decimal>();
@@ -191,9 +222,9 @@ namespace Target_Report
                                 int monthNo = Convert.ToInt32(reader["TargetMonth"]);
 
                                 months.Add(
-                                    new DateTime(2026, monthNo, 1)
-                                        .ToString("MMM")
-                                );
+                                            new DateTime(now.Year, monthNo, 1)
+                                                .ToString("MMM")
+                                        );
 
                                 targets.Add(
                                     Convert.ToDecimal(reader["TotalTarget"])
@@ -227,6 +258,8 @@ namespace Target_Report
 
         private void BindBranchPerformanceChart()
         {
+            DateTime now = IndianNow();
+
             List<string> branchNames = new List<string>();
             List<decimal> branchAchievementPct = new List<decimal>();
 
@@ -241,13 +274,15 @@ namespace Target_Report
                             ISNULL(SUM(d.SalesAchieved), 0) AS BranchAchievement
                         FROM PartnerMaster p
                         LEFT JOIN TargetMaster t ON t.PartnerID = p.PartnerID 
-                            AND t.TargetMonth = MONTH(GETDATE()) AND t.TargetYear = YEAR(GETDATE())
+                            AND t.TargetMonth = @TargetMonth AND t.TargetYear = @TargetYear
                         LEFT JOIN DailySalesEntry d ON d.PartnerID = p.PartnerID 
-                            AND MONTH(d.SaleDate) = MONTH(GETDATE()) AND YEAR(d.SaleDate) = YEAR(GETDATE())
+                            AND MONTH(d.SaleDate) = @TargetMonth AND YEAR(d.SaleDate) = @TargetYear
                         GROUP BY p.NativeBranch";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
+                        cmd.Parameters.AddWithValue("@TargetMonth", now.Month);
+                        cmd.Parameters.AddWithValue("@TargetYear", now.Year);
                         conn.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -285,6 +320,7 @@ namespace Target_Report
 
         private void BindAchievementTrendChart()
         {
+            DateTime now = IndianNow();
             List<string> months = new List<string>();
             List<decimal> achievementPct = new List<decimal>();
 
@@ -334,8 +370,9 @@ namespace Target_Report
                                 int monthNo = Convert.ToInt32(reader["TargetMonth"]);
 
                                 months.Add(
-                                    new DateTime(2026, monthNo, 1).ToString("MMM")
-                                );
+                                        new DateTime(now.Year, monthNo, 1)
+                                            .ToString("MMM")
+                                    );
                             }
                         }
                     }
@@ -362,6 +399,8 @@ namespace Target_Report
 
         private void BindTopPartners()
         {
+            DateTime now = IndianNow();
+
             DataTable table = new DataTable();
             table.Columns.Add("Rank", typeof(int));
             table.Columns.Add("PartnerName", typeof(string));
@@ -384,15 +423,18 @@ namespace Target_Report
                             ISNULL(SUM(d.SalesAchieved), 0) AS Achievement
                         FROM PartnerMaster p
                         LEFT JOIN TargetMaster t ON t.PartnerID = p.PartnerID 
-                            AND t.TargetMonth = MONTH(GETDATE()) AND t.TargetYear = YEAR(GETDATE())
+                            AND t.TargetMonth = @TargetMonth AND t.TargetYear = @TargetYear
                         LEFT JOIN DailySalesEntry d ON d.PartnerID = p.PartnerID
-                        AND MONTH(d.SaleDate) = MONTH(GETDATE())
-                        AND YEAR(d.SaleDate) = YEAR(GETDATE())
+                        AND MONTH(d.SaleDate) = @TargetMonth
+                        AND YEAR(d.SaleDate) = @TargetYear
                         GROUP BY p.PartnerName, p.NativeBranch, t.SalesTarget
                         ORDER BY ISNULL(SUM(d.SalesAchieved), 0) DESC";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
+
+                        cmd.Parameters.AddWithValue("@TargetMonth", now.Month);
+                        cmd.Parameters.AddWithValue("@TargetYear", now.Year);
                         conn.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
@@ -486,28 +528,29 @@ namespace Target_Report
             {
                 con.Open();
 
-                SqlCommand cmd = new SqlCommand(@"
-
-            UPDATE PartnerFollowUp
-            SET
-                Status = 'Completed',
-                CompletedDate = GETDATE(),
-                CompletionRemark = @CompletionRemark
-            WHERE FollowUpID = @FollowUpID;
-
-        ", con);
-
-                cmd.Parameters.AddWithValue("@CompletionRemark", txtNewRemark.Text.Trim());
+                SqlCommand cmd = new SqlCommand("USP_CompleteFollowUp", con);
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue(
                     "@FollowUpID",
                     Convert.ToInt32(hdnFollowupID.Value));
+
+                cmd.Parameters.AddWithValue(
+                    "@CompletionRemark",
+                    txtNewRemark.Text.Trim());
 
                 cmd.ExecuteNonQuery();
             }
 
             txtNewRemark.Text = "";
             LoadNextPendingFollowup();
+        }
+
+        private DateTime IndianNow()
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(
+                DateTime.UtcNow,
+                TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
         }
         private void AddDummyPartnerRow(DataTable table, int rank, string partnerName, string branch, decimal target, decimal achievement)
         {
@@ -633,12 +676,12 @@ namespace Target_Report
 
             if (activities.Count == 0)
             {
-                activities.Add(BuildDummyActivity("New partner added: <strong>Shree Enterprises</strong>", "primary", DateTime.Now.AddHours(-2)));
-                activities.Add(BuildDummyActivity("Monthly target updated for <strong>Vishal Traders</strong>", "primary", DateTime.Now.AddHours(-5)));
-                activities.Add(BuildDummyActivity("Sales entry recorded for <strong>Mahesh Distributors</strong>", "success", DateTime.Now.AddHours(-8)));
-                activities.Add(BuildDummyActivity("New partner added: <strong>Om Sai Agencies</strong>", "primary", DateTime.Now.AddDays(-1)));
-                activities.Add(BuildDummyActivity("Sales entry recorded for <strong>Krishna Sales Corp</strong>", "success", DateTime.Now.AddDays(-1).AddHours(-3)));
-                activities.Add(BuildDummyActivity("Monthly target updated for <strong>Ganesh Marketing</strong>", "primary", DateTime.Now.AddDays(-2)));
+                activities.Add(BuildDummyActivity("New partner added: <strong>Shree Enterprises</strong>", "primary", IndianNow().AddHours(-2)));
+                activities.Add(BuildDummyActivity("Monthly target updated for <strong>Vishal Traders</strong>", "primary", IndianNow().AddHours(-5)));
+                activities.Add(BuildDummyActivity("Sales entry recorded for <strong>Mahesh Distributors</strong>", "success", IndianNow().AddHours(-8)));
+                activities.Add(BuildDummyActivity("New partner added: <strong>Om Sai Agencies</strong>", "primary", IndianNow().AddDays(-1)));
+                activities.Add(BuildDummyActivity("Sales entry recorded for <strong>Krishna Sales Corp</strong>", "success", IndianNow().AddDays(-1).AddHours(-3)));
+                activities.Add(BuildDummyActivity("Monthly target updated for <strong>Ganesh Marketing</strong>", "primary", IndianNow().AddDays(-2)));
             }
 
             rptRecentActivity.DataSource = activities;
@@ -681,7 +724,7 @@ namespace Target_Report
         }
         private string GetTimeAgo(DateTime activityDate)
         {
-            TimeSpan span = DateTime.Now - activityDate;
+            TimeSpan span = IndianNow() - activityDate;
 
             if (span.TotalMinutes < 1) return "Just now";
             if (span.TotalMinutes < 60) return $"{(int)span.TotalMinutes} min ago";

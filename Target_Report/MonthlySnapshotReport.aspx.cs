@@ -43,15 +43,8 @@ namespace Target_Report
                 BindYears();
                 BindPartners();
 
-                // Default the filter to the most recently completed month,
-                // since that is the most likely snapshot a user opens this
-                // report to look at.
-                //DateTime defaultMonth = DateTime.Now.AddMonths(-1);
-                //ddlMonth.SelectedValue = defaultMonth.Month.ToString();
-                //ddlYear.SelectedValue = defaultMonth.Year.ToString();
-
-                ddlMonth.SelectedValue = DateTime.Now.Month.ToString();
-                ddlYear.SelectedValue = DateTime.Now.Year.ToString();
+                ddlMonth.SelectedValue = IndianNow().Month.ToString();
+                ddlYear.SelectedValue = IndianNow().Year.ToString();
 
 
                 LoadReport();
@@ -70,13 +63,18 @@ namespace Target_Report
             // as the natural place to extend month logic later (e.g.
             // restricting to months with closed snapshots only).
         }
-
+        private DateTime IndianNow()
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(
+                DateTime.UtcNow,
+                TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+        }
         private void BindYears()
         {
             ddlYear.Items.Clear();
             ddlYear.Items.Add(new ListItem("Select year", ""));
 
-            int currentYear = DateTime.Now.Year;
+            int currentYear = IndianNow().Year;
             for (int year = currentYear - 5; year <= currentYear + 5; year++)
             {
                 ddlYear.Items.Add(new ListItem(year.ToString(), year.ToString()));
@@ -412,7 +410,7 @@ namespace Target_Report
         {
             string fileName =
                 "MonthlySnapshotReport_" +
-                DateTime.Now.ToString("yyyyMMdd") +
+                IndianNow().ToString("yyyyMMdd") +
                 ".xlsx";
 
             string[] headers =

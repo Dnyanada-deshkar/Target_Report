@@ -23,7 +23,7 @@ namespace Target_Report
                 pnlToast.Visible = false;
 
                 txtFollowDate.Attributes["min"] =
-                    DateTime.Today.ToString("yyyy-MM-dd");
+                IndianNow().ToString("yyyy-MM-dd");
 
                 LoadPartners();
                 LoadSalesExecutives();
@@ -167,11 +167,11 @@ namespace Target_Report
 
                 cmd.Parameters.AddWithValue(
                     "@TargetMonth",
-                    DateTime.Now.Month);
+                    IndianNow().Month);
 
                 cmd.Parameters.AddWithValue(
                     "@TargetYear",
-                    DateTime.Now.Year);
+                    IndianNow().Year);
 
                 con.Open();
 
@@ -296,7 +296,7 @@ namespace Target_Report
                 return;
             }
 
-            if (followDate.Date < DateTime.Today)
+            if (followDate.Date < IndianNow().Date)
             {
                 ShowToast(
                     "Warning",
@@ -311,10 +311,8 @@ namespace Target_Report
 
                 cmd.Parameters.AddWithValue("@PartnerID", ddlPartner.SelectedValue);
                 cmd.Parameters.AddWithValue("@Remark", txtRemark.Text.Trim());
-                cmd.Parameters.AddWithValue("@FollowUpDate", Convert.ToDateTime(txtFollowDate.Text));
-                cmd.Parameters.AddWithValue(
-    "@ExecutiveID",
-    ddlSalesExecutiveFollow.SelectedValue);
+                cmd.Parameters.AddWithValue( "@FollowUpDate", followDate.Date); 
+                cmd.Parameters.AddWithValue("@ExecutiveID", ddlSalesExecutiveFollow.SelectedValue);
 
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -348,7 +346,12 @@ namespace Target_Report
             var culture = new CultureInfo("hi-IN");
             return "₹" + string.Format(culture, "{0:N0}", value);
         }
-
+        private DateTime IndianNow()
+        {
+            return TimeZoneInfo.ConvertTimeFromUtc(
+                DateTime.UtcNow,
+                TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+        }
         private void BindTodaySales()
         {
             using (SqlConnection con = new SqlConnection(ConnString))
@@ -374,8 +377,8 @@ namespace Target_Report
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@Month", DateTime.Now.Month);
-                cmd.Parameters.AddWithValue("@Year", DateTime.Now.Year);
+                cmd.Parameters.AddWithValue("@Month", IndianNow().Month);
+                cmd.Parameters.AddWithValue("@Year", IndianNow().Year);
 
                 DataTable dt = new DataTable();
 
@@ -414,8 +417,8 @@ namespace Target_Report
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@Month", DateTime.Now.Month);
-                cmd.Parameters.AddWithValue("@Year", DateTime.Now.Year);
+                cmd.Parameters.AddWithValue("@Month", IndianNow().Month);
+                cmd.Parameters.AddWithValue("@Year", IndianNow().Year);
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();

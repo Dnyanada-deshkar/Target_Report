@@ -273,10 +273,9 @@ namespace Target_Report
                 "Success",
                 "Brand deleted successfully.");
 
-            //ClearForm();
+            ClearForm();
 
-            //LoadGrid();
-            return;
+            LoadGrid();
         }
 
         protected void gvBrand_RowDataBound(
