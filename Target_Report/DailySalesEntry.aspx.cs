@@ -111,6 +111,18 @@ namespace Target_Report
                 return;
             }
 
+            if (ddlSalesExecutiveFollow.SelectedValue == "0")
+            {
+                ShowToast(
+                    "Warning",
+                    "Please select sales executive.",
+                    "warning");
+
+                ddlSalesExecutiveFollow.Focus();
+
+                return;
+            }
+
             LoadPartnerTarget();
             LoadPartnerContact();
 
@@ -282,6 +294,17 @@ namespace Target_Report
                     "Please select partner.",
                     "warning");
 
+                return;
+            }
+
+            if (ddlSalesExecutiveFollow.SelectedIndex <= 0)
+            {
+                ShowToast(
+                    "Warning",
+                    "Please select sales executive.",
+                    "warning");
+
+                ddlSalesExecutiveFollow.Focus();
                 return;
             }
 

@@ -126,10 +126,10 @@
     <Content Include="DailySalesEntry.css" />
     <Content Include="Dashboard.aspx" />
     <Content Include="Dashboard.css" />
+    <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\allylogo.png" />
-    <Content Include="Default.aspx" />
     <Content Include="MonthlySnapshotReport.aspx" />
     <Content Include="MonthlySnapshotReport.css" />
     <Content Include="PartnerMaster.aspx" />
@@ -238,15 +238,15 @@
     <Compile Include="Dashboard.aspx.designer.cs">
       <DependentUpon>Dashboard.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Global.asax.cs">
-      <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="MonthlySnapshotReport.aspx.cs">
       <DependentUpon>MonthlySnapshotReport.aspx</DependentUpon>
