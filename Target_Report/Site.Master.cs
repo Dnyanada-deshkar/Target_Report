@@ -14,7 +14,7 @@ namespace Target_Report
         {
             if (Session["AdminUsername"] == null)
             {
-                Response.Redirect("~/Login.aspx");
+                Response.Redirect("~/Default.aspx");
                 return;
             }
 
@@ -94,7 +94,7 @@ namespace Target_Report
             Session.Clear();
             Session.Abandon();
 
-            Response.Redirect("~/Login.aspx");
+            Response.Redirect("~/Default.aspx");
         }
     }
 }
