@@ -113,7 +113,6 @@
 
                         <div class="form-actions">
                             <div class="form-actions-spacer"></div>
-                            <asp:Button ID="btnExport" runat="server" Text="Export Excel" CssClass="btn btn-outline" CausesValidation="false" OnClick="btnExport_Click" />
                             <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary" ValidationGroup="ReportFilters" OnClick="btnSearch_Click" />
                         </div>
 
@@ -326,6 +325,19 @@
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="13 17 18 12 13 7"></polyline><polyline points="6 17 11 12 6 7"></polyline></svg>
                         </asp:LinkButton>
                     </div>
+
+                        <asp:LinkButton
+    ID="btnExportBottom"
+    runat="server"
+    CssClass="btn-export-bottom"
+    CausesValidation="false"
+    OnClick="btnExport_Click">
+
+    <i class="fa-solid fa-download"></i>
+    <span>Export Excel</span>
+
+</asp:LinkButton>
+
                 </div>
 
             </section>

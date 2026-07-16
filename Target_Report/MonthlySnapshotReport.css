@@ -1015,3 +1015,63 @@ MONTHLY SNAPSHOT RESPONSIVE POLISH
         font-size: 20px;
     }
 }
+
+.table-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.footer-export {
+    margin-left: auto;
+}
+
+.btn-export-bottom {
+    min-width: 170px;
+    height: 46px;
+    border-radius: 10px;
+    background: #1D4ED8;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    transition: .25s;
+}
+
+    .btn-export-bottom:hover {
+        background: #1E40AF;
+    }
+
+.footer-export {
+    margin-left: auto;
+}
+
+.btn-export-bottom {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #091e4d;
+    color: #fff !important;
+    padding: 12px 24px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    border: none;
+    box-shadow: 0 8px 20px rgba(37,99,235,.25);
+    transition: .25s ease;
+}
+
+    .btn-export-bottom:hover {
+        background: #0e225d !important;
+        color: #fff !important;
+        text-decoration: none;
+        transform: translateY(-2px);
+        box-shadow: 0 12px 24px rgba(37,99,235,.35);
+    }
+
+    .btn-export-bottom i {
+        font-size: 15px;
+    }

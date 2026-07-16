@@ -69,15 +69,6 @@ namespace Target_Report
         protected global::System.Web.UI.WebControls.DropDownList ddlPartner;
 
         /// <summary>
-        /// btnExport control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnExport;
-
-        /// <summary>
         /// btnSearch control.
         /// </summary>
         /// <remarks>
@@ -193,6 +184,15 @@ namespace Target_Report
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkLast;
+
+        /// <summary>
+        /// btnExportBottom control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnExportBottom;
 
         /// <summary>
         /// pnlToast control.
