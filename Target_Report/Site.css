@@ -14,7 +14,7 @@
     --color-success: #16A34A;
     --color-danger: #DC2626;
     --sidebar-width: 260px;
-    --topbar-height: 70px;
+    --topbar-height: 84px;
 }
 
 html,
@@ -163,16 +163,15 @@ body {
     left: var(--sidebar-width);
     right: 0;
     height: var(--topbar-height);
-    background: #fff;
-    border-bottom: 1px solid var(--color-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 24px;
+    padding: 14px 28px;
+    background: #fff;
+    border-bottom: 1px solid var(--color-border);
+    box-shadow: 0 4px 18px rgba(15,23,42,.08);
     z-index: 9999;
-    box-shadow: 0 2px 12px rgba(15,23,42,.08);
 }
-
 
 
 .topbar-right {
@@ -209,7 +208,7 @@ body {
 
 .topbar-divider {
     width: 1px;
-    height: 30px;
+    height: 40px;
     background: var(--color-border);
 }
 
@@ -224,8 +223,8 @@ body {
 }
 
 .topbar-user-avatar {
-    width: 42px;
-    height: 42px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: var(--color-primary);
     color: white;
@@ -305,11 +304,11 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    height: 38px;
-    padding: 0 18px;
+    height: 44px;
+    padding: 0 22px;
     background: #FFFFFF;
     border: 1.5px solid #EF4444;
-    border-radius: 10px;
+    border-radius: 12px;
     color: #EF4444 !important;
     text-decoration: none !important;
     font-size: 14px;
@@ -394,7 +393,11 @@ body {
     .app-topbar {
         left: 0;
         width: 100%;
-        padding: 0 15px;
+        height: 84px;
+        padding: 0 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
 
     .topbar-user-text {
