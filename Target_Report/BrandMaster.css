@@ -256,26 +256,6 @@
 /* =========================================================
    BRAND LIST SECTION
 ========================================================= */
-
-.brand-list-card {
-    background: #fff;
-    border-radius: 18px;
-    border: 1px solid #e8edf5;
-    box-shadow: 0 10px 28px rgba(15,23,42,.08);
-    overflow: hidden;
-    margin-top: 30px;
-}
-
-.brand-list-header {
-    padding: 22px 28px;
-    border-bottom: 1px solid #edf2f7;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 18px;
-}
-
 .brand-list-title {
     display: flex;
     align-items: center;
@@ -350,13 +330,6 @@
 /* =========================================================
    TABLE
 ========================================================= */
-
-.brand-table {
-    width: 100% !important;
-    border-collapse: separate !important;
-    border-spacing: 0;
-}
-
     .brand-table thead th {
         background: #f8fafc;
         color: #16213e;
@@ -392,23 +365,6 @@
    BRAND LIST CARD
 ========================================================= */
 
-.brand-list-card {
-    background: #fff;
-    border: 1px solid #e7edf5;
-    border-radius: 18px;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(16,24,40,.08);
-    margin-top: 26px;
-}
-
-.brand-list-header {
-    padding: 20px 26px;
-    border-bottom: 1px solid #eef2f7;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
 .brand-list-title {
     font-size: 22px;
     font-weight: 700;
@@ -432,23 +388,6 @@
     gap: 16px;
 }
 
-.brand-search {
-    width: 350px;
-    max-width: 100%;
-    height: 46px;
-    border-radius: 12px;
-    border: 1px solid #d8e1ee;
-    padding: 0 16px;
-    font-size: 15px;
-    transition: .25s;
-}
-
-    .brand-search:focus {
-        outline: none;
-        border-color: #27459b;
-        box-shadow: 0 0 0 4px rgba(39,69,155,.12);
-    }
-
 .brand-entries {
     display: flex;
     align-items: center;
@@ -470,13 +409,6 @@
 /* =========================================================
    GRIDVIEW TABLE
 ========================================================= */
-
-.brand-table {
-    width: 100%;
-    border-collapse: separate;
-    border-spacing: 0;
-}
-
     .brand-table thead th {
         background: #f6f8fc;
         color: #13254d;
@@ -1113,4 +1045,116 @@ DELETE
     padding: 0 10px;
     font-size: 15px;
     cursor: pointer;
+}
+/*=========================================
+MOBILE FIX
+=========================================*/
+
+@media (max-width:768px) {
+
+    .module-page {
+        padding: 16px;
+    }
+
+    .module-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .module-title {
+        font-size: 34px;
+        line-height: 1.15;
+    }
+
+    .module-breadcrumb {
+        display: none;
+    }
+
+    .panel {
+        border-radius: 18px;
+    }
+
+    .panel-header {
+        padding: 18px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+    }
+
+    .panel-body {
+        padding: 18px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .field-input,
+    .field-select {
+        height: 50px;
+        font-size: 16px;
+    }
+
+    .form-actions {
+        display: flex;
+        flex-direction: column-reverse;
+        gap: 12px;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .table-wrapper {
+        width: 100%;
+        overflow-x: auto;
+        border-radius: 14px;
+    }
+
+    .grid {
+        min-width: 700px;
+    }
+
+    .brand-table {
+        min-width: 700px;
+    }
+
+    .brand-table-wrapper {
+        overflow-x: auto;
+        padding: 16px;
+    }
+
+    .brand-list-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .brand-search {
+        width: 100%;
+    }
+
+    .table-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .table-toolbar-right {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .page-size-select {
+        width: 100%;
+    }
+
+    .cell-actions {
+        gap: 6px;
+    }
+
+    .icon-btn {
+        width: 34px;
+        height: 34px;
+    }
 }
