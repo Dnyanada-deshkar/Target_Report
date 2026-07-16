@@ -7,20 +7,31 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Target_Report {
-    
-    
-    public partial class Site_Mobile {
-        
+namespace Target_Report
+{
+
+
+    public partial class Site_Mobile
+    {
+
         /// <summary>
-        /// HeadContent control.
+        /// cphTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
-        
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphTitle;
+
+        /// <summary>
+        /// cphHead control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphHead;
+
         /// <summary>
         /// form1 control.
         /// </summary>
@@ -29,23 +40,25 @@ namespace Target_Report {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        
+
         /// <summary>
-        /// FeaturedContent control.
+        /// ScriptManager1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder FeaturedContent;
-        
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+
         /// <summary>
-        /// MainContent control.
+        /// cphBody control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder cphBody;
     }
 }
+
+
