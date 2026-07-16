@@ -33,13 +33,13 @@ namespace Target_Report
         protected global::System.Web.UI.WebControls.ContentPlaceHolder cphHead;
 
         /// <summary>
-        /// form1 control.
+        /// frmShell control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlForm form1;
+        protected global::System.Web.UI.HtmlControls.HtmlForm frmShell;
 
         /// <summary>
         /// ScriptManager1 control.
@@ -51,6 +51,105 @@ namespace Target_Report
         protected global::System.Web.UI.ScriptManager ScriptManager1;
 
         /// <summary>
+        /// lnkNavDashboard control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink lnkNavDashboard;
+
+        /// <summary>
+        /// lnkBrandMaster control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink lnkBrandMaster;
+
+        /// <summary>
+        /// lnkNavSalesExecutiveMaster control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink lnkNavSalesExecutiveMaster;
+
+        /// <summary>
+        /// lnkNavPartnerMaster control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink lnkNavPartnerMaster;
+
+        /// <summary>
+        /// lnkNavTargetMaster control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink lnkNavTargetMaster;
+
+        /// <summary>
+        /// lnkNavSalesEntry control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink lnkNavSalesEntry;
+
+        /// <summary>
+        /// lnkNavReports control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink lnkNavReports;
+
+        /// <summary>
+        /// LinkButton1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton LinkButton1;
+
+        /// <summary>
+        /// litUserInitials control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litUserInitials;
+
+        /// <summary>
+        /// litUserName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litUserName;
+
+        /// <summary>
+        /// litUserRole control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Literal litUserRole;
+
+        /// <summary>
         /// cphBody control.
         /// </summary>
         /// <remarks>
@@ -60,5 +159,3 @@ namespace Target_Report
         protected global::System.Web.UI.WebControls.ContentPlaceHolder cphBody;
     }
 }
-
-
