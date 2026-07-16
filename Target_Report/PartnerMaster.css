@@ -1318,4 +1318,114 @@ a {
     font-weight: 600;
 }
 
-    
+/*=========================================================
+PARTNER MASTER RESPONSIVE
+=========================================================*/
+
+@media (max-width:1200px) {
+
+    .module-container {
+        padding: 20px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .brand-checkbox-list {
+        max-width: 100%;
+    }
+
+        .brand-checkbox-list table {
+            display: block;
+            overflow-x: auto;
+        }
+}
+
+@media (max-width:992px) {
+
+    .module-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .module-breadcrumb {
+        white-space: normal;
+    }
+
+    .toolbar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .toolbar-filters {
+        width: 100%;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .search-control {
+        max-width: 100%;
+    }
+}
+
+@media (max-width:768px) {
+
+    .panel-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-actions {
+        flex-wrap: wrap;
+        justify-content: stretch;
+    }
+
+        .form-actions .btn {
+            width: 100%;
+        }
+
+    .table-scroll {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .data-table {
+        min-width: 1050px;
+    }
+}
+
+@media (max-width:576px) {
+
+    .module-container {
+        padding: 15px;
+    }
+
+    .panel-body {
+        padding: 15px;
+    }
+
+    .toolbar {
+        padding: 15px;
+    }
+
+    .table-footer {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .pagination {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .toast {
+        min-width: unset;
+        width: 95%;
+    }
+
+    .modal-card {
+        width: 95%;
+    }
+}

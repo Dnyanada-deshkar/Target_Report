@@ -605,3 +605,100 @@
         padding: 20px 22px;
         background: #fff;
     }
+/*=========================================================
+DAILY SALES ENTRY RESPONSIVE
+=========================================================*/
+
+@media (max-width:1200px) {
+
+    .module-container {
+        padding: 20px;
+    }
+}
+
+@media (max-width:992px) {
+
+    .module-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .module-breadcrumb {
+        white-space: normal;
+    }
+
+    .panel-header-flex {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .mode-switch {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .mode-btn {
+        flex: 1;
+        text-align: center;
+    }
+}
+
+@media (max-width:768px) {
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+        .form-actions .btn {
+            width: 100%;
+        }
+
+    .brand-card-container {
+        justify-content: center;
+    }
+
+    .brand-card {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .table-grid {
+        min-width: 1000px;
+    }
+
+    .panel-body {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+}
+
+@media (max-width:576px) {
+
+    .module-container {
+        padding: 15px;
+    }
+
+    .panel-body {
+        padding: 15px;
+    }
+
+    .toast {
+        width: 95%;
+        min-width: unset;
+    }
+
+    .mode-btn {
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .field-input,
+    .field-select {
+        font-size: 14px;
+    }
+}
