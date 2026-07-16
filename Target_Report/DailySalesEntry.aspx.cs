@@ -111,7 +111,6 @@ namespace Target_Report
                 return;
             }
 
-
             LoadPartnerTarget();
             LoadPartnerContact();
 
