@@ -1,235 +1,33 @@
-﻿<%@ Master Language="C#" AutoEventWireup="true"
-CodeBehind="Site.Mobile.Master.cs"
-Inherits="Target_Report.Site_Mobile" %>
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.Mobile.master.cs" Inherits="Target_Report.Site_Mobile" %>
+
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
+
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><asp:ContentPlaceHolder ID="cphTitle" runat="server">Sales Target Report Management System</asp:ContentPlaceHolder></title>
-    <link rel="stylesheet" href="Site.css" />
+
+    <title>
+        <asp:ContentPlaceHolder ID="cphTitle" runat="server" />
+    </title>
+
     <asp:ContentPlaceHolder ID="cphHead" runat="server" />
+
 </head>
+
 <body>
-    <form id="frmShell" runat="server">
-            <asp:ScriptManager
-                ID="ScriptManager1"
-                runat="server" />
-        <div class="app-shell">
 
-            <!-- ================================================
-                 SIDEBAR
-                 ================================================ -->
-            <aside class="app-sidebar">
-                <div class="sidebar-brand">
+    <form id="form1" runat="server">
 
-    <img src="Images/allylogo.png"
-         alt="Ally Solutions"
-         class="sidebar-logo" />
+        <asp:ScriptManager
+            ID="ScriptManager1"
+            runat="server" />
 
-    <div class="sidebar-brand-text">
-        <span class="sidebar-brand-app">
-            Sales Target Report System
-        </span>
-    </div>
-
-</div>
-                   
-
-                <nav class="sidebar-nav">
-                    <div class="sidebar-nav-section">
-                        <p class="sidebar-nav-label">Overview</p>
-                        <asp:HyperLink ID="lnkNavDashboard" runat="server" NavigateUrl="~/Dashboard.aspx" CssClass="sidebar-nav-link">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"></rect><rect x="14" y="3" width="7" height="5"></rect><rect x="14" y="12" width="7" height="9"></rect><rect x="3" y="16" width="7" height="5"></rect></svg>
-                            <span>Dashboard</span>
-                        </asp:HyperLink>
-                    </div>
-
-                    <div class="sidebar-nav-section">
-                        <p class="sidebar-nav-label">Masters</p>
-
-
-                                                <asp:HyperLink
-    ID="lnkBrandMaster"
-    runat="server"
-    NavigateUrl="~/BrandMaster.aspx"
-    CssClass="sidebar-nav-link">
-
-    <svg viewBox="0 0 24 24"
-         fill="none"
-         stroke="currentColor"
-         stroke-width="2"
-         stroke-linecap="round"
-         stroke-linejoin="round">
-
-        <path d="M20 7L12 3 4 7l8 4 8-4z"></path>
-        <path d="M4 7v10l8 4 8-4V7"></path>
-        <path d="M12 11v10"></path>
-
-    </svg>
-
-    <span>Brand Master</span>
-
-</asp:HyperLink>
-
-
-                                                <asp:HyperLink ID="lnkNavSalesExecutiveMaster"
-runat="server"
-NavigateUrl="~/SalesExecutiveMaster.aspx"
-CssClass="sidebar-nav-link">
-
-<svg viewBox="0 0 24 24"
-     fill="none"
-     stroke="currentColor"
-     stroke-width="1.8"
-     stroke-linecap="round"
-     stroke-linejoin="round">
-
-    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-    <circle cx="12" cy="7" r="4"></circle>
-
-</svg>
-
-<span>Sales Executive Master</span>
-
- </asp:HyperLink>
-
-
-
-                        <asp:HyperLink ID="lnkNavPartnerMaster" runat="server" NavigateUrl="~/PartnerMaster.aspx" CssClass="sidebar-nav-link">
-                           <svg viewBox="0 0 24 24"
-     fill="none"
-     stroke="currentColor"
-     stroke-width="1.8"
-     stroke-linecap="round"
-     stroke-linejoin="round">
-    <path d="M3 21h18"></path>
-    <path d="M5 21V7l7-4 7 4v14"></path>
-    <path d="M9 9h1"></path>
-    <path d="M14 9h1"></path>
-    <path d="M9 13h1"></path>
-    <path d="M14 13h1"></path>
-    <path d="M11 21v-4h2v4"></path>
-</svg>
-                            <span>Partner Master</span>
-
-                           </asp:HyperLink>
-
-
-
-                        
-
-                       
-                            
-                        <asp:HyperLink ID="lnkNavTargetMaster" runat="server" NavigateUrl="~/TargetMaster.aspx" CssClass="sidebar-nav-link">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>
-                            <span>Target Master</span>
-                        </asp:HyperLink>
-                    </div>
-
-                    <div class="sidebar-nav-section">
-                        <p class="sidebar-nav-label">Operations</p>
-                        <asp:HyperLink ID="lnkNavSalesEntry" runat="server" NavigateUrl="~/DailySalesEntry.aspx" CssClass="sidebar-nav-link">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>
-                            <span>Daily Sales & Follow-up</span>
-                        </asp:HyperLink>
-                        <asp:HyperLink ID="lnkNavReports" runat="server" NavigateUrl="~/MonthlySnapshotReport.aspx" CssClass="sidebar-nav-link">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="9" y1="13" x2="15" y2="13"></line><line x1="9" y1="17" x2="15" y2="17"></line></svg>
-                            <span>Reports</span>
-                        </asp:HyperLink>
-                    </div>
-                </nav>
-
-                <div class="sidebar-footer">
-                    <span>v1.0.0 &middot; &copy; <%= DateTime.Now.Year %> Ally Solutions</span>
-                </div>
-            </aside>
-
-            <!-- ================================================
-                 MAIN AREA — topbar + content
-                 ================================================ -->
-            <div class="app-main">
-
-                <header class="app-topbar">
-
-    <div class="topbar-datetime">
-        <span id="liveDateTime"></span>
-    </div>
-
-                    
-
-                    <div class="topbar-right">
-
-   
-    <!-- LOGOUT BUTTON START -->
-
-    <asp:LinkButton ID="LinkButton1"
-    runat="server"
-    CssClass="topbar-logout-btn"
-    OnClientClick="return confirm('Are you sure you want to logout?');"
-    OnClick="btnLogout_Click">
-
-    Logout
-
-</asp:LinkButton>
-
-    <!-- LOGOUT BUTTON END -->
-
-    <div class="topbar-divider"></div>
-
-    <div class="topbar-user">
-        <div class="topbar-user-avatar">
-            <asp:Literal ID="litUserInitials" runat="server" Text="AD" />
-        </div>
-
-        <div class="topbar-user-text">
-            <span class="topbar-user-name">
-                <asp:Literal ID="litUserName" runat="server" Text="Administrator" />
-            </span>
-
-            <span class="topbar-user-role">
-                <asp:Literal ID="litUserRole" runat="server" Text="Director" />
-            </span>
-        </div>
-    </div>
-
-</div>
-                </header>
-
-                <main class="app-content">
-                    <asp:ContentPlaceHolder ID="cphBody" runat="server" />
-                </main>
-
-            </div>
-
-        </div>
+        <asp:ContentPlaceHolder
+            ID="cphBody"
+            runat="server" />
 
     </form>
-    <script>
-        function updateDateTime() {
-
-            const now = new Date();
-
-            const date = now.toLocaleDateString('en-GB', {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric'
-            });
-
-            const time = now.toLocaleTimeString('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true
-            });
-
-            document.getElementById('liveDateTime').innerHTML =
-                '📅 ' + date + ' | 🕒 ' + time;
-        }
-
-        updateDateTime();
-        setInterval(updateDateTime, 1000);
-    </script>
 
 </body>
 </html>
-
