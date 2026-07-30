@@ -133,35 +133,15 @@ Examples:
 - USP_PartnerBrandMapping_Save
 ---
 
-# ✨ Project Highlights
+# ✨ Highlights
 
-✔ Clean Dashboard UI
-
-✔ Responsive Card Layout
-
-✔ Search Functionality
-
-✔ Pagination
-
-✔ CRUD Operations
-
-✔ SQL Stored Procedures
-
-✔ Layered Code Structure
-
-✔ Validation Controls
-
-✔ Toast Notifications
-
-✔ Professional Admin Interface
-
-✔ Brand Mapping (Many-to-Many)
-
-✔ Dynamic Search Filters
-
-✔ Duplicate Record Prevention
-
-✔ SQL Foreign Key Relationships
+- Built using ASP.NET Web Forms and ADO.NET
+- SQL Server database with Stored Procedures
+- Layered project structure for easier maintenance
+- Real-time sales achievement calculations
+- Partner & Brand relationship management
+- Input validation and duplicate record prevention
+- Responsive admin dashboard with toast notifications
 ---
 
 # 🎨 User Interface
