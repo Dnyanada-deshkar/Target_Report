@@ -353,7 +353,7 @@ body {
     }
 
     .menu-toggle {
-        display: block;
+        display: flex !important;
     }
 
     .app-sidebar {
