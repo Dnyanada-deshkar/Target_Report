@@ -47,7 +47,7 @@
 
 .module-title {
     margin: 0;
-    font-size: 34px;
+    font-size: 28px;
     font-weight: 800;
     color: var(--brand-text);
     letter-spacing: -.4px;
@@ -1062,7 +1062,7 @@ MOBILE FIX
     }
 
     .module-title {
-        font-size: 34px;
+        font-size: 28px;
         line-height: 1.15;
     }
 
@@ -1157,4 +1157,13 @@ MOBILE FIX
         width: 34px;
         height: 34px;
     }
+}
+
+
+
+.module-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.15;
 }

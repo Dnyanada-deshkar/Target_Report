@@ -28,9 +28,9 @@
 
         <div class="module-heading-block">
 
-            <h1 class="module-title">
+            <h6 class="module-title">
                 Brand Master
-            </h1>
+            </h6>
 
             <p class="module-subtitle">
                 Manage all brands associated with the organization.

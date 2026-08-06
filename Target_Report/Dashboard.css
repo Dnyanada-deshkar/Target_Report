@@ -1131,3 +1131,11 @@ RESPONSIVE DASHBOARD
         padding: 15px;
     }
 }
+
+.dashboard-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.15;
+}
+

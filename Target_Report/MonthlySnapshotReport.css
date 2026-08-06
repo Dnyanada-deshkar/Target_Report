@@ -84,8 +84,8 @@ a {
 }
 
 .module-title {
-    font-size: 22px;
-    font-weight: 600;
+    font-size: 22px ;
+    font-weight: 800;
     color: var(--color-text);
     margin: 0 0 5px 0;
     letter-spacing: -0.1px;
@@ -1066,3 +1066,11 @@ MONTHLY SNAPSHOT RESPONSIVE POLISH
         width: 18px;
         height: 18px;
     }
+
+.module-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--brand-text);
+}

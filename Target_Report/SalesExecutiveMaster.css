@@ -826,3 +826,11 @@ a {
     .branch-blue .branch-dot {
         background: #1E40AF;
     }
+
+.module-title {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.15;
+    color: var(--brand-text);
+}
