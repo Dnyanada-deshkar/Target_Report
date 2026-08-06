@@ -425,3 +425,7 @@ body {
         padding-right: 10px;
     }
 }
+/* Desktop pe hide */
+.menu-toggle {
+    display: none;
+}

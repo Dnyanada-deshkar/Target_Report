@@ -176,7 +176,7 @@ CssClass="sidebar-nav-link">
 
                 <header class="app-topbar">
 
-                    <button type="button"
+                     <button type="button"
                             class="menu-toggle"
                             onclick="toggleSidebar()">
 
@@ -196,7 +196,7 @@ CssClass="sidebar-nav-link">
 
                         </svg>
 
-                    </button>
+                    </button> 
 
     <div class="topbar-datetime">
         <span id="liveDateTime"></span>
