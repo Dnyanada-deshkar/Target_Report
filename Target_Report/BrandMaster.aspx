@@ -5,6 +5,7 @@
     CodeBehind="BrandMaster.aspx.cs"
     Inherits="Target_Report.BrandMaster" %>
 
+
 <asp:Content ID="cntTitle" ContentPlaceHolderID="cphTitle" runat="server">
     Brand Master · Sales Target Report Management System
 </asp:Content>
@@ -28,9 +29,9 @@
 
         <div class="module-heading-block">
 
-            <h6 class="module-title">
+            <h1 class="module-title">
                 Brand Master
-            </h6>
+            </h1>
 
             <p class="module-subtitle">
                 Manage all brands associated with the organization.

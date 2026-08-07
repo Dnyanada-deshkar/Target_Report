@@ -1160,10 +1160,29 @@ MOBILE FIX
 }
 
 
+.module-title {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0 0 5px 0;
+    letter-spacing: -0.1px;
+}
+
 
 .module-title {
     margin: 0;
     font-size: 24px;
     font-weight: 700;
     line-height: 1.15;
+    color: var(--brand-text);
+}
+
+.app-topbar {
+    height: 78px !important;
+    min-height: 78px !important;
+    max-height: 78px !important;
+    padding: 0 28px !important;
+    display: flex !important;
+    align-items: center !important;
+    overflow: hidden;
 }
