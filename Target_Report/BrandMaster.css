@@ -224,8 +224,8 @@
 }
 
 .btn {
-    min-width: 145px;
-    height: 48px;
+    min-width: 100px;
+    height: 36px;
     border-radius: 12px;
     border: none;
     font-size: 15px;
@@ -245,7 +245,7 @@
     }
 
 .btn-muted {
-    background: #fff;
+    background: #e7ebf9;
     color: var(--brand-text);
     border: 1px solid var(--brand-border);
 }
@@ -1186,3 +1186,53 @@ MOBILE FIX
     align-items: center !important;
     overflow: hidden;
 }
+
+.btn-primary,
+.btn-save {
+    min-width: 100px;
+    height: 36px;
+    padding: 0 18px;
+    background: #1E3A8A;
+    color: #fff;
+    border: 1px solid #000;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0 3px 8px rgba(0,0,0,.18);
+    transition: all .25s ease;
+}
+
+    .btn-primary:hover,
+    .btn-save:hover {
+        background: #16306F;
+        box-shadow: 0 6px 14px rgba(0,0,0,.25);
+        transform: translateY(-1px);
+    }
+
+.clear-btn {
+    background: #DCE9FF;
+    color: #1E3A8A;
+    border: 1px solid #7FA5F8;
+    box-shadow: 0 4px 12px rgba(30, 58, 138, 0.18);
+}
+
+.clear-btn {
+    background: #EEF4FF;
+    color: #1E3A8A;
+    border: 1px solid #9DB8F7;
+    box-shadow: 0 3px 8px rgba(0,0,0,.12);
+    transition: all .25s ease;
+}
+
+    .clear-btn:hover {
+        background: #DCE9FF;
+        box-shadow: 0 6px 16px rgba(0,0,0,.18);
+    }
+
+    .clear-btn:focus,
+    .clear-btn:active {
+        background: #DCE9FF;
+        box-shadow: 0 8px 20px rgba(0,0,0,.22);
+        outline: none;
+        transform: translateY(1px);
+    }
