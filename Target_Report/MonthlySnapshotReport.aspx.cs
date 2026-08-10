@@ -42,7 +42,7 @@ namespace Target_Report
                 BindMonths();
                 BindYears();
                 BindPartners();
-
+                BindSalesExecutives();
                 ddlMonth.SelectedValue = IndianNow().Month.ToString();
                 ddlYear.SelectedValue = IndianNow().Year.ToString();
 
@@ -57,11 +57,33 @@ namespace Target_Report
 
         private void BindMonths()
         {
-            // Month list items are declared statically in the markup
-            // (January .. December), so no data binding is required here.
-            // Method retained per the requested code-behind structure and
-            // as the natural place to extend month logic later (e.g.
-            // restricting to months with closed snapshots only).
+            
+        }
+        private void BindSalesExecutives()
+        {
+            DataTable executives = new DataTable();
+
+            using (SqlConnection conn = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand(
+                "WardhaApp.USP_GetSalesExecutiveList", conn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+                {
+                    adapter.Fill(executives);
+                }
+            }
+
+            ddlSalesExecutive.DataSource = executives;
+            ddlSalesExecutive.DataTextField = "ExecutiveName";
+            ddlSalesExecutive.DataValueField = "ExecutiveID";
+            ddlSalesExecutive.DataBind();
+
+            ddlSalesExecutive.Items.Insert(
+                0,
+                new ListItem("All Sales Executives", "")
+            );
         }
         private DateTime IndianNow()
         {
@@ -193,6 +215,7 @@ namespace Target_Report
                 cmd.Parameters.AddWithValue("@TargetYear", Convert.ToInt32(ddlYear.SelectedValue));
                 cmd.Parameters.AddWithValue("@PartnerID", string.IsNullOrEmpty(ddlPartner.SelectedValue) ? (object)DBNull.Value : Convert.ToInt32(ddlPartner.SelectedValue));
                 cmd.Parameters.AddWithValue("@Branch", string.IsNullOrEmpty(ddlBranch.SelectedValue) ? (object)DBNull.Value : ddlBranch.SelectedValue);
+                cmd.Parameters.AddWithValue("@ExecutiveID", string.IsNullOrEmpty(ddlSalesExecutive.SelectedValue) ? (object)DBNull.Value : Convert.ToInt32(ddlSalesExecutive.SelectedValue));
 
                 using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
                 {
@@ -215,14 +238,33 @@ namespace Target_Report
         {
             decimal totalTarget = 0;
             decimal totalAchievement = 0;
-            decimal totalBalance = 0;
 
-            foreach (DataRow row in data.Rows)
+            if (data.Rows.Count > 0)
             {
-                totalTarget += row["SalesTarget"] != DBNull.Value ? Convert.ToDecimal(row["SalesTarget"]) : 0;
-                totalAchievement += row["Achievement"] != DBNull.Value ? Convert.ToDecimal(row["Achievement"]) : 0;
-                totalBalance += row["Balance"] != DBNull.Value ? Convert.ToDecimal(row["Balance"]) : 0;
+                // Target should be counted only once per partner.
+                var partnerTargets = data.AsEnumerable()
+                    .GroupBy(row => row["PartnerID"])
+                    .Select(group => group.First());
+
+                foreach (DataRow row in partnerTargets)
+                {
+                    totalTarget += row["SalesTarget"] != DBNull.Value
+                        ? Convert.ToDecimal(row["SalesTarget"])
+                        : 0;
+                }
+
+                foreach (DataRow row in data.Rows)
+                {
+                    totalAchievement += row["Achievement"] != DBNull.Value
+                        ? Convert.ToDecimal(row["Achievement"])
+                        : 0;
+                }
             }
+
+            decimal totalBalance = totalTarget - totalAchievement;
+
+            if (totalBalance < 0)
+                totalBalance = 0;
 
             decimal achievementPercentage = totalTarget > 0
                 ? Math.Round((totalAchievement / totalTarget) * 100, 2)
@@ -231,7 +273,11 @@ namespace Target_Report
             lblTotalTarget.Text = FormatCurrency(totalTarget);
             lblTotalAchievement.Text = FormatCurrency(totalAchievement);
             lblTotalBalance.Text = FormatCurrency(totalBalance);
-            lblAchievementPercentage.Text = achievementPercentage.ToString("N2", CultureInfo.InvariantCulture) + "%";
+            lblAchievementPercentage.Text =
+                achievementPercentage.ToString(
+                    "N2",
+                    CultureInfo.InvariantCulture
+                ) + "%";
         }
 
         private string FormatCurrency(decimal value)
@@ -415,13 +461,14 @@ namespace Target_Report
 
             string[] headers =
             {
-        "Partner Name",
-        "Branch",
-        "Sales Target",
-        "Achievement",
-        "Balance",
-        "Achievement %",
-        "Closed Date"
+                    "Sales Executive",
+                    "Partner Name",
+                    "Branch",
+                    "Sales Target",
+                    "Achievement",
+                    "Balance",
+                    "Achievement %",
+                    "Closed Date"
     };
 
             List<string[]> rows = new List<string[]>();
@@ -430,6 +477,7 @@ namespace Target_Report
             {
                 rows.Add(new[]
                 {
+            row["ExecutiveName"].ToString(),
             row["PartnerName"].ToString(),
             row["NativeBranch"].ToString(),
             row["SalesTarget"].ToString(),

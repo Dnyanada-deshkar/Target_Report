@@ -111,6 +111,20 @@
                             </div>
                         </div>
 
+                        <div class="field-group">
+                            <asp:Label runat="server" AssociatedControlID="ddlSalesExecutive" CssClass="field-label">
+                                Sales Executive
+                            </asp:Label>
+
+                            <div class="field-select-wrap">
+                                <asp:DropDownList
+                                    ID="ddlSalesExecutive"
+                                    runat="server"
+                                    CssClass="field-select">
+                                </asp:DropDownList>
+                            </div>
+                        </div>
+
                         <div class="form-actions">
                             <div class="form-actions-spacer"></div>
                             <asp:Button ID="btnSearch" runat="server" Text="Search" CssClass="btn btn-primary" ValidationGroup="ReportFilters" OnClick="btnSearch_Click" />
@@ -195,6 +209,27 @@
                                     OnSorting="gvSnapshot_Sorting"
                                     DataKeyNames="PartnerName">
                         <Columns>
+
+                            <asp:TemplateField HeaderText="Sales Executive" SortExpression="ExecutiveName">
+                                        <HeaderTemplate>
+                                            <span class="th-sort-wrap">
+                                                Sales Executive
+                                                <svg viewBox="0 0 24 24"
+                                                     fill="none"
+                                                     stroke="currentColor"
+                                                     stroke-width="2.5"
+                                                     stroke-linecap="round">
+                                                    <path d="M7 10l5 5 5-5"></path>
+                                                </svg>
+                                            </span>
+                                        </HeaderTemplate>
+
+                                        <ItemTemplate>
+                                            <span class="cell-name">
+                                                <%# Eval("ExecutiveName") %>
+                                            </span>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                             <asp:TemplateField HeaderText="Partner Name" SortExpression="PartnerName">
                                 <HeaderTemplate>
                                     <span class="th-sort-wrap">Partner Name
