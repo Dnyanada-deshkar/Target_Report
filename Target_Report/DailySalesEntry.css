@@ -1,7 +1,4 @@
-﻿
-
-/* ── Progress bar ──────────────────────────────────────────────────────── */
-.dse-progress-track {
+﻿.dse-progress-track {
     height: 8px;
     background: #E5E7EB;
     border-radius: 99px;
@@ -22,7 +19,6 @@
     display: block;
     margin-top: 6px;
 }
-/* ── Read-only fields ──────────────────────────────────────────────────── */
 .field-input.dse-readonly {
     background-color: #F9FAFB;
     color: #6B7280;
@@ -34,8 +30,6 @@
         box-shadow: none;
         outline: none;
     }
-
-/* ── Sale amount input — visually distinct ─────────────────────────────── */
 .field-input.dse-sale-input {
     font-size: 16px;
     font-weight: 600;
@@ -47,7 +41,6 @@
         box-shadow: 0 0 0 3px rgba(124, 58, 237, 0.12);
     }
 
-/* ── Inline field label badges ─────────────────────────────────────────── */
 .dse-badge {
     display: inline-block;
     font-size: 10px;
@@ -70,7 +63,6 @@
         border-color: #DDD6FE;
     }
 
-/* ── Alert / info banners ──────────────────────────────────────────────── */
 .dse-alert-panel {
     margin-bottom: 24px;
 }
@@ -439,9 +431,6 @@
     .cancel-btn:hover {
         background: #E5E7EB;
     }
-/*==========================
-  HEADER TOGGLE
-==========================*/
 
 .panel-header-flex {
     display: flex;
@@ -544,10 +533,6 @@
     color: #2563EB !important;
 }
 
-/* ==========================================
-   Partner Brand Cards
-========================================== */
-
 .partner-brand-panel {
     margin: 20px 0 24px;
 }
@@ -605,10 +590,6 @@
         padding: 20px 22px;
         background: #fff;
     }
-/*=========================================================
-DAILY SALES ENTRY RESPONSIVE
-=========================================================*/
-
 @media (max-width:1200px) {
 
     .module-container {

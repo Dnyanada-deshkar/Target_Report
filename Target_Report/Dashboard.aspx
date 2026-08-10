@@ -166,9 +166,6 @@
 
         </div>
 
-        <!-- =================================================
-             CHARTS — row 2: Achievement Trend (full width)
-             ================================================= -->
         <div class="charts-grid-secondary">
             <section class="panel">
                 <div class="panel-header">
@@ -186,12 +183,8 @@
             </section>
         </div>
 
-        <!-- =================================================
-             LOWER GRID — Top Partners | Recent Activity + Quick Actions
-             ================================================= -->
         <div class="lower-grid">
           
-            <!-- Recent Activity + Quick Actions -->
             <div class="lower-grid-side">
                
                 <section class="panel">
@@ -324,11 +317,6 @@
 
     </div>
 
-
-    <!-- ========================================================= -->
-<!-- FOLLOWUP POPUP -->
-<!-- ========================================================= -->
-
  <asp:Panel ID="pnlReminderPopup"
     runat="server"
     CssClass="followup-overlay"
@@ -450,11 +438,6 @@
     </div>
 
 </asp:Panel>
-    <!-- =====================================================
-         CHART DATA HANDOFF — server-rendered JSON consumed by
-         Chart.js below. Hidden fields keep the data layer and
-         the rendering layer cleanly separated.
-         ===================================================== -->
     <asp:HiddenField ID="hdnChartLabels" runat="server" />
     <asp:HiddenField ID="hdnTargetData" runat="server" />
     <asp:HiddenField ID="hdnAchievementData" runat="server" />
@@ -488,8 +471,6 @@
             var branchAchievementData = parseJsonField('<%= hdnBranchAchievementData.ClientID %>');
             var trendLabels = parseJsonField('<%= hdnTrendLabels.ClientID %>');
             var trendData = parseJsonField('<%= hdnTrendData.ClientID %>');
-
-            // Chart 1 — Target vs Achievement (vertical bar)
             var ctxTargetVsAchievement = document.getElementById('chartTargetVsAchievement');
             if (ctxTargetVsAchievement) {
                 new Chart(ctxTargetVsAchievement, {
@@ -513,12 +494,6 @@
                 });
             }
 
-            // Chart 2 — Branch Performance (horizontal bar)
-            // Chart 2 — Target Status (Doughnut)
-
-          
-
-            // --- YOUR EXISTING DATA BINDINGS (keep as-is) ---
             var totalTarget =
                 parseFloat(document.getElementById('<%= hdnTotalTarget.ClientID %>').value || 0);
 
@@ -577,14 +552,12 @@ var achieved =
                     type: 'doughnut',
 
                     data: {
-                        //labels: ['Achieved', 'Remaining'],
-
                         datasets: [{
                             data: [achieved, balance],
 
                             backgroundColor: [
-                                '#1E3A8A',   // Navy Blue
-                                '#E5E7EB'    // Light Gray
+                                '#1E3A8A',   
+                                '#E5E7EB'    
                             ],
 
                             borderWidth: 0,
@@ -644,8 +617,6 @@ var achieved =
                     }
                 });
             }
-
-            // Chart 3 — Achievement Trend (line)
             var ctxAchievementTrend = document.getElementById('chartAchievementTrend');
             if (ctxAchievementTrend) {
                 new Chart(ctxAchievementTrend, {

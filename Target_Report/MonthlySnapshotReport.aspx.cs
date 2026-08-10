@@ -282,35 +282,16 @@ namespace Target_Report
 
         private string FormatCurrency(decimal value)
         {
-            // Indian numbering convention (lakhs/crores grouping) formatted
-            // explicitly via the en-IN culture so values render as
-            // ₹ 1,20,000.00 rather than the Western ₹120,000.00 grouping.
             CultureInfo inCulture = CultureInfo.GetCultureInfo("en-IN");
             return "₹ " + value.ToString("N2", inCulture);
         }
-
-        /// <summary>
-        /// Called from the inline data-binding expression in
-        /// MonthlySnapshotReport.aspx (GetAchievementPctClass) — must
-        /// remain protected, since ItemTemplate expressions compile
-        /// against the page's public/protected surface, not its private
-        /// members.
-        /// </summary>
         protected string GetAchievementPctClass(decimal achievementPercentage)
         {
             if (achievementPercentage >= 80) return "is-high";
             if (achievementPercentage >= 50) return "is-medium";
             return "is-low";
         }
-
-        // =====================================================
-        // IN-MEMORY SORT + PAGE
-        // (the stored procedure returns the full filtered set for
-        // the selected month; sorting/paging for display is applied
-        // here so the KPI cards above can use the same unpaged
-        // result without a second round trip to the database)
-        // =====================================================
-
+        
         private DataTable ApplySortAndPaging(DataTable source)
         {
             string sortExpr = ViewState[VS_SORT_EXPR] as string ?? "PartnerName";

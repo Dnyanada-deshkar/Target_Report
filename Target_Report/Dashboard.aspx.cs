@@ -98,8 +98,6 @@ namespace Target_Report
             }
             catch (SqlException)
             {
-                // Database not reachable — use realistic placeholder values
-                // so the dashboard still renders a believable enterprise view.
                 totalPartners = 128;
                 monthlyTarget = 4500000m;
                 achievement = 3286500m;
@@ -121,11 +119,6 @@ namespace Target_Report
             lblActiveBranches.Text = activeBranches.ToString(CultureInfo.InvariantCulture);
         }
 
-        /// <summary>
-        /// Formats large currency values in a compact Indian-business style
-        /// (e.g. 32.9L for 32,90,000) to keep KPI numbers readable at the
-        /// card's large font size.
-        /// </summary>
         private string FormatCurrencyShort(decimal value)
         {
             if (value >= 10000000m)
@@ -139,9 +132,6 @@ namespace Target_Report
             return "₹" + value.ToString("N0", CultureInfo.InvariantCulture);
         }
 
-        // =====================================================
-        // CHART 1 — TARGET VS ACHIEVEMENT (vertical bar)
-        // =====================================================
         private void BindTargetStatusChart()
         {
 
@@ -237,7 +227,7 @@ namespace Target_Report
             }
             catch (SqlException)
             {
-                // Fall through to dummy data below
+                
             }
 
             if (months.Count == 0)
@@ -251,10 +241,6 @@ namespace Target_Report
             hdnTargetData.Value = ToJsonArray(targets);
             hdnAchievementData.Value = ToJsonArray(achievements);
         }
-
-        // =====================================================
-        // CHART 2 — BRANCH PERFORMANCE (horizontal bar)
-        // =====================================================
 
         private void BindBranchPerformanceChart()
         {
@@ -301,7 +287,7 @@ namespace Target_Report
             }
             catch (SqlException)
             {
-                // Fall through to dummy data below
+                
             }
 
             if (branchNames.Count == 0)
@@ -313,10 +299,6 @@ namespace Target_Report
             hdnBranchLabels.Value = ToJsonArray(branchNames);
             hdnBranchAchievementData.Value = ToJsonArray(branchAchievementPct);
         }
-
-        // =====================================================
-        // CHART 3 — ACHIEVEMENT TREND (line)
-        // =====================================================
 
         private void BindAchievementTrendChart()
         {
@@ -380,7 +362,7 @@ namespace Target_Report
             }
             catch (SqlException)
             {
-                // Fall through to dummy data below
+                
             }
 
             if (months.Count == 0)
@@ -392,10 +374,6 @@ namespace Target_Report
             hdnTrendLabels.Value = ToJsonArray(months);
             hdnTrendData.Value = ToJsonArray(achievementPct);
         }
-
-        // =====================================================
-        // TOP PARTNERS GRID
-        // =====================================================
 
         private void BindTopPartners()
         {
@@ -480,38 +458,11 @@ namespace Target_Report
                 AddDummyPartnerRow(table, 10, "Joshi Agencies", "Nagpur", 260000, 153400);
             }
 
-            //gvTopPartners.DataSource = table;
-            //gvTopPartners.DataBind();
+            
         }
-        //private void LoadReminderPopup()
-        //{
-        //    DataRow dr = GetNextPendingFollowup();
-
-        //    if (dr == null)
-        //    {
-        //        pnlReminderPopup.Visible = false;
-        //        return;
-        //    }
-
-        //    pnlReminderPopup.Visible = true;
-
-        //    hdnFollowupID.Value = dr["FollowUpID"].ToString();
-
-        //    lblPopupPartner.Text = dr["PartnerName"].ToString();
-
-        //    lblPopupContact.Text = dr["ContactNo"].ToString();
-
-        //    lblPopupDate.Text =
-        //        Convert.ToDateTime(dr["FollowUpDate"])
-        //        .ToString("dd MMM yyyy");
-
-        //    txtOldRemark.Text = dr["Remark"].ToString();
-
-        //    txtNewRemark.Text = "";
-        //}
+        
         protected void btnCompleteFollowup_Click(object sender, EventArgs e)
         {
-            // Validation
             if (string.IsNullOrWhiteSpace(txtNewRemark.Text))
             {
                 ScriptManager.RegisterStartupScript(
@@ -671,7 +622,7 @@ namespace Target_Report
             }
             catch (SqlException)
             {
-                // Fall through to dummy data below
+                
             }
 
             if (activities.Count == 0)
@@ -698,11 +649,6 @@ namespace Target_Report
                 IconSvg = GetActivityIconSvg(iconType)
             };
         }
-    //    protected void rptPendingFollowups_ItemCommand(object source,
-    //RepeaterCommandEventArgs e)
-    //    {
-
-    //    }
         private void LoadPendingFollowups()
         {
             using (SqlConnection con = new SqlConnection(ConnString))
@@ -716,10 +662,7 @@ namespace Target_Report
 
                 dt.Load(cmd.ExecuteReader());
 
-                //rptPendingFollowups.DataSource = dt;
-                //rptPendingFollowups.DataBind();
-
-                //pnlFollowupPopup.Visible = dt.Rows.Count > 0;
+                
             }
         }
         private string GetTimeAgo(DateTime activityDate)
@@ -734,11 +677,7 @@ namespace Target_Report
             return activityDate.ToString("dd MMM yyyy", CultureInfo.InvariantCulture);
         }
 
-        /// <summary>
-        /// Returns the inline SVG markup for an activity icon. The Repeater's
-        /// ItemTemplate renders this via Eval("IconSvg") with HTML output,
-        /// so this method returns raw markup, not an encoded string.
-        /// </summary>
+   
         private string GetActivityIconSvg(string iconType)
         {
             if (iconType == "success")
@@ -748,11 +687,6 @@ namespace Target_Report
 
             return "<svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"></path><circle cx=\"12\" cy=\"7\" r=\"4\"></circle></svg>";
         }
-
-        // =====================================================
-        // JSON HELPERS — minimal hand-rolled serialization so the
-        // project has no extra JSON library dependency.
-        // =====================================================
 
         private string ToJsonArray(List<string> values)
         {
@@ -777,11 +711,6 @@ namespace Target_Report
             sb.Append("]");
             return sb.ToString();
         }
-
-        // =====================================================
-        // ACTIVITY FEED MODEL
-        // =====================================================
-
         private class ActivityFeedItem
         {
             public string ActivityText { get; set; }

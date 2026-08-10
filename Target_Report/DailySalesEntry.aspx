@@ -13,10 +13,6 @@
 
     <div class="module-page">
         <div class="module-container">
-
-            <!-- =====================================================
-                 TOP HEADER
-                 ===================================================== -->
             <div class="module-header">
                 <div class="module-heading-block">
                     <h1 class="module-title">Daily Sales & Follow-up</h1>
@@ -31,9 +27,6 @@
                 </nav>
             </div>
 
-            <!-- =====================================================
-                 TOAST NOTIFICATION
-                 ===================================================== -->
             <asp:Panel ID="pnlToast" runat="server" CssClass="toast-stack" Visible="false">
                 <div class="toast">
                    <svg class="toast-icon"
@@ -53,10 +46,6 @@
                     </div>
                 </div>
             </asp:Panel>
-
-            <!-- =====================================================
-                 SECTION 1 — FILTER PANEL
-                 ===================================================== -->
             
             <section class="panel">
     <div class="panel-header">
@@ -221,10 +210,6 @@
                 </asp:TextBox>
 
             </div>
-
-
-           
-
         </div>
 
 
@@ -386,14 +371,6 @@
 
 </asp:Panel>
 
-
-
-
-
-<!-- =====================================================
-     TODAY'S SALES
-===================================================== -->
-
 <section class="panel">
 
     <div class="panel-header">
@@ -526,11 +503,6 @@
     </div>
 
 </section>
-
-<!-- =====================================================
-     CURRENT MONTH SALES
-===================================================== -->
-
 <section class="panel">
 
     <div class="panel-header">
@@ -639,12 +611,7 @@
         </div>
     </div>
 
-    <!-- =====================================================
-         JAVASCRIPT
-         ===================================================== -->
     <script>
-
-        // Auto-dismiss toast — identical pattern to PartnerMaster
         window.onload = function () {
             var toast = document.querySelector('.toast');
             if (toast) {

@@ -32,10 +32,6 @@
     padding: 28px 32px 56px;
 }
 
-/* =========================================================
-   HEADER
-   ========================================================= */
-
 .dashboard-header {
     display: flex;
     align-items: flex-start;
@@ -97,10 +93,6 @@
         width: 13px;
         height: 13px;
     }
-
-/* =========================================================
-   KPI CARDS
-   ========================================================= */
 
 .kpi-grid {
     display: grid;
@@ -198,10 +190,6 @@
     color: var(--color-text-secondary);
 }
 
-/* =========================================================
-   SHARED PANEL (charts, grid, activity)
-   ========================================================= */
-
 .panel {
     background-color: var(--color-card);
     border: 1px solid var(--color-border);
@@ -243,10 +231,6 @@
 .panel-body {
     padding: 20px 22px;
 }
-
-/* =========================================================
-   CHARTS SECTION
-   ========================================================= */
 
 .charts-grid {
     display: grid;
@@ -307,10 +291,6 @@
     .chart-legend-dot.is-nagpur {
         background-color: var(--color-success);
     }
-
-/* =========================================================
-   LOWER GRID — Top Partners + sidebar column
-   ========================================================= */
 
 .lower-grid {
     display: grid;
@@ -449,8 +429,6 @@
     text-align: right;
 }
 
-/* --- Recent Activity feed --- */
-
 .activity-feed {
     display: flex;
     flex-direction: column;
@@ -511,8 +489,6 @@
     color: var(--color-text-faint);
 }
 
-/* --- Quick Actions --- */
-
 .quick-actions-grid {
     display: grid;
     grid-template-columns: repeat(3,1fr);
@@ -561,10 +537,6 @@
     font-weight: 600;
     color: var(--color-text);
 }
-
-/* =========================================================
-   RESPONSIVE
-   ========================================================= */
 
 @media (max-width: 1300px) {
     .kpi-grid {
@@ -641,9 +613,6 @@
         display: inline-block !important;
         width: auto !important;
     }
-/*=========================================
-FOLLOWUP POPUP
-=========================================*/
 
 .popup-overlay {
     position: fixed;
@@ -749,10 +718,6 @@ FOLLOWUP POPUP
     z-index: 99999;
 }
 
-/*==========================
-FOLLOWUP MODAL FINAL
-==========================*/
-
 .popup-overlay {
     position: fixed !important;
     inset: 0 !important;
@@ -826,9 +791,6 @@ FOLLOWUP MODAL FINAL
     font-weight: 700;
     line-height: 1.8;
 }
-/*=========================================================
-            PREMIUM FOLLOW-UP POPUP
-==========================================================*/
 
 .followup-overlay {
     position: fixed;
@@ -856,8 +818,6 @@ FOLLOWUP MODAL FINAL
     box-sizing: border-box;
     box-shadow: 0 25px 60px rgba(0,0,0,.35);
 }
-
-/*=========================================================*/
 
 .popup-header {
     background: linear-gradient(135deg,#243d8f,#3454c4);
@@ -889,15 +849,11 @@ FOLLOWUP MODAL FINAL
     letter-spacing: .8px;
 }
 
-/*=========================================================*/
-
 .popup-body {
     padding: 18px 220px;
     overflow-y: auto;
     flex: 1;
 }
-
-/*=========================================================*/
 
 .info-card {
     display: grid;
@@ -923,8 +879,6 @@ FOLLOWUP MODAL FINAL
     font-size: 18px;
     font-weight: 600;
 }
-
-/*=========================================================*/
 
 .remark-card {
     margin-top: 18px;
@@ -965,8 +919,6 @@ FOLLOWUP MODAL FINAL
         box-shadow: 0 0 0 4px rgba(51,86,198,.12);
     }
 
-/*=========================================================*/
-
 .popup-footer {
     display: flex;
     justify-content: flex-end;
@@ -975,8 +927,6 @@ FOLLOWUP MODAL FINAL
     background: #fafbff;
     border-top: 1px solid #ececec;
 }
-
-/*=========================================================*/
 
 .btn-snooze {
     border: none;
@@ -992,8 +942,6 @@ FOLLOWUP MODAL FINAL
     .btn-snooze:hover {
         background: #dfe6f7;
     }
-
-/*=========================================================*/
 
 .btn-complete {
     border: none;
@@ -1011,8 +959,6 @@ FOLLOWUP MODAL FINAL
         transform: translateY(-2px);
         box-shadow: 0 16px 35px rgba(50,89,218,.35);
     }
-
-/*=========================================================*/
 
 @keyframes popupSlide {
 
@@ -1070,9 +1016,6 @@ FOLLOWUP MODAL FINAL
     background: #B8C3D9;
     border-radius: 20px;
 }
-/*=========================================================
-RESPONSIVE DASHBOARD
-=========================================================*/
 
 @media (max-width:1200px) {
 
@@ -1138,4 +1081,3 @@ RESPONSIVE DASHBOARD
     font-weight: 700;
     line-height: 1.15;
 }
-
