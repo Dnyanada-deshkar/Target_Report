@@ -232,6 +232,11 @@ namespace Target_Report
                     "@SalesTarget",
                     salesTarget);
 
+                // Required by updated stored procedure
+                // PartnerMaster screen currently does not collect these values.
+                cmd.Parameters.AddWithValue("@PurchasePotential", 0);
+                cmd.Parameters.AddWithValue("@SalesTarget", 0);
+
                 conn.Open();
 
                 return Convert.ToInt32(cmd.ExecuteScalar());
