@@ -47,7 +47,7 @@ namespace Target_Report
             var result = new DataTable();
             totalRecords = 0;
 
-            string allowedSort = new[] { "PartnerID", "PartnerName", "ContactNumber", "City", "NativeBranch", "CreatedDate" }
+            string allowedSort = new[] { "PartnerID", "PartnerName", "ContactPersonName", "ContactNumber", "City", "NativeBranch", "CreatedDate" }
                 .Contains(sortExpr) ? sortExpr : "PartnerID";
             string allowedDir = sortDir == "DESC" ? "DESC" : "ASC";
 
@@ -59,6 +59,7 @@ namespace Target_Report
                         SELECT
                             PM.PartnerID,
                             PM.PartnerName,
+                            PM.ContactPersonName,
                             PM.ContactNumber,
                             PM.City,
                             PM.NativeBranch,
@@ -85,6 +86,7 @@ namespace Target_Report
                             @Search = ''
                             OR PM.PartnerName LIKE '%' + @Search + '%'
                             OR PM.ContactNumber LIKE '%' + @Search + '%'
+                            OR PM.ContactPersonName LIKE '%' + @Search + '%'
                             OR PM.City LIKE '%' + @Search + '%'
                             OR BM.BrandName LIKE '%' + @Search + '%'
                         )
@@ -97,6 +99,7 @@ namespace Target_Report
                         GROUP BY
                             PM.PartnerID,
                             PM.PartnerName,
+                            PM.ContactPersonName,
                             PM.ContactNumber,
                             PM.City,
                             PM.NativeBranch,
@@ -115,6 +118,12 @@ namespace Target_Report
 
                         CASE WHEN @SortExpr = 'PartnerName' AND @SortDir = 'DESC'
                             THEN PM.PartnerName END DESC,
+
+                        CASE WHEN @SortExpr = 'ContactPersonName' AND @SortDir = 'ASC'
+                            THEN PM.ContactPersonName END ASC,
+
+                        CASE WHEN @SortExpr = 'ContactPersonName' AND @SortDir = 'DESC'
+                            THEN PM.ContactPersonName END DESC,
 
                         CASE WHEN @SortExpr = 'ContactNumber' AND @SortDir = 'ASC'
                             THEN PM.ContactNumber END ASC,
@@ -199,7 +208,7 @@ namespace Target_Report
             }
         }
 
-        private int InsertPartner(string name, string contact, string city, string branch)
+        private int InsertPartner(string name, string contact, string contactPersonName, string city, string branch)
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
             using (SqlCommand cmd = new SqlCommand("USP_Partner_Insert", conn))
@@ -208,6 +217,7 @@ namespace Target_Report
 
                 cmd.Parameters.AddWithValue("@PartnerName", name);
                 cmd.Parameters.AddWithValue("@ContactNumber", contact);
+                cmd.Parameters.AddWithValue("@ContactPersonName", contactPersonName);
                 cmd.Parameters.AddWithValue("@City", city);
                 cmd.Parameters.AddWithValue("@NativeBranch", branch);
 
@@ -236,18 +246,19 @@ namespace Target_Report
                 cblBrands.DataBind();
             }
         }
-        private void UpdatePartner(int partnerId, string name, string contact, string city, string branch)
+        private void UpdatePartner(int partnerId, string name, string contact, string contactPersonName, string city, string branch)
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
             {
                 const string query = @"UPDATE Partnermaster 
-                                        SET PartnerName = @PartnerName, ContactNumber = @ContactNumber, 
+                                        SET PartnerName = @PartnerName, ContactNumber = @ContactNumber, ContactPersonName = @ContactPersonName,
                                             City = @City, NativeBranch = @NativeBranch
                                         WHERE PartnerID = @PartnerID";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@PartnerName", name);
                     cmd.Parameters.AddWithValue("@ContactNumber", contact);
+                    cmd.Parameters.AddWithValue("@ContactPersonName", contactPersonName);
                     cmd.Parameters.AddWithValue("@City", city);
                     cmd.Parameters.AddWithValue("@NativeBranch", branch);
                     cmd.Parameters.AddWithValue("@PartnerID", partnerId);
@@ -261,7 +272,7 @@ namespace Target_Report
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
             {
-                const string query = @"SELECT PartnerID, PartnerName, ContactNumber, City, NativeBranch 
+                const string query = @"SELECT PartnerID, PartnerName, ContactNumber, ContactPersonName, City, NativeBranch 
                                         FROM Partnermaster WHERE PartnerID = @PartnerID";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -481,6 +492,7 @@ namespace Target_Report
             hdnPartnerId.Value = partnerId.ToString();
             txtPartnerName.Text = partner["PartnerName"].ToString();
             txtContactNumber.Text = partner["ContactNumber"].ToString();
+            txtContactPerson.Text = partner["ContactPersonName"].ToString();
             txtCity.Text = partner["City"].ToString();
             ddlNativeBranch.SelectedValue = partner["NativeBranch"].ToString();
             LoadPartnerBrands(partnerId);
@@ -578,6 +590,7 @@ namespace Target_Report
             if (!Page.IsValid) return;
 
             string name = txtPartnerName.Text.Trim();
+            string contactPersonName = txtContactPerson.Text.Trim();
             string contact = txtContactNumber.Text.Trim();
             string city = txtCity.Text.Trim();
             string branch = ddlNativeBranch.SelectedValue;
@@ -593,7 +606,7 @@ namespace Target_Report
                 return;
             }
 
-            int partnerId = InsertPartner(name, contact, city, branch);
+            int partnerId = InsertPartner(name, contact, contactPersonName, city, branch);
             SavePartnerBrands(partnerId);
 
             ShowToast("Partner saved", $"\"{name}\" has been added to the partner list.");
@@ -664,6 +677,7 @@ namespace Target_Report
 
             int partnerId = Convert.ToInt32(hdnPartnerId.Value);
             string name = txtPartnerName.Text.Trim();
+            string contactPersonName = txtContactPerson.Text.Trim();
             string contact = txtContactNumber.Text.Trim();
             string city = txtCity.Text.Trim();
             string branch = ddlNativeBranch.SelectedValue;
@@ -686,7 +700,7 @@ namespace Target_Report
                 return;
             }
 
-            UpdatePartner(partnerId, name, contact, city, branch);
+            UpdatePartner(partnerId, name, contact, contactPersonName, city, branch);
             DeletePartnerBrands(partnerId);
 
             SavePartnerBrands(partnerId);
@@ -721,6 +735,7 @@ namespace Target_Report
             hdnPartnerId.Value = "0";
 
             txtPartnerName.Text = "";
+            txtContactPerson.Text = "";
             txtContactNumber.Text = "";
             txtCity.Text = "";
             ddlNativeBranch.SelectedValue = "";

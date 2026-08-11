@@ -84,7 +84,31 @@
                                     ValidationExpression="^\d{10}$"
                                     ValidationGroup="PartnerForm" />
                             </div>
+                            <!-- Row 2: Contact Person | Native Branch -->
+                                    <div class="field-group contact-person-field">
 
+                                        <asp:Label
+                                            runat="server"
+                                            AssociatedControlID="txtContactPerson"
+                                            CssClass="field-label">
+
+                                            Contact Person
+
+                                        </asp:Label>
+
+                                        <div class="field-control-wrap">
+
+                                            <asp:TextBox
+                                                ID="txtContactPerson"
+                                                runat="server"
+                                                CssClass="field-input"
+                                                placeholder="e.g. Rahul Sharma"
+                                                autocomplete="off"
+                                                MaxLength="100" />
+
+                                        </div>
+
+                                    </div>
                             <!-- Row 2: City | Native Branch -->
                             <div class="field-group">
                                 <asp:Label runat="server" AssociatedControlID="txtCity" CssClass="field-label">
@@ -172,7 +196,7 @@
                                 <circle cx="11" cy="11" r="7"></circle>
                                 <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                             </svg>
-                            <asp:TextBox ID="txtSearch" runat="server" CssClass="search-input" placeholder="Search partners, contacts, or cities" AutoPostBack="true" OnTextChanged="txtSearch_TextChanged" autocomplete="off" />
+                            <asp:TextBox ID="txtSearch" runat="server" CssClass="search-input" placeholder="Search partners, contact persons, contacts, or cities" AutoPostBack="true" OnTextChanged="txtSearch_TextChanged" autocomplete="off" />
                         </div>
                         <div class="toolbar-filters">
                             <div class="filter-select-wrap">
@@ -221,6 +245,21 @@
                                         <span class="cell-name"><%# Eval("PartnerName") %></span>
                                     </ItemTemplate>
                                 </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Contact Person" SortExpression="ContactPersonName">
+
+                                    <ItemTemplate>
+
+                                        <span class="cell-secondary">
+                                            <%# string.IsNullOrWhiteSpace(Convert.ToString(Eval("ContactPersonName")))
+                                                ? "-"
+                                                : Convert.ToString(Eval("ContactPersonName")) %>
+                                        </span>
+
+                                    </ItemTemplate>
+
+                                </asp:TemplateField>
+
 
                                 <asp:TemplateField HeaderText="Contact Number" SortExpression="ContactNumber">
                                     <ItemTemplate>
