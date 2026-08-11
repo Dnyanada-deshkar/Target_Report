@@ -210,12 +210,17 @@ namespace Target_Report
             }
         }
 
-        private int InsertPartner(string name, string contact, string contactPersonName, string city, string branch,
+        private int InsertPartner(
+    string name,
+    string contact,
+    string contactPersonName,
+    string city,
+    string branch,
     decimal purchasePotential,
     decimal salesTarget)
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
-            using (SqlCommand cmd = new SqlCommand("USP_Partner_Insert", conn))
+            using (SqlCommand cmd = new SqlCommand("WardhaApp.USP_Partner_Insert", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -224,18 +229,8 @@ namespace Target_Report
                 cmd.Parameters.AddWithValue("@ContactPersonName", contactPersonName);
                 cmd.Parameters.AddWithValue("@City", city);
                 cmd.Parameters.AddWithValue("@NativeBranch", branch);
-                cmd.Parameters.AddWithValue(
-    "@PurchasePotential",
-    purchasePotential);
-
-                cmd.Parameters.AddWithValue(
-                    "@SalesTarget",
-                    salesTarget);
-
-                // Required by updated stored procedure
-                // PartnerMaster screen currently does not collect these values.
-                cmd.Parameters.AddWithValue("@PurchasePotential", 0);
-                cmd.Parameters.AddWithValue("@SalesTarget", 0);
+                cmd.Parameters.AddWithValue("@PurchasePotential", purchasePotential);
+                cmd.Parameters.AddWithValue("@SalesTarget", salesTarget);
 
                 conn.Open();
 
@@ -262,34 +257,32 @@ namespace Target_Report
                 cblBrands.DataBind();
             }
         }
-        private void UpdatePartner(int partnerId, string name, string contact, string contactPersonName, string city, string branch , decimal purchasePotential,
-decimal salesTarget)
+        private void UpdatePartner(
+    int partnerId,
+    string name,
+    string contact,
+    string contactPersonName,
+    string city,
+    string branch,
+    decimal purchasePotential,
+    decimal salesTarget)
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand(
+                "WardhaApp.USP_Partner_Update", conn))
             {
-                const string query = @"UPDATE Partnermaster 
-                                        SET PartnerName = @PartnerName, ContactNumber = @ContactNumber, ContactPersonName = @ContactPersonName,
-                                            City = @City, NativeBranch = @NativeBranch
-                                        WHERE PartnerID = @PartnerID";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
-                {
-                    cmd.Parameters.AddWithValue("@PartnerName", name);
-                    cmd.Parameters.AddWithValue("@ContactNumber", contact);
-                    cmd.Parameters.AddWithValue("@ContactPersonName", contactPersonName);
-                    cmd.Parameters.AddWithValue("@City", city);
-                    cmd.Parameters.AddWithValue("@NativeBranch", branch);
-                    cmd.Parameters.AddWithValue("@PartnerID", partnerId);
-                    cmd.Parameters.AddWithValue(
-    "@PurchasePotential",
-    purchasePotential);
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                    cmd.Parameters.AddWithValue(
-                        "@SalesTarget",
-                        salesTarget);
+                cmd.Parameters.AddWithValue("@PartnerID", partnerId);
+                cmd.Parameters.AddWithValue("@PartnerName", name);
+                cmd.Parameters.AddWithValue("@ContactNumber", contact);
+                cmd.Parameters.AddWithValue("@City", city);
+                cmd.Parameters.AddWithValue("@NativeBranch", branch);
+                cmd.Parameters.AddWithValue("@PurchasePotential", purchasePotential);
+                cmd.Parameters.AddWithValue("@SalesTarget", salesTarget);
 
-                    conn.Open();
-                    cmd.ExecuteNonQuery();
-                }
+                conn.Open();
+                cmd.ExecuteNonQuery();
             }
         }
 
@@ -297,15 +290,28 @@ decimal salesTarget)
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
             {
-                const string query = @"SELECT PartnerID, PartnerName, ContactNumber, ContactPersonName, City, NativeBranch 
-                                        FROM Partnermaster WHERE PartnerID = @PartnerID";
+                const string query = @"
+            SELECT
+                PartnerID,
+                PartnerName,
+                ContactNumber,
+                ContactPersonName,
+                City,
+                NativeBranch,
+                PurchasePotential,
+                SalesTarget
+            FROM Partnermaster
+            WHERE PartnerID = @PartnerID";
+
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@PartnerID", partnerId);
+
                     using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
                     {
                         DataTable dt = new DataTable();
                         adapter.Fill(dt);
+
                         return dt.Rows.Count > 0 ? dt.Rows[0] : null;
                     }
                 }
@@ -520,6 +526,14 @@ decimal salesTarget)
             txtContactPerson.Text = partner["ContactPersonName"].ToString();
             txtCity.Text = partner["City"].ToString();
             ddlNativeBranch.SelectedValue = partner["NativeBranch"].ToString();
+            txtPurchasePotential.Text =
+    Convert.ToDecimal(partner["PurchasePotential"])
+        .ToString("0.00", CultureInfo.InvariantCulture);
+
+            txtSalesTarget.Text =
+                Convert.ToDecimal(partner["SalesTarget"])
+                    .ToString("0.00", CultureInfo.InvariantCulture);
+
             LoadPartnerBrands(partnerId);
             SetFormMode(isEditing: true);
             ClearFormMessage();
@@ -630,9 +644,9 @@ decimal salesTarget)
                     out purchasePotential))
             {
                 ShowToast(
-                    "Warning",
-                    "Please enter a valid purchase potential.",
-                    "warning");
+     "Warning",
+     "Please enter a valid purchase potential.",
+     true);
 
                 return;
             }
@@ -644,9 +658,9 @@ decimal salesTarget)
                     out salesTarget))
             {
                 ShowToast(
-                    "Warning",
-                    "Please enter a valid sales target.",
-                    "warning");
+    "Warning",
+    "Please enter a valid sales target.",
+    true);
 
                 return;
             }
@@ -654,9 +668,9 @@ decimal salesTarget)
             if (salesTarget > purchasePotential)
             {
                 ShowToast(
-                    "Warning",
-                    "Sales target cannot be greater than purchase potential.",
-                    "warning");
+    "Warning",
+    "Sales target cannot be greater than purchase potential.",
+    true);
 
                 return;
             }
@@ -672,7 +686,14 @@ decimal salesTarget)
                 return;
             }
 
-            int partnerId = InsertPartner(name, contact, contactPersonName, city, branch);
+            int partnerId = InsertPartner(
+    name,
+    contact,
+    contactPersonName,
+    city,
+    branch,
+    purchasePotential,
+    salesTarget);
             SavePartnerBrands(partnerId);
 
             ShowToast("Partner saved", $"\"{name}\" has been added to the partner list.");
@@ -736,45 +757,150 @@ decimal salesTarget)
             }
         }
 
+        //protected void btnUpdate_Click(object sender, EventArgs e)
+        //{
+        //    if (!Page.IsValid) return;
+
+
+        //    int partnerId = Convert.ToInt32(hdnPartnerId.Value);
+        //    string name = txtPartnerName.Text.Trim();
+        //    string contactPersonName = txtContactPerson.Text.Trim();
+        //    string contact = txtContactNumber.Text.Trim();
+        //    string city = txtCity.Text.Trim();
+        //    string branch = ddlNativeBranch.SelectedValue;
+
+        //    bool brandSelected = cblBrands.Items.Cast<ListItem>().Any(x => x.Selected);
+
+        //    if (!brandSelected)
+        //    {
+        //        ShowFormMessage("Please select at least one Brand.");
+        //        return;
+        //    }
+        //    if (PartnerNameExists(name, partnerId))
+        //    {
+        //        ShowFormMessage("A partner with this name already exists.");
+        //        return;
+        //    }
+        //    if (ContactNumberExists(contact, partnerId))
+        //    {
+        //        ShowFormMessage("This contact number is already registered to another partner.");
+        //        return;
+        //    }
+
+        //    UpdatePartner(partnerId, name, contact, contactPersonName, city, branch);
+        //    DeletePartnerBrands(partnerId);
+
+        //    SavePartnerBrands(partnerId);
+
+        //    ShowToast("Partner updated",
+        //        $"Changes to \"{name}\" have been saved.");
+
+        //    ResetFormToAddMode();
+
+        //    BindGrid();
+        //}
+
+
         protected void btnUpdate_Click(object sender, EventArgs e)
         {
-            if (!Page.IsValid) return;
-
+            if (!Page.IsValid)
+                return;
 
             int partnerId = Convert.ToInt32(hdnPartnerId.Value);
+
             string name = txtPartnerName.Text.Trim();
             string contactPersonName = txtContactPerson.Text.Trim();
             string contact = txtContactNumber.Text.Trim();
             string city = txtCity.Text.Trim();
             string branch = ddlNativeBranch.SelectedValue;
 
-            bool brandSelected = cblBrands.Items.Cast<ListItem>().Any(x => x.Selected);
+            decimal purchasePotential;
+            decimal salesTarget;
+
+            if (!decimal.TryParse(
+                txtPurchasePotential.Text.Trim(),
+                NumberStyles.Number,
+                CultureInfo.InvariantCulture,
+                out purchasePotential))
+            {
+                ShowToast(
+                    "Warning",
+                    "Please enter a valid purchase potential.",
+                    true);
+
+                return;
+            }
+
+            if (!decimal.TryParse(
+                txtSalesTarget.Text.Trim(),
+                NumberStyles.Number,
+                CultureInfo.InvariantCulture,
+                out salesTarget))
+            {
+                ShowToast(
+                    "Warning",
+                    "Please enter a valid sales target.",
+                    true);
+
+                return;
+            }
+
+            if (salesTarget > purchasePotential)
+            {
+                ShowToast(
+                    "Warning",
+                    "Sales target cannot be greater than purchase potential.",
+                    true);
+
+                return;
+            }
+
+            if (PartnerNameExists(name, partnerId))
+            {
+                ShowFormMessage(
+                    "A partner with this name already exists.");
+
+                return;
+            }
+
+            if (ContactNumberExists(contact, partnerId))
+            {
+                ShowFormMessage(
+                    "This contact number is already registered to another partner.");
+
+                return;
+            }
+
+            bool brandSelected = cblBrands.Items
+                .Cast<ListItem>()
+                .Any(x => x.Selected);
 
             if (!brandSelected)
             {
                 ShowFormMessage("Please select at least one Brand.");
                 return;
             }
-            if (PartnerNameExists(name, partnerId))
-            {
-                ShowFormMessage("A partner with this name already exists.");
-                return;
-            }
-            if (ContactNumberExists(contact, partnerId))
-            {
-                ShowFormMessage("This contact number is already registered to another partner.");
-                return;
-            }
 
-            UpdatePartner(partnerId, name, contact, contactPersonName, city, branch);
+            UpdatePartner(
+                partnerId,
+                name,
+                contactPersonName,
+                contactPersonName,
+                city,
+                branch,
+                purchasePotential,
+                salesTarget);
+
             DeletePartnerBrands(partnerId);
-
             SavePartnerBrands(partnerId);
 
-            ShowToast("Partner updated",
+            ShowToast(
+                "Partner updated",
                 $"Changes to \"{name}\" have been saved.");
 
             ResetFormToAddMode();
+
+            ViewState[VS_CURRENT_PAGE] = 1;
 
             BindGrid();
         }
@@ -804,6 +930,8 @@ decimal salesTarget)
             txtContactPerson.Text = "";
             txtContactNumber.Text = "";
             txtCity.Text = "";
+            txtPurchasePotential.Text = "";
+            txtSalesTarget.Text = "";
             ddlNativeBranch.SelectedValue = "";
 
             foreach (ListItem item in cblBrands.Items)
