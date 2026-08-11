@@ -142,6 +142,10 @@ Automatically stores monthly achievement details including:
 - Foreign Key Constraints
 - Server-side Validation
 - SQL Stored Procedure Based Operations
+-  Activity Logging for Important Operations
+- Server-side Database Validation
+- Stored Procedure Based Data Operations
+
 # ⚙ Stored Procedures
 
 Examples:
