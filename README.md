@@ -25,6 +25,23 @@ The system allows administrators to manage partners, assign monthly sales target
 
 ---
 
+## 📋 Recent Activity
+
+The dashboard includes a real-time activity feed for important system actions.
+
+Tracked activities include:
+
+- New Partner Added
+- Partner Updated
+- Target Created
+- Target Updated
+- Sales Entry Recorded
+- Sales Entry Updated
+
+Activities are displayed with the latest action first along with the activity time and relevant amount where applicable.
+
+---
+
 ## 👥 Partner Master
 
 - Add New Partner
@@ -39,7 +56,10 @@ The system allows administrators to manage partners, assign monthly sales target
 - Auto Scroll to Edit Form
 - Duplicate Partner Validation
 - Duplicate Contact Validation
-
+- Contact Person Name Management
+- Partner Activity Tracking
+- Responsive Mobile Layout
+- Edit Mode Support
 ---
 
 ## 🎯 Target Master
@@ -66,7 +86,9 @@ The system allows administrators to manage partners, assign monthly sales target
 - Edit Daily Sale
 - Delete Daily Sale
 - Pagination 
-
+- Sales Activity Tracking
+- Automatic Target Balance Recalculation
+- Sales Update Support
 ---
 
 ## 📈 Monthly Target Snapshot
