@@ -426,40 +426,38 @@
         var pendingDeleteId = null;
 
         function confirmDelete(partnerId, partnerName) {
-            // The actual delete modal is server-rendered (asp:Panel),
-            // so this client hook just stops the default postback —
-            // the LinkButton's CommandArgument carries the ID server-side
-            // and the code-behind opens the modal via pnlDeleteModalOverlay.
             return true;
         }
 
-        window.onload = function () {
+        document.addEventListener("DOMContentLoaded", function () {
 
-            var toast =
-                document.querySelector('.toast');
+            var toastStack = document.querySelector(".toast-stack");
 
-            if (toast) {
-
-                setTimeout(function () {
-
-                    toast.classList.add('toast-hide');
-
-                    setTimeout(function () {
-
-                        var toastStack =
-                            document.querySelector('.toast-stack');
-
-                        if (toastStack) {
-                            toastStack.style.display = 'none';
-                        }
-
-                    }, 500);
-
-                }, 3000);
-
+            if (!toastStack) {
+                return;
             }
 
-        };
+            document.documentElement.appendChild(toastStack);
+            toastStack.style.position = "fixed";
+            toastStack.style.top = "20px";
+            toastStack.style.right = "20px";
+            toastStack.style.left = "auto";
+            toastStack.style.bottom = "auto";
+            toastStack.style.zIndex = "2147483647";
 
+            setTimeout(function () {
+
+                var toast = toastStack.querySelector(".toast");
+
+                if (toast) {
+                    toast.classList.add("toast-hide");
+                }
+
+                setTimeout(function () {
+                    toastStack.remove();
+                }, 500);
+
+            }, 3000);
+        });
     </script>
 </asp:Content>

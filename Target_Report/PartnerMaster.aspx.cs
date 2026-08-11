@@ -21,6 +21,7 @@ namespace Target_Report
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            pnlToast.Visible = false;
             if (!IsPostBack)
             {
                 ViewState[VS_SORT_EXPR] = "PartnerID";
