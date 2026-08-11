@@ -165,6 +165,117 @@
 
                             </div>
 
+                            <!-- =====================================================
+     TARGET INFORMATION
+     ===================================================== -->
+
+<div class="field-group">
+    <asp:Label
+        runat="server"
+        AssociatedControlID="txtPurchasePotential"
+        CssClass="field-label">
+
+        Purchase Potential<span class="required-mark">*</span>
+
+    </asp:Label>
+
+    <div class="field-control-wrap">
+        <asp:TextBox
+            ID="txtPurchasePotential"
+            runat="server"
+            CssClass="field-input"
+            placeholder="e.g. 500000"
+            autocomplete="off"
+            MaxLength="18"
+            TextMode="Number" />
+    </div>
+
+    <asp:RequiredFieldValidator
+        ID="rfvPurchasePotential"
+        runat="server"
+        ControlToValidate="txtPurchasePotential"
+        CssClass="field-error"
+        Display="Dynamic"
+        ErrorMessage="Please enter purchase potential."
+        ValidationGroup="PartnerForm" />
+</div>
+
+
+<div class="field-group">
+    <asp:Label
+        runat="server"
+        AssociatedControlID="txtSalesTarget"
+        CssClass="field-label">
+
+        Sales Target<span class="required-mark">*</span>
+
+    </asp:Label>
+
+    <div class="field-control-wrap">
+        <asp:TextBox
+            ID="txtSalesTarget"
+            runat="server"
+            CssClass="field-input"
+            placeholder="e.g. 300000"
+            autocomplete="off"
+            MaxLength="18"
+            TextMode="Number" />
+    </div>
+
+    <asp:RequiredFieldValidator
+        ID="rfvSalesTarget"
+        runat="server"
+        ControlToValidate="txtSalesTarget"
+        CssClass="field-error"
+        Display="Dynamic"
+        ErrorMessage="Please enter sales target."
+        ValidationGroup="PartnerForm" />
+</div>
+
+
+<div class="field-group">
+    <asp:Label
+        runat="server"
+        AssociatedControlID="txtAchievementPercent"
+        CssClass="field-label">
+
+        Achievement %
+
+    </asp:Label>
+
+    <div class="field-control-wrap">
+        <asp:TextBox
+            ID="txtAchievementPercent"
+            runat="server"
+            CssClass="field-input"
+            ReadOnly="true"
+            Text="0.00"
+            />
+    </div>
+</div>
+
+
+<div class="field-group">
+    <asp:Label
+        runat="server"
+        AssociatedControlID="txtTargetBalance"
+        CssClass="field-label">
+
+        Target Balance
+
+    </asp:Label>
+
+    <div class="field-control-wrap">
+        <asp:TextBox
+            ID="txtTargetBalance"
+            runat="server"
+            CssClass="field-input"
+            ReadOnly="true"
+            Text="0.00"
+            />
+    </div>
+</div>
+
                             <!-- Server-side duplicate / business-rule message -->
                             <asp:Panel ID="pnlFormMessage" runat="server" CssClass="field-error" Style="grid-column: 1 / -1; margin-top: -6px;">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>

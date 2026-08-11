@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Globalization;
 
 namespace Target_Report
 {
@@ -209,7 +210,9 @@ namespace Target_Report
             }
         }
 
-        private int InsertPartner(string name, string contact, string contactPersonName, string city, string branch)
+        private int InsertPartner(string name, string contact, string contactPersonName, string city, string branch,
+    decimal purchasePotential,
+    decimal salesTarget)
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
             using (SqlCommand cmd = new SqlCommand("USP_Partner_Insert", conn))
@@ -221,6 +224,13 @@ namespace Target_Report
                 cmd.Parameters.AddWithValue("@ContactPersonName", contactPersonName);
                 cmd.Parameters.AddWithValue("@City", city);
                 cmd.Parameters.AddWithValue("@NativeBranch", branch);
+                cmd.Parameters.AddWithValue(
+    "@PurchasePotential",
+    purchasePotential);
+
+                cmd.Parameters.AddWithValue(
+                    "@SalesTarget",
+                    salesTarget);
 
                 conn.Open();
 
@@ -247,7 +257,8 @@ namespace Target_Report
                 cblBrands.DataBind();
             }
         }
-        private void UpdatePartner(int partnerId, string name, string contact, string contactPersonName, string city, string branch)
+        private void UpdatePartner(int partnerId, string name, string contact, string contactPersonName, string city, string branch , decimal purchasePotential,
+decimal salesTarget)
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
             {
@@ -263,6 +274,14 @@ namespace Target_Report
                     cmd.Parameters.AddWithValue("@City", city);
                     cmd.Parameters.AddWithValue("@NativeBranch", branch);
                     cmd.Parameters.AddWithValue("@PartnerID", partnerId);
+                    cmd.Parameters.AddWithValue(
+    "@PurchasePotential",
+    purchasePotential);
+
+                    cmd.Parameters.AddWithValue(
+                        "@SalesTarget",
+                        salesTarget);
+
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
@@ -595,6 +614,47 @@ namespace Target_Report
             string contact = txtContactNumber.Text.Trim();
             string city = txtCity.Text.Trim();
             string branch = ddlNativeBranch.SelectedValue;
+
+            decimal purchasePotential;
+            decimal salesTarget;
+
+            if (!decimal.TryParse(
+                    txtPurchasePotential.Text.Trim(),
+                    NumberStyles.Number,
+                    CultureInfo.InvariantCulture,
+                    out purchasePotential))
+            {
+                ShowToast(
+                    "Warning",
+                    "Please enter a valid purchase potential.",
+                    "warning");
+
+                return;
+            }
+
+            if (!decimal.TryParse(
+                    txtSalesTarget.Text.Trim(),
+                    NumberStyles.Number,
+                    CultureInfo.InvariantCulture,
+                    out salesTarget))
+            {
+                ShowToast(
+                    "Warning",
+                    "Please enter a valid sales target.",
+                    "warning");
+
+                return;
+            }
+
+            if (salesTarget > purchasePotential)
+            {
+                ShowToast(
+                    "Warning",
+                    "Sales target cannot be greater than purchase potential.",
+                    "warning");
+
+                return;
+            }
 
             if (PartnerNameExists(name, excludePartnerId: 0))
             {

@@ -141,6 +141,60 @@ namespace Target_Report
         protected global::System.Web.UI.WebControls.CheckBoxList cblBrands;
 
         /// <summary>
+        /// txtPurchasePotential control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPurchasePotential;
+
+        /// <summary>
+        /// rfvPurchasePotential control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvPurchasePotential;
+
+        /// <summary>
+        /// txtSalesTarget control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSalesTarget;
+
+        /// <summary>
+        /// rfvSalesTarget control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvSalesTarget;
+
+        /// <summary>
+        /// txtAchievementPercent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAchievementPercent;
+
+        /// <summary>
+        /// txtTargetBalance control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTargetBalance;
+
+        /// <summary>
         /// pnlFormMessage control.
         /// </summary>
         /// <remarks>
