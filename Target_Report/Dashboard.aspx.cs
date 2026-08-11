@@ -629,84 +629,51 @@ namespace Target_Report
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConnString))
+                using (SqlCommand cmd = new SqlCommand(
+                    "WardhaApp.usp_Dashboard_GetRecentActivity", conn))
                 {
-                    const string query = @"
-                        SELECT TOP 8 ActivityText, IconType, ActivityDate
-                        FROM (
-                            SELECT 
-                                'New partner added: ' + PartnerName AS ActivityText,
-                                'primary' AS IconType,
-                                CreatedDate AS ActivityDate
-                            FROM PartnerMaster
- 
-                            UNION ALL
- 
-                            SELECT 
-                                'Target set for ' + p.PartnerName + ' (' + CONVERT(VARCHAR(20), t.SalesTarget) + ')' AS ActivityText,
-                                'primary' AS IconType,
-                                t.CreatedDate AS ActivityDate
-                            FROM TargetMaster t
-                            INNER JOIN PartnerMaster p ON p.PartnerID = t.PartnerID
- 
-                            UNION ALL
- 
-                            SELECT 
-                                'Sales entry recorded for ' + p.PartnerName AS ActivityText,
-                                'success' AS IconType,
-                                d.CreatedDate AS ActivityDate
-                            FROM DailySalesEntry d
-                            INNER JOIN PartnerMaster p ON p.PartnerID = d.PartnerID
-                        ) combined
-                        ORDER BY ActivityDate DESC";
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    conn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        conn.Open();
-                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        while (reader.Read())
                         {
-                            while (reader.Read())
+                            if (reader["ActivityDate"] == DBNull.Value)
+                                continue;
+
+                            DateTime activityDate =
+                                Convert.ToDateTime(reader["ActivityDate"]);
+
+                            string iconType =
+                                reader["IconType"].ToString();
+
+                            activities.Add(new ActivityFeedItem
                             {
-                                DateTime activityDate = Convert.ToDateTime(reader["ActivityDate"]);
-                                activities.Add(new ActivityFeedItem
-                                {
-                                    ActivityText = reader["ActivityText"].ToString(),
-                                    IconType = reader["IconType"].ToString(),
-                                    TimeAgo = GetTimeAgo(activityDate),
-                                    IconSvg = GetActivityIconSvg(reader["IconType"].ToString())
-                                });
-                            }
+                                ActivityText =
+                                    reader["ActivityText"].ToString(),
+
+                                IconType = iconType,
+
+                                TimeAgo =
+                                    GetTimeAgo(activityDate),
+
+                                IconSvg =
+                                    GetActivityIconSvg(iconType)
+                            });
                         }
                     }
                 }
             }
             catch (SqlException)
             {
-                
-            }
-
-            if (activities.Count == 0)
-            {
-                activities.Add(BuildDummyActivity("New partner added: <strong>Shree Enterprises</strong>", "primary", IndianNow().AddHours(-2)));
-                activities.Add(BuildDummyActivity("Monthly target updated for <strong>Vishal Traders</strong>", "primary", IndianNow().AddHours(-5)));
-                activities.Add(BuildDummyActivity("Sales entry recorded for <strong>Mahesh Distributors</strong>", "success", IndianNow().AddHours(-8)));
-                activities.Add(BuildDummyActivity("New partner added: <strong>Om Sai Agencies</strong>", "primary", IndianNow().AddDays(-1)));
-                activities.Add(BuildDummyActivity("Sales entry recorded for <strong>Krishna Sales Corp</strong>", "success", IndianNow().AddDays(-1).AddHours(-3)));
-                activities.Add(BuildDummyActivity("Monthly target updated for <strong>Ganesh Marketing</strong>", "primary", IndianNow().AddDays(-2)));
+                // Do not show fake activities.
+                activities.Clear();
             }
 
             rptRecentActivity.DataSource = activities;
             rptRecentActivity.DataBind();
-        }
-
-        private ActivityFeedItem BuildDummyActivity(string activityText, string iconType, DateTime activityDate)
-        {
-            return new ActivityFeedItem
-            {
-                ActivityText = activityText,
-                IconType = iconType,
-                TimeAgo = GetTimeAgo(activityDate),
-                IconSvg = GetActivityIconSvg(iconType)
-            };
         }
         private void LoadPendingFollowups()
         {
