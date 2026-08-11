@@ -9,11 +9,36 @@ The system allows administrators to manage partners, assign monthly sales target
 # 🚀 Features
 
 ## 📊 Dashboard
-- Total Partners
-- Active Monthly Targets
-- Sales Achievement Summary
-- Remaining Target Balance
+
+- Total Partners Overview
+- Overall Sales Target
+- Overall Sales Achievement
+- Current Month Pending Balance
+- Overall Achievement Percentage
+- Active Branch Summary
+- Target vs Achievement Monthly Comparison
+- Target Status Doughnut Chart
+- Branch Performance Overview
+- Monthly Achievement Trend
+- Recent Activity Feed
 - Quick Navigation Cards
+
+---
+
+## 📋 Recent Activity
+
+The dashboard includes a real-time activity feed for important system actions.
+
+Tracked activities include:
+
+- New Partner Added
+- Partner Updated
+- Target Created
+- Target Updated
+- Sales Entry Recorded
+- Sales Entry Updated
+
+Activities are displayed with the latest action first along with the activity time and relevant amount where applicable.
 
 ---
 
@@ -31,7 +56,10 @@ The system allows administrators to manage partners, assign monthly sales target
 - Auto Scroll to Edit Form
 - Duplicate Partner Validation
 - Duplicate Contact Validation
-
+- Contact Person Name Management
+- Partner Activity Tracking
+- Responsive Mobile Layout
+- Edit Mode Support
 ---
 
 ## 🎯 Target Master
@@ -58,7 +86,9 @@ The system allows administrators to manage partners, assign monthly sales target
 - Edit Daily Sale
 - Delete Daily Sale
 - Pagination 
-
+- Sales Activity Tracking
+- Automatic Target Balance Recalculation
+- Sales Update Support
 ---
 
 ## 📈 Monthly Target Snapshot
@@ -112,6 +142,10 @@ Automatically stores monthly achievement details including:
 - Foreign Key Constraints
 - Server-side Validation
 - SQL Stored Procedure Based Operations
+-  Activity Logging for Important Operations
+- Server-side Database Validation
+- Stored Procedure Based Data Operations
+
 # ⚙ Stored Procedures
 
 Examples:
@@ -131,6 +165,14 @@ Examples:
 - USP_Partner_GetByID
 - USP_Brand_GetAll
 - USP_PartnerBrandMapping_Save
+- USP_Dashboard_GetSummary
+- USP_Dashboard_GetRecentActivity
+- USP_Partner_Insert
+- USP_Partner_Update
+- USP_Target_Insert
+- USP_Target_Update
+- USP_Sales_Insert
+- USP_Sales_Update
 ---
 
 # ✨ Highlights
