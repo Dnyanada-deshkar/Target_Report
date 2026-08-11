@@ -165,6 +165,14 @@ Examples:
 - USP_Partner_GetByID
 - USP_Brand_GetAll
 - USP_PartnerBrandMapping_Save
+- USP_Dashboard_GetSummary
+- USP_Dashboard_GetRecentActivity
+- USP_Partner_Insert
+- USP_Partner_Update
+- USP_Target_Insert
+- USP_Target_Update
+- USP_Sales_Insert
+- USP_Sales_Update
 ---
 
 # ✨ Highlights
