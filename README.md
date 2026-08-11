@@ -9,10 +9,18 @@ The system allows administrators to manage partners, assign monthly sales target
 # 🚀 Features
 
 ## 📊 Dashboard
-- Total Partners
-- Active Monthly Targets
-- Sales Achievement Summary
-- Remaining Target Balance
+
+- Total Partners Overview
+- Overall Sales Target
+- Overall Sales Achievement
+- Current Month Pending Balance
+- Overall Achievement Percentage
+- Active Branch Summary
+- Target vs Achievement Monthly Comparison
+- Target Status Doughnut Chart
+- Branch Performance Overview
+- Monthly Achievement Trend
+- Recent Activity Feed
 - Quick Navigation Cards
 
 ---
