@@ -54,7 +54,7 @@
                     </span>
                 </div>
                 <div class="kpi-value"><asp:Label ID="lblMonthlyTarget" runat="server" Text="0" /></div>
-                <div class="kpi-label">Monthly Target</div>
+                <div class="kpi-label">Total Target</div>
             </div>
 
             <div class="kpi-card">
@@ -67,7 +67,7 @@
                     </span>
                 </div>
                 <div class="kpi-value"><asp:Label ID="lblAchievement" runat="server" Text="0" /></div>
-                <div class="kpi-label">Achievement</div>
+                <div class="kpi-label">Total Achievement</div>
             </div>
 
             <div class="kpi-card">

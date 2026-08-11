@@ -36,87 +36,107 @@ namespace Target_Report
             }
         }
 
-
-
         private void BindKpiCards()
         {
             DateTime now = IndianNow();
 
             int totalPartners = 0;
-            decimal monthlyTarget = 0;
-            decimal achievement = 0;
+            decimal totalTarget = 0;
+            decimal totalAchievement = 0;
             decimal pendingBalance = 0;
-            int activeBranches = 2;
+            decimal achievementPercentage = 0;
+            int activeBranches = 0;
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConnString))
+                using (SqlCommand cmd = new SqlCommand(
+                    "WardhaApp.usp_Dashboard_GetSummary", conn))
                 {
-                    const string query = @"
-                                                SELECT
-                                                (
-                                                    SELECT COUNT(*) FROM PartnerMaster
-                                                ) AS TotalPartners,
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                                                (
-                                                    SELECT ISNULL(SUM(SalesTarget),0)
-                                                    FROM TargetMaster
-                                                    WHERE TargetMonth=@Month
-                                                      AND TargetYear=@Year
-                                                ) AS MonthlyTarget,
+                    cmd.Parameters.AddWithValue("@TargetMonth", now.Month);
+                    cmd.Parameters.AddWithValue("@TargetYear", now.Year);
 
-                                                (
-                                                    SELECT ISNULL(SUM(SalesAchieved),0)
-                                                    FROM DailySalesEntry
-                                                    WHERE MONTH(SaleDate)=@Month
-                                                      AND YEAR(SaleDate)=@Year
-                                                ) AS Achievement,
+                    conn.Open();
 
-                                                (
-                                                    SELECT COUNT(DISTINCT NativeBranch)
-                                                    FROM PartnerMaster
-                                                ) AS ActiveBranches";
-
-                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        cmd.Parameters.AddWithValue("@Month", now.Month);
-                        cmd.Parameters.AddWithValue("@Year", now.Year);
-
-                        conn.Open();
-                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        if (reader.Read())
                         {
-                            if (reader.Read())
-                            {
-                                totalPartners = reader["TotalPartners"] != DBNull.Value ? Convert.ToInt32(reader["TotalPartners"]) : 0;
-                                monthlyTarget = reader["MonthlyTarget"] != DBNull.Value ? Convert.ToDecimal(reader["MonthlyTarget"]) : 0;
-                                achievement = reader["Achievement"] != DBNull.Value ? Convert.ToDecimal(reader["Achievement"]) : 0;
-                                activeBranches = reader["ActiveBranches"] != DBNull.Value ? Convert.ToInt32(reader["ActiveBranches"]) : 2;
-                            }
+                            totalPartners =
+                                reader["TotalPartners"] != DBNull.Value
+                                    ? Convert.ToInt32(reader["TotalPartners"])
+                                    : 0;
+
+                            totalTarget =
+                                reader["TotalTarget"] != DBNull.Value
+                                    ? Convert.ToDecimal(reader["TotalTarget"])
+                                    : 0;
+
+                            totalAchievement =
+                                reader["TotalAchievement"] != DBNull.Value
+                                    ? Convert.ToDecimal(reader["TotalAchievement"])
+                                    : 0;
+
+                            pendingBalance =
+                                reader["TotalBalance"] != DBNull.Value
+                                    ? Convert.ToDecimal(reader["TotalBalance"])
+                                    : 0;
+
+                            achievementPercentage =
+                                reader["AchievementPercentage"] != DBNull.Value
+                                    ? Convert.ToDecimal(reader["AchievementPercentage"])
+                                    : 0;
+
+                            activeBranches =
+                                reader["ActiveBranches"] != DBNull.Value
+                                    ? Convert.ToInt32(reader["ActiveBranches"])
+                                    : 0;
                         }
                     }
                 }
             }
             catch (SqlException)
             {
-                totalPartners = 128;
-                monthlyTarget = 4500000m;
-                achievement = 3286500m;
-                activeBranches = 2;
+                // Keep dashboard values at zero if database is unavailable.
+                totalPartners = 0;
+                totalTarget = 0;
+                totalAchievement = 0;
+                pendingBalance = 0;
+                achievementPercentage = 0;
+                activeBranches = 0;
             }
 
-            pendingBalance = monthlyTarget - achievement;
-            if (pendingBalance < 0) pendingBalance = 0;
+            /* =====================================================
+               BIND KPI CARDS
+               ===================================================== */
 
-            decimal achievementPercentage = monthlyTarget > 0
-                ? Math.Round((achievement / monthlyTarget) * 100, 1)
-                : 0;
+            lblTotalPartners.Text =
+                totalPartners.ToString(
+                    "N0",
+                    CultureInfo.InvariantCulture
+                );
 
-            lblTotalPartners.Text = totalPartners.ToString("N0", CultureInfo.InvariantCulture);
-            lblMonthlyTarget.Text = FormatCurrencyShort(monthlyTarget);
-            lblAchievement.Text = FormatCurrencyShort(achievement);
-            lblPendingBalance.Text = FormatCurrencyShort(pendingBalance);
-            lblAchievementPercentage.Text = achievementPercentage.ToString("N1", CultureInfo.InvariantCulture) + "%";
-            lblActiveBranches.Text = activeBranches.ToString(CultureInfo.InvariantCulture);
+            lblMonthlyTarget.Text =
+                FormatCurrencyShort(totalTarget);
+
+            lblAchievement.Text =
+                FormatCurrencyShort(totalAchievement);
+
+            lblPendingBalance.Text =
+                FormatCurrencyShort(pendingBalance);
+
+            lblAchievementPercentage.Text =
+                achievementPercentage.ToString(
+                    "N1",
+                    CultureInfo.InvariantCulture
+                ) + "%";
+
+            lblActiveBranches.Text =
+                activeBranches.ToString(
+                    CultureInfo.InvariantCulture
+                );
         }
 
         private string FormatCurrencyShort(decimal value)
@@ -134,40 +154,79 @@ namespace Target_Report
 
         private void BindTargetStatusChart()
         {
-
             DateTime now = IndianNow();
-            using (SqlConnection conn = new SqlConnection(ConnString))
+
+            decimal totalTarget = 0;
+            decimal totalAchievement = 0;
+            decimal totalBalance = 0;
+
+            try
             {
-                string query = @"
-                        SELECT
-                            ISNULL((SELECT SUM(SalesTarget)
-                            FROM TargetMaster
-                             WHERE TargetMonth=@TargetMonth
-                             AND TargetYear=@TargetYear
-                             AND ISNULL(IsDeleted,0)=0),0) AS TotalTarget,
-
-                            ISNULL((SELECT SUM(SalesAchieved)
-                             FROM DailySalesEntry
-                                WHERE MONTH(SaleDate)=@TargetMonth
-                                AND YEAR(SaleDate)=@TargetYear),0) AS TotalAchievement";
-
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@TargetMonth", now.Month);
-                cmd.Parameters.AddWithValue("@TargetYear", now.Year);
-                conn.Open();
-
-                SqlDataReader dr = cmd.ExecuteReader();
-
-                if (dr.Read())
+                using (SqlConnection conn = new SqlConnection(ConnString))
+                using (SqlCommand cmd = new SqlCommand(
+                    "WardhaApp.usp_Dashboard_GetSummary", conn))
                 {
-                    decimal target = Convert.ToDecimal(dr["TotalTarget"]);
-                    decimal achievement = Convert.ToDecimal(dr["TotalAchievement"]);
+                    cmd.CommandType = CommandType.StoredProcedure;
 
-                    hdnTotalTarget.Value = target.ToString();
-                    hdnTotalAchievement.Value = achievement.ToString();
-                    hdnTotalBalance.Value = (target - achievement).ToString();
+                    cmd.Parameters.AddWithValue("@TargetMonth", now.Month);
+                    cmd.Parameters.AddWithValue("@TargetYear", now.Year);
+
+                    conn.Open();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            totalTarget =
+                                reader["TotalTarget"] != DBNull.Value
+                                    ? Convert.ToDecimal(reader["TotalTarget"])
+                                    : 0;
+
+                            totalAchievement =
+                                reader["TotalAchievement"] != DBNull.Value
+                                    ? Convert.ToDecimal(reader["TotalAchievement"])
+                                    : 0;
+                        }
+                    }
+                }
+
+                /*
+                 * Doughnut is OVERALL.
+                 *
+                 * Balance = Overall Target - Overall Achievement
+                 *
+                 * If achievement exceeds target,
+                 * balance becomes zero.
+                 */
+
+                totalBalance = totalTarget - totalAchievement;
+
+                if (totalBalance < 0)
+                {
+                    totalBalance = 0;
                 }
             }
+            catch (SqlException)
+            {
+                totalTarget = 0;
+                totalAchievement = 0;
+                totalBalance = 0;
+            }
+
+            hdnTotalTarget.Value =
+                totalTarget.ToString(
+                    CultureInfo.InvariantCulture
+                );
+
+            hdnTotalAchievement.Value =
+                totalAchievement.ToString(
+                    CultureInfo.InvariantCulture
+                );
+
+            hdnTotalBalance.Value =
+                totalBalance.ToString(
+                    CultureInfo.InvariantCulture
+                );
         }
         private void BindTargetVsAchievementChart()
         {
