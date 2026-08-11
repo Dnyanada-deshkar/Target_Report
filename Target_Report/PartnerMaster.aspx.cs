@@ -222,6 +222,11 @@ namespace Target_Report
                 cmd.Parameters.AddWithValue("@City", city);
                 cmd.Parameters.AddWithValue("@NativeBranch", branch);
 
+                // Required by updated stored procedure
+                // PartnerMaster screen currently does not collect these values.
+                cmd.Parameters.AddWithValue("@PurchasePotential", 0);
+                cmd.Parameters.AddWithValue("@SalesTarget", 0);
+
                 conn.Open();
 
                 return Convert.ToInt32(cmd.ExecuteScalar());
