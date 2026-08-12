@@ -84,102 +84,150 @@
                                     ValidationExpression="^\d{10}$"
                                     ValidationGroup="PartnerForm" />
                             </div>
-                            <!-- Row 2: Contact Person | Native Branch -->
-                                    <div class="field-group contact-person-field">
+                            
+                            <!-- Row 2: Contact Person | City -->
 
-                                        <asp:Label
-                                            runat="server"
-                                            AssociatedControlID="txtContactPerson"
-                                            CssClass="field-label">
+<div class="field-group contact-person-field">
+    <asp:Label
+        runat="server"
+        AssociatedControlID="txtContactPerson"
+        CssClass="field-label">
+        Contact Person
+    </asp:Label>
 
-                                            Contact Person
-
-                                        </asp:Label>
-
-                                        <div class="field-control-wrap">
-
-                                            <asp:TextBox
-                                                ID="txtContactPerson"
-                                                runat="server"
-                                                CssClass="field-input"
-                                                placeholder="e.g. Rahul Sharma"
-                                                autocomplete="off"
-                                                MaxLength="100" />
-
-                                        </div>
-
-                                    </div>
-                            <!-- Row 2: City | Native Branch -->
-                            <div class="field-group">
-                                <asp:Label runat="server" AssociatedControlID="txtCity" CssClass="field-label">
-                                    City<span class="required-mark">*</span>
-                                </asp:Label>
-                                <div class="field-control-wrap">
-                                    <asp:TextBox ID="txtCity" runat="server" CssClass="field-input" placeholder="e.g. Pune" autocomplete="off" MaxLength="50" />
-                                </div>
-                                <asp:RequiredFieldValidator ID="rfvCity" runat="server"
-                                    ControlToValidate="txtCity"
-                                    CssClass="field-error" Display="Dynamic"
-                                    ErrorMessage="Please enter city."
-                                    ValidationGroup="PartnerForm" />
-                            </div>
-
-                            <div class="field-group">
-                                <asp:Label runat="server" AssociatedControlID="ddlNativeBranch" CssClass="field-label">
-                                    Native Branch<span class="required-mark">*</span>
-                                </asp:Label>
-                                <div class="field-select-wrap">
-                                    <asp:DropDownList ID="ddlNativeBranch" runat="server" CssClass="field-select">
-                                        <asp:ListItem Text="Select branch" Value="" />
-                                        <asp:ListItem Text="Pune" Value="Pune" />
-                                        <asp:ListItem Text="Nagpur" Value="Nagpur" />
-                                    </asp:DropDownList>
-                                </div>
-                                <asp:RequiredFieldValidator ID="rfvNativeBranch" runat="server"
-                                    ControlToValidate="ddlNativeBranch"
-                                    CssClass="field-error" Display="Dynamic"
-                                    ErrorMessage="Please select native branch."
-                                    InitialValue=""
-                                    ValidationGroup="PartnerForm" />
-                            </div>
-
-                            <div class="field-group brand-group">
-
-                                <asp:Label
-                                    runat="server"
-                                    CssClass="field-label">
-
-                                    Brands
-                                    <span class="required-mark">*</span>
-
-                                </asp:Label>
-
-                                <asp:CheckBoxList
-                                    ID="cblBrands"
-                                    runat="server"
-                                    CssClass="brand-checkbox-list"
-                                    RepeatColumns="4"
-                                    RepeatDirection="Horizontal"
-                                    RepeatLayout="Table">
-                                </asp:CheckBoxList>
-
-                            </div>
-
-                            <!-- =====================================================
-     TARGET INFORMATION
-     ===================================================== -->
+    <div class="field-control-wrap">
+        <asp:TextBox
+            ID="txtContactPerson"
+            runat="server"
+            CssClass="field-input"
+            placeholder="e.g. Rahul Sharma"
+            autocomplete="off"
+            MaxLength="100" />
+    </div>
+</div>
 
 <div class="field-group">
+    <asp:Label
+        runat="server"
+        AssociatedControlID="txtCity"
+        CssClass="field-label">
+        City<span class="required-mark">*</span>
+    </asp:Label>
+
+    <div class="field-control-wrap">
+        <asp:TextBox
+            ID="txtCity"
+            runat="server"
+            CssClass="field-input"
+            placeholder="e.g. Pune"
+            autocomplete="off"
+            MaxLength="50" />
+    </div>
+
+    <asp:RequiredFieldValidator
+        ID="rfvCity"
+        runat="server"
+        ControlToValidate="txtCity"
+        CssClass="field-error"
+        Display="Dynamic"
+        ErrorMessage="Please enter city."
+        ValidationGroup="PartnerForm" />
+</div>
+
+
+<!-- =====================================================
+     BRAND + TARGET INFORMATION
+     LEFT  = Brands
+     RIGHT = Native Branch + Purchase Potential + Sales Target
+     ===================================================== -->
+
+<div class="partner-target-layout">
+
+    <!-- LEFT : BRANDS -->
+    <div class="field-group brand-group">
+
+        <asp:Label
+            runat="server"
+            CssClass="field-label">
+
+            Brands
+            <span class="required-mark">*</span>
+
+        </asp:Label>
+
+        <asp:CheckBoxList
+            ID="cblBrands"
+            runat="server"
+            CssClass="brand-checkbox-list"
+            RepeatColumns="4"
+            RepeatDirection="Horizontal"
+            RepeatLayout="Table">
+        </asp:CheckBoxList>
+
+    </div>
+
+
+    <!-- RIGHT : NATIVE BRANCH + TARGETS -->
+    <div class="partner-target-right">
+
+        <!-- Native Branch -->
+
+        <div class="field-group">
+
+            <asp:Label
+                runat="server"
+                AssociatedControlID="ddlNativeBranch"
+                CssClass="field-label">
+
+                Native Branch
+                <span class="required-mark">*</span>
+
+            </asp:Label>
+
+            <div class="field-select-wrap">
+
+                <asp:DropDownList
+                    ID="ddlNativeBranch"
+                    runat="server"
+                    CssClass="field-select">
+
+                    <asp:ListItem Text="Select branch" Value="" />
+                    <asp:ListItem Text="Pune" Value="Pune" />
+                    <asp:ListItem Text="Nagpur" Value="Nagpur" />
+
+                </asp:DropDownList>
+
+            </div>
+
+            <asp:RequiredFieldValidator
+                ID="rfvNativeBranch"
+                runat="server"
+                ControlToValidate="ddlNativeBranch"
+                CssClass="field-error"
+                Display="Dynamic"
+                ErrorMessage="Please select native branch."
+                InitialValue=""
+                ValidationGroup="PartnerForm" />
+
+        </div>
+
+
+        <!-- Purchase Potential -->
+<!-- Purchase Potential -->
+<div class="field-group">
+
     <asp:Label
         runat="server"
         AssociatedControlID="txtPurchasePotential"
         CssClass="field-label">
 
-        Purchase Potential<span class="required-mark">*</span>
+        Purchase Potential
+        <span class="required-mark">*</span>
 
     </asp:Label>
 
     <div class="field-control-wrap">
+
         <asp:TextBox
             ID="txtPurchasePotential"
             runat="server"
@@ -188,6 +236,7 @@
             autocomplete="off"
             MaxLength="18"
             TextMode="Number" />
+
     </div>
 
     <asp:RequiredFieldValidator
@@ -198,20 +247,27 @@
         Display="Dynamic"
         ErrorMessage="Please enter purchase potential."
         ValidationGroup="PartnerForm" />
+
 </div>
 
 
+        <!-- Sales Target -->
+
+        <!-- Sales Target -->
 <div class="field-group">
+
     <asp:Label
         runat="server"
         AssociatedControlID="txtSalesTarget"
         CssClass="field-label">
 
-        Sales Target<span class="required-mark">*</span>
+        Sales Target
+        <span class="required-mark">*</span>
 
     </asp:Label>
 
     <div class="field-control-wrap">
+
         <asp:TextBox
             ID="txtSalesTarget"
             runat="server"
@@ -220,6 +276,7 @@
             autocomplete="off"
             MaxLength="18"
             TextMode="Number" />
+
     </div>
 
     <asp:RequiredFieldValidator
@@ -230,51 +287,14 @@
         Display="Dynamic"
         ErrorMessage="Please enter sales target."
         ValidationGroup="PartnerForm" />
+
 </div>
 
-
-<div class="field-group">
-    <asp:Label
-        runat="server"
-        AssociatedControlID="txtAchievementPercent"
-        CssClass="field-label">
-
-        Achievement %
-
-    </asp:Label>
-
-    <div class="field-control-wrap">
-        <asp:TextBox
-            ID="txtAchievementPercent"
-            runat="server"
-            CssClass="field-input"
-            ReadOnly="true"
-            Text="0.00"
-            />
     </div>
+
 </div>
 
-
-<div class="field-group">
-    <asp:Label
-        runat="server"
-        AssociatedControlID="txtTargetBalance"
-        CssClass="field-label">
-
-        Target Balance
-
-    </asp:Label>
-
-    <div class="field-control-wrap">
-        <asp:TextBox
-            ID="txtTargetBalance"
-            runat="server"
-            CssClass="field-input"
-            ReadOnly="true"
-            Text="0.00"
-            />
-    </div>
-</div>
+                           
 
                             <!-- Server-side duplicate / business-rule message -->
                             <asp:Panel ID="pnlFormMessage" runat="server" CssClass="field-error" Style="grid-column: 1 / -1; margin-top: -6px;">

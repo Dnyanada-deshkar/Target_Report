@@ -1700,3 +1700,51 @@ FINAL MOBILE FIX
         grid-row: auto;
     }
 }
+
+/* =========================================================
+   PARTNER TARGET LAYOUT
+   ========================================================= */
+
+.partner-target-layout {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
+    align-items: start;
+}
+
+.partner-target-right {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+/* Brands should fill the left column */
+
+.partner-target-layout .brand-group {
+    width: 100%;
+}
+
+
+/* Keep brand box visually contained */
+
+.partner-target-layout .brand-checkbox-list {
+    width: 100%;
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 768px) {
+
+    .partner-target-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .partner-target-right {
+        gap: 16px;
+    }
+}
