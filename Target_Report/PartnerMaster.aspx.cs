@@ -91,33 +91,37 @@ namespace Target_Report
                             ON PBM.BrandID = BM.BrandID
 
                         WHERE
-                        (
-                            @Search = ''
-                            OR PM.PartnerName LIKE '%' + @Search + '%'
-                            OR PM.ContactNumber LIKE '%' + @Search + '%'
-                            OR PM.ContactPersonName LIKE '%' + @Search + '%'
-                            OR PM.City LIKE '%' + @Search + '%'
-                            OR BM.BrandName LIKE '%' + @Search + '%'
-                        )
-                        AND
-                        (
-                            @Branch = ''
-                            OR PM.NativeBranch = @Branch
-                        )
+    PM.IsDeleted = 0
 
-                       GROUP BY
-                            PM.PartnerID,
-                            PM.PartnerName,
-                            PM.ContactPersonName,
-                            PM.ContactNumber,
-                            PM.City,
-                            PM.NativeBranch,
-                            PM.CreatedDate,
-                            PM.PurchasePotential,
-                            V.SalesTarget,
-                            V.SalesAchieved,
-                            V.TargetBalance,
-                            V.AchievementPercent
+    AND
+    (
+        @Search = ''
+        OR PM.PartnerName LIKE '%' + @Search + '%'
+        OR PM.ContactNumber LIKE '%' + @Search + '%'
+        OR PM.ContactPersonName LIKE '%' + @Search + '%'
+        OR PM.City LIKE '%' + @Search + '%'
+        OR BM.BrandName LIKE '%' + @Search + '%'
+    )
+
+    AND
+    (
+        @Branch = ''
+        OR PM.NativeBranch = @Branch
+    )
+
+GROUP BY
+    PM.PartnerID,
+    PM.PartnerName,
+    PM.ContactPersonName,
+    PM.ContactNumber,
+    PM.City,
+    PM.NativeBranch,
+    PM.CreatedDate,
+    PM.PurchasePotential,
+    V.SalesTarget,
+    V.SalesAchieved,
+    V.TargetBalance,
+    V.AchievementPercent
                         ORDER BY
 
                         CASE WHEN @SortExpr = 'PartnerID' AND @SortDir = 'ASC'
@@ -193,12 +197,18 @@ namespace Target_Report
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
             {
-                const string query = @"SELECT COUNT(1) FROM Partnermaster 
-                                        WHERE PartnerName = @PartnerName AND PartnerID <> @ExcludeId";
+                const string query = @"
+        SELECT COUNT(1)
+        FROM PartnerMaster
+        WHERE PartnerName = @PartnerName
+        AND PartnerID <> @ExcludeId
+        AND IsDeleted = 0";
+
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@PartnerName", partnerName);
                     cmd.Parameters.AddWithValue("@ExcludeId", excludePartnerId);
+
                     conn.Open();
                     return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
                 }
@@ -209,12 +219,18 @@ namespace Target_Report
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
             {
-                const string query = @"SELECT COUNT(1) FROM Partnermaster 
-                                        WHERE ContactNumber = @ContactNumber AND PartnerID <> @ExcludeId";
+                const string query = @"
+        SELECT COUNT(1)
+        FROM PartnerMaster
+        WHERE ContactNumber = @ContactNumber
+        AND PartnerID <> @ExcludeId
+        AND IsDeleted = 0";
+
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@ContactNumber", contactNumber);
                     cmd.Parameters.AddWithValue("@ExcludeId", excludePartnerId);
+
                     conn.Open();
                     return Convert.ToInt32(cmd.ExecuteScalar()) > 0;
                 }
@@ -333,10 +349,15 @@ namespace Target_Report
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
             {
-                const string query = "DELETE FROM Partnermaster WHERE PartnerID = @PartnerID";
+                const string query = @"
+        UPDATE PartnerMaster
+        SET IsDeleted = 1
+        WHERE PartnerID = @PartnerID";
+
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@PartnerID", partnerId);
+
                     conn.Open();
                     cmd.ExecuteNonQuery();
                 }
