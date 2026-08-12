@@ -145,10 +145,10 @@ CssClass="sidebar-nav-link">
 
                        
                             
-                       <asp:HyperLink ID="lnkNavTargetMaster" runat="server" NavigateUrl="~/TargetMaster.aspx" CssClass="sidebar-nav-link">
+                     <!--  <asp:HyperLink ID="lnkNavTargetMaster" runat="server" NavigateUrl="~/TargetMaster.aspx" CssClass="sidebar-nav-link">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>
                             <span>Target Master</span>
-                        </asp:HyperLink>
+                        </asp:HyperLink> -->
                     </div> 
 
                     <div class="sidebar-nav-section">
