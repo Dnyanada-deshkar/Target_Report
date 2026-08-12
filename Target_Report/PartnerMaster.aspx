@@ -355,17 +355,6 @@
                             OnRowCommand="gvPartners_RowCommand"
                             DataKeyNames="PartnerID">
                             <Columns>
-                                <asp:TemplateField HeaderText="Partner ID" SortExpression="PartnerID">
-                                    <HeaderTemplate>
-                                        <span class="th-sort-wrap">Partner ID
-                                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M7 10l5 5 5-5"></path></svg>
-                                        </span>
-                                    </HeaderTemplate>
-                                    <ItemTemplate>
-                                        <span class="cell-id"><%# Eval("PartnerID", "PTR-{0:0000}") %></span>
-                                    </ItemTemplate>
-                                </asp:TemplateField>
-
                                 <asp:TemplateField HeaderText="Partner Name" SortExpression="PartnerName">
                                     <HeaderTemplate>
                                         <span class="th-sort-wrap">Partner Name
@@ -409,6 +398,46 @@
                                         <span class='<%# "branch-tag" + (Eval("NativeBranch").ToString() == "Nagpur" ? " is-nagpur" : "") %>'>
                                             <span class="dot"></span>
                                             <%# Eval("NativeBranch") %>
+                                        </span>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Purchase Potential">
+                                    <ItemTemplate>
+                                        <span class="cell-secondary">
+                                            ₹ <%# Eval("PurchasePotential","{0:N2}") %>
+                                        </span>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Target">
+                                    <ItemTemplate>
+                                        <span class="cell-secondary">
+                                            ₹ <%# Eval("SalesTarget","{0:N2}") %>
+                                        </span>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Achievement">
+                                    <ItemTemplate>
+                                        <span class="cell-secondary">
+                                            ₹ <%# Eval("SalesAchieved","{0:N2}") %>
+                                        </span>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Balance">
+                                    <ItemTemplate>
+                                        <span class="cell-secondary">
+                                            ₹ <%# Eval("TargetBalance","{0:N2}") %>
+                                        </span>
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Achievement %">
+                                    <ItemTemplate>
+                                        <span class="cell-secondary">
+                                            <%# Eval("AchievementPercent","{0:N2}") %>%
                                         </span>
                                     </ItemTemplate>
                                 </asp:TemplateField>

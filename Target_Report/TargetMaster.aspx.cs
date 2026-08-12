@@ -330,6 +330,7 @@ namespace Target_Report
             txtCity.Text = target["City"].ToString();
             txtBranch.Text = target["Branch"].ToString();
             txtTargetMonth.Text =GetMonthName(Convert.ToInt32(target["TargetMonth"]));
+            txtPurchasePotential.Text = Convert.ToDecimal(target["PurchasePotential"]).ToString("0.##");
             txtSalesTarget.Text = Convert.ToDecimal(target["SalesTarget"]).ToString("0.##");
             txtRemarks.Text = target["Remarks"] != DBNull.Value ? target["Remarks"].ToString() : "";
 
@@ -503,6 +504,7 @@ namespace Target_Report
             txtCity.Text = "";
             txtBranch.Text = "";
             txtTargetMonth.Text = IndianNow().ToString("MMMM");
+            txtPurchasePotential.Text = "";
             txtSalesTarget.Text = "";
             txtRemarks.Text = "";
             ClearFormMessage();

@@ -59,24 +59,31 @@ namespace Target_Report
                 const string query = @"
 
                         SELECT
-                            PM.PartnerID,
-                            PM.PartnerName,
-                            PM.ContactPersonName,
-                            PM.ContactNumber,
-                            PM.City,
-                            PM.NativeBranch,
-                            PM.CreatedDate,
+                                PM.PartnerID,
+                                PM.PartnerName,
+                                PM.ContactPersonName,
+                                PM.ContactNumber,
+                                PM.City,
+                                PM.NativeBranch,
+                                PM.CreatedDate,
+                                PM.PurchasePotential,
 
-                            ISNULL(
-                                STRING_AGG(BM.BrandName, ', ')
-                                WITHIN GROUP (ORDER BY BM.BrandName),
-                                ''
-                            ) AS Brands,
+                                ISNULL(V.SalesTarget,0) AS SalesTarget,
+                                ISNULL(V.SalesAchieved,0) AS SalesAchieved,
+                                ISNULL(V.TargetBalance,0) AS TargetBalance,
+                                ISNULL(V.AchievementPercent,0) AS AchievementPercent,
 
-                            COUNT(*) OVER() AS TotalRecords
+                                ISNULL(
+                                    STRING_AGG(BM.BrandName, ', ')
+                                    WITHIN GROUP (ORDER BY BM.BrandName),
+                                    ''
+                                ) AS Brands,
+
+                                COUNT(*) OVER() AS TotalRecords
 
                         FROM PartnerMaster PM
-
+                        LEFT JOIN WardhaApp.VW_TargetBalance V
+                        ON PM.PartnerID = V.PartnerID
                         LEFT JOIN PartnerBrandMapping PBM
                             ON PM.PartnerID = PBM.PartnerID
 
@@ -98,15 +105,19 @@ namespace Target_Report
                             OR PM.NativeBranch = @Branch
                         )
 
-                        GROUP BY
+                       GROUP BY
                             PM.PartnerID,
                             PM.PartnerName,
                             PM.ContactPersonName,
                             PM.ContactNumber,
                             PM.City,
                             PM.NativeBranch,
-                            PM.CreatedDate
-
+                            PM.CreatedDate,
+                            PM.PurchasePotential,
+                            V.SalesTarget,
+                            V.SalesAchieved,
+                            V.TargetBalance,
+                            V.AchievementPercent
                         ORDER BY
 
                         CASE WHEN @SortExpr = 'PartnerID' AND @SortDir = 'ASC'
