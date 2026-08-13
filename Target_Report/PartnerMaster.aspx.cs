@@ -303,6 +303,7 @@ GROUP BY
                 cmd.Parameters.AddWithValue("@PartnerID", partnerId);
                 cmd.Parameters.AddWithValue("@PartnerName", name);
                 cmd.Parameters.AddWithValue("@ContactNumber", contact);
+                cmd.Parameters.AddWithValue("@ContactPersonName", contactPersonName);
                 cmd.Parameters.AddWithValue("@City", city);
                 cmd.Parameters.AddWithValue("@NativeBranch", branch);
                 cmd.Parameters.AddWithValue("@PurchasePotential", purchasePotential);
@@ -914,14 +915,14 @@ GROUP BY
             }
 
             UpdatePartner(
-                partnerId,
-                name,
-                contactPersonName,
-                contactPersonName,
-                city,
-                branch,
-                purchasePotential,
-                salesTarget);
+    partnerId,
+    name,
+    contact,
+    contactPersonName,
+    city,
+    branch,
+    purchasePotential,
+    salesTarget);
 
             DeletePartnerBrands(partnerId);
             SavePartnerBrands(partnerId);

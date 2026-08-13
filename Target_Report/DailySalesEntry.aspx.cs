@@ -27,6 +27,7 @@ namespace Target_Report
 
                 LoadPartners();
                 LoadSalesExecutives();
+                ResetSalesEntrySelection();
                 BindTodaySales();
                 BindCurrentMonthSales();
 
@@ -346,9 +347,8 @@ namespace Target_Report
 
         protected void btnClear_Click(object sender, EventArgs e)
         {
-            ddlPartner.SelectedIndex = 0;
-            txtDailySale.Text = "";
-            txtTargetBalance.Text = "";
+            ResetSalesEntrySelection();
+            ddlPartner.Focus();
         }
 
        
@@ -509,6 +509,27 @@ namespace Target_Report
             BindCurrentMonthSales();
 
             ShowToast("Success", "Daily sale deleted successfully.");
+        }
+
+        private void ResetSalesEntrySelection()
+        {
+            ddlPartner.SelectedIndex = 0;
+
+            ddlSalesExecutive.SelectedIndex = 0;
+            ddlSalesExecutiveFollow.SelectedIndex = 0;
+
+            txtDailySale.Text = "";
+            txtTargetBalance.Text = "";
+
+            txtPartnerNameFollow.Text = "";
+            txtContactNumber.Text = "";
+            txtRemark.Text = "";
+            txtFollowDate.Text = "";
+
+            rptPartnerBrands.DataSource = null;
+            rptPartnerBrands.DataBind();
+
+            pnlPartnerBrands.Visible = false;
         }
         private void ShowToast(string title, string text, string type = "success")
         {

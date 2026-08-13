@@ -289,12 +289,14 @@
 
                             
 
-                            <asp:HyperLink ID="lnkQuickAddTarget" runat="server" NavigateUrl="~/TargetMaster.aspx" CssClass="quick-action-card">
+                          <!--  <asp:HyperLink ID="lnkQuickAddTarget" runat="server" NavigateUrl="~/TargetMaster.aspx" CssClass="quick-action-card">
                                 <div class="quick-action-icon">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>
                                 </div>
                                 <span class="quick-action-label">Add Target</span>
-                            </asp:HyperLink>
+                            </asp:HyperLink> -->
+
+
                             <asp:HyperLink ID="lnkQuickAddSalesEntry" runat="server" NavigateUrl="~/DailySalesEntry.aspx" CssClass="quick-action-card">
                                 <div class="quick-action-icon">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20V10"></path><path d="M18 20V4"></path><path d="M6 20v-4"></path></svg>
