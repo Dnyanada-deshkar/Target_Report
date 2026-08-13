@@ -469,7 +469,7 @@ namespace Target_Report
             }
 
             using (SqlConnection con = new SqlConnection(ConnString))
-            using (SqlCommand cmd = new SqlCommand("USP_UpdateDailySale", con))
+            using (SqlCommand cmd = new SqlCommand("WardhaApp.USP_UpdateDailySale", con))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
