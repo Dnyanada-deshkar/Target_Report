@@ -523,7 +523,7 @@ namespace Target_Report
                     pnlToast.CssClass = "toast-stack toast-warning";
                     break;
 
-                case "error":
+                case "error": 
                     pnlToast.CssClass = "toast-stack toast-error";
                     break;
 
