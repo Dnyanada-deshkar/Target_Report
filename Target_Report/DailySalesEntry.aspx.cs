@@ -18,6 +18,8 @@ namespace Target_Report
         protected void Page_Load(object sender, EventArgs e)
             {
 
+            Page.Form.Attributes["autocomplete"] = "off";
+
             if (!IsPostBack)
             {
                 pnlToast.Visible = false;
@@ -219,6 +221,8 @@ namespace Target_Report
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            if (!Page.IsValid)
+                return;
             decimal sale;
 
             if (!decimal.TryParse(
@@ -258,13 +262,7 @@ namespace Target_Report
             BindTodaySales();
             BindCurrentMonthSales();
 
-            txtDailySale.Text = "";
-            ddlPartner.SelectedIndex = 0;
-            txtTargetBalance.Text = "";
-            txtPartnerNameFollow.Text = "";
-            txtContactNumber.Text = "";
-            txtRemark.Text = "";
-            txtFollowDate.Text = "";
+            ResetSalesEntrySelection();
 
             ddlPartner.Focus();
 
@@ -529,7 +527,7 @@ namespace Target_Report
             rptPartnerBrands.DataSource = null;
             rptPartnerBrands.DataBind();
 
-            pnlPartnerBrands.Visible = false;
+            pnlPartnerBrands.Visible = false;   
         }
         private void ShowToast(string title, string text, string type = "success")
         {

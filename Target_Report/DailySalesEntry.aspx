@@ -187,10 +187,21 @@
     </asp:Label>
 
     <asp:DropDownList
-        ID="ddlSalesExecutive"
-        runat="server"
-        CssClass="field-select">
-    </asp:DropDownList>
+    ID="ddlSalesExecutive"
+    runat="server"
+    CssClass="field-select">
+</asp:DropDownList>
+
+<asp:RequiredFieldValidator
+    ID="rfvSalesExecutive"
+    runat="server"
+    ControlToValidate="ddlSalesExecutive"
+    InitialValue="0"
+    ErrorMessage="Please select sales executive."
+    CssClass="field-error"
+    Display="Dynamic"
+    ValidationGroup="SaleGroup">
+</asp:RequiredFieldValidator>
 
 </div>
 

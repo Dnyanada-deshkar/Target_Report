@@ -56,141 +56,49 @@ namespace Target_Report
             using (SqlConnection conn = new SqlConnection(ConnString))
             {
                 conn.Open();
-                const string query = @"
-
-                        SELECT
-                                PM.PartnerID,
-                                PM.PartnerName,
-                                PM.ContactPersonName,
-                                PM.ContactNumber,
-                                PM.City,
-                                PM.NativeBranch,
-                                PM.CreatedDate,
-                                PM.PurchasePotential,
-
-                                ISNULL(V.SalesTarget,0) AS SalesTarget,
-                                ISNULL(V.SalesAchieved,0) AS SalesAchieved,
-                                ISNULL(V.TargetBalance,0) AS TargetBalance,
-                                ISNULL(V.AchievementPercent,0) AS AchievementPercent,
-
-                                ISNULL(
-                                    STRING_AGG(BM.BrandName, ', ')
-                                    WITHIN GROUP (ORDER BY BM.BrandName),
-                                    ''
-                                ) AS Brands,
-
-                                COUNT(*) OVER() AS TotalRecords
-
-                        FROM PartnerMaster PM
-                        LEFT JOIN WardhaApp.VW_TargetBalance V
-                        ON PM.PartnerID = V.PartnerID
-                        LEFT JOIN PartnerBrandMapping PBM
-                            ON PM.PartnerID = PBM.PartnerID
-
-                        LEFT JOIN BrandMaster BM
-                            ON PBM.BrandID = BM.BrandID
-
-                        WHERE
-    PM.IsDeleted = 0
-
-    AND
-    (
-        @Search = ''
-        OR PM.PartnerName LIKE '%' + @Search + '%'
-        OR PM.ContactNumber LIKE '%' + @Search + '%'
-        OR PM.ContactPersonName LIKE '%' + @Search + '%'
-        OR PM.City LIKE '%' + @Search + '%'
-        OR BM.BrandName LIKE '%' + @Search + '%'
-    )
-
-    AND
-    (
-        @Branch = ''
-        OR PM.NativeBranch = @Branch
-    )
-
-GROUP BY
-    PM.PartnerID,
-    PM.PartnerName,
-    PM.ContactPersonName,
-    PM.ContactNumber,
-    PM.City,
-    PM.NativeBranch,
-    PM.CreatedDate,
-    PM.PurchasePotential,
-    V.SalesTarget,
-    V.SalesAchieved,
-    V.TargetBalance,
-    V.AchievementPercent
-                        ORDER BY
-
-                        CASE WHEN @SortExpr = 'PartnerID' AND @SortDir = 'ASC'
-                            THEN PM.PartnerID END ASC,
-
-                        CASE WHEN @SortExpr = 'PartnerID' AND @SortDir = 'DESC'
-                            THEN PM.PartnerID END DESC,
-
-                        CASE WHEN @SortExpr = 'PartnerName' AND @SortDir = 'ASC'
-                            THEN PM.PartnerName END ASC,
-
-                        CASE WHEN @SortExpr = 'PartnerName' AND @SortDir = 'DESC'
-                            THEN PM.PartnerName END DESC,
-
-                        CASE WHEN @SortExpr = 'ContactPersonName' AND @SortDir = 'ASC'
-                            THEN PM.ContactPersonName END ASC,
-
-                        CASE WHEN @SortExpr = 'ContactPersonName' AND @SortDir = 'DESC'
-                            THEN PM.ContactPersonName END DESC,
-
-                        CASE WHEN @SortExpr = 'ContactNumber' AND @SortDir = 'ASC'
-                            THEN PM.ContactNumber END ASC,
-
-                        CASE WHEN @SortExpr = 'ContactNumber' AND @SortDir = 'DESC'
-                            THEN PM.ContactNumber END DESC,
-
-                        CASE WHEN @SortExpr = 'NativeBranch' AND @SortDir = 'ASC'
-                            THEN PM.NativeBranch END ASC,
-
-                        CASE WHEN @SortExpr = 'NativeBranch' AND @SortDir = 'DESC'
-                            THEN PM.NativeBranch END DESC,
-
-                        CASE WHEN @SortExpr = 'City' AND @SortDir = 'ASC'
-                            THEN PM.City END ASC,
-
-                        CASE WHEN @SortExpr = 'City' AND @SortDir = 'DESC'
-                            THEN PM.City END DESC,
-
-                        CASE WHEN @SortExpr = 'CreatedDate' AND @SortDir = 'ASC'
-                            THEN PM.CreatedDate END ASC,
-
-                        CASE WHEN @SortExpr = 'CreatedDate' AND @SortDir = 'DESC'
-                            THEN PM.CreatedDate END DESC
-
-                        OFFSET @Offset ROWS
-                        FETCH NEXT @PageSize ROWS ONLY";
-
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                using (SqlCommand cmd = new SqlCommand(
+                    "WardhaApp.usp_PartnerMaster_GetList",
+                    conn))
                 {
-                    cmd.Parameters.AddWithValue("@Search", searchText ?? "");
-                    cmd.Parameters.AddWithValue("@Branch", branchFilter ?? "");
-                    cmd.Parameters.AddWithValue("@SortExpr", allowedSort);
-                    cmd.Parameters.AddWithValue("@SortDir", allowedDir);
-                    cmd.Parameters.AddWithValue("@Offset", (pageNumber - 1) * pageSize);
-                    cmd.Parameters.AddWithValue("@PageSize", pageSize);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue(
+                        "@Search",
+                        searchText ?? "");
+
+                    cmd.Parameters.AddWithValue(
+                        "@Branch",
+                        branchFilter ?? "");
+
+                    cmd.Parameters.AddWithValue(
+                        "@SortExpr",
+                        allowedSort);
+
+                    cmd.Parameters.AddWithValue(
+                        "@SortDir",
+                        allowedDir);
+
+                    cmd.Parameters.AddWithValue(
+                        "@Offset",
+                        (pageNumber - 1) * pageSize);
+
+                    cmd.Parameters.AddWithValue(
+                        "@PageSize",
+                        pageSize);
 
                     using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
                     {
                         adapter.Fill(result);
                     }
                 }
-            }
 
-            if (result.Rows.Count > 0 && result.Columns.Contains("TotalRecords"))
-            {
-                totalRecords = Convert.ToInt32(result.Rows[0]["TotalRecords"]);
-            }
+                if (result.Rows.Count > 0 && result.Columns.Contains("TotalRecords"))
+                {
+                    totalRecords = Convert.ToInt32(result.Rows[0]["TotalRecords"]);
+                }
 
-            return result;
+                return result;
+            }
         }
 
         private bool PartnerNameExists(string partnerName, int excludePartnerId)
@@ -299,6 +207,7 @@ GROUP BY
                 "WardhaApp.USP_Partner_Update", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
+
 
                 cmd.Parameters.AddWithValue("@PartnerID", partnerId);
                 cmd.Parameters.AddWithValue("@PartnerName", name);
