@@ -177,6 +177,15 @@ namespace Target_Report
         protected global::System.Web.UI.WebControls.TextBox txtContactNumber;
 
         /// <summary>
+        /// hdnMode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnMode;
+
+        /// <summary>
         /// ddlSalesExecutiveFollow control.
         /// </summary>
         /// <remarks>
@@ -184,6 +193,15 @@ namespace Target_Report
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlSalesExecutiveFollow;
+
+        /// <summary>
+        /// rfvSalesExecutiveFollow control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvSalesExecutiveFollow;
 
         /// <summary>
         /// txtFollowDate control.

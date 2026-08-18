@@ -226,11 +226,11 @@
 
     <div class="form-actions">
 
-        <asp:ValidationSummary
+       <!-- <asp:ValidationSummary
             ID="vsSale"
             runat="server"
             ValidationGroup="SaleGroup"
-            CssClass="field-error" />
+            CssClass="field-error" /> -->
 
     <asp:Button
         ID="btnSave"
@@ -294,12 +294,27 @@
         CssClass="field-label">
         Sales Executive *
     </asp:Label>
+                 <asp:HiddenField
+    ID="hdnMode"
+    runat="server"
+    Value="sales" />
 
     <asp:DropDownList
         ID="ddlSalesExecutiveFollow"
         runat="server"
         CssClass="field-select">
     </asp:DropDownList>
+
+                 <asp:RequiredFieldValidator
+    ID="rfvSalesExecutiveFollow"
+    runat="server"
+    ControlToValidate="ddlSalesExecutiveFollow"
+    InitialValue="0"
+    ErrorMessage="Please select sales executive."
+    CssClass="field-error"
+    Display="Dynamic"
+    ValidationGroup="FollowUpGroup">
+</asp:RequiredFieldValidator>
 </div>
 
         <div class="field-group">
@@ -637,34 +652,62 @@
         };
 
 
-        const btnSales = document.getElementById("btnSalesMode");
-        const btnRemark = document.getElementById("btnRemarkMode");
+        document.addEventListener("DOMContentLoaded", function () {
 
-        const salesPanel = document.getElementById("salesPanel");
-        const followPanel = document.getElementById("followPanel");
-        const title = document.getElementById("pageModeTitle");
+            const btnSales = document.getElementById("btnSalesMode");
+            const btnRemark = document.getElementById("btnRemarkMode");
 
-        btnSales.onclick = function () {
+            const salesPanel = document.getElementById("salesPanel");
+            const followPanel = document.getElementById("followPanel");
+            const title = document.getElementById("pageModeTitle");
 
-            btnSales.classList.add("active");
-            btnRemark.classList.remove("active");
+            const modeField = document.getElementById("<%= hdnMode.ClientID %>");
 
-            salesPanel.style.display = "block";
-            followPanel.style.display = "none";
+            function setMode(mode) {
 
-            title.innerHTML = "Daily Sales & Follow-up";
-        };
+                if (mode === "followup") {
 
-        btnRemark.onclick = function () {
+                    btnRemark.classList.add("active");
+                    btnSales.classList.remove("active");
 
-            btnRemark.classList.add("active");
-            btnSales.classList.remove("active");
+                    salesPanel.style.display = "none";
+                    followPanel.style.display = "block";
 
-            salesPanel.style.display = "none";
-            followPanel.style.display = "block";
+                    title.innerHTML = "Partner Follow-up";
 
-            title.innerHTML = "Partner Follow-up";
-        };
+                } else {
+
+                    btnSales.classList.add("active");
+                    btnRemark.classList.remove("active");
+
+                    salesPanel.style.display = "block";
+                    followPanel.style.display = "none";
+
+                    title.innerHTML = "Daily Sales & Follow-up";
+                }
+
+                modeField.value = mode;
+            }
+
+            // Sales Entry toggle
+            btnSales.onclick = function (e) {
+
+                e.preventDefault();
+
+                setMode("sales");
+            };
+
+            // Follow-up toggle
+            btnRemark.onclick = function (e) {
+
+                e.preventDefault();
+
+                setMode("followup");
+            };
+
+            // Restore the mode after ASP.NET postback
+            setMode(modeField.value || "sales");
+        });
 
     </script>
 

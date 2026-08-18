@@ -221,26 +221,33 @@ namespace Target_Report
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            if (!Page.IsValid)
-                return;
-            decimal sale;
-
-            if (!decimal.TryParse(
-                txtDailySale.Text,
-                out sale))
+            // Sales Executive validation
+            if (ddlSalesExecutive.SelectedValue == "0")
             {
+                rfvSalesExecutive.IsValid = false;
                 return;
             }
 
-            using (SqlConnection con =
-                new SqlConnection(ConnString))
-            using (SqlCommand cmd =
-                new SqlCommand(
-                    "USP_SaveDailySale",
-                    con))
+            // Daily Sale validation
+            if (string.IsNullOrWhiteSpace(txtDailySale.Text))
             {
-                cmd.CommandType =
-                    CommandType.StoredProcedure;
+                rfvDailySale.IsValid = false;
+                return;
+            }
+
+            decimal sale;
+
+            if (!decimal.TryParse(txtDailySale.Text.Trim(), out sale) || sale <= 0)
+            {
+                revDailySale.IsValid = false;
+                return;
+            }
+
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand(
+                "WardhaApp.USP_SaveDailySale", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue(
                     "@PartnerID",
@@ -251,8 +258,8 @@ namespace Target_Report
                     sale);
 
                 cmd.Parameters.AddWithValue(
-    "@ExecutiveID",
-    ddlSalesExecutive.SelectedValue);
+                    "@ExecutiveID",
+                    ddlSalesExecutive.SelectedValue);
 
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -272,8 +279,7 @@ namespace Target_Report
                 "success");
         }
         protected void btnSaveFollowup_Click(object sender, EventArgs e)
-        {  
-
+        {
             if (ddlPartner.SelectedValue == "0")
             {
                 ShowToast(
@@ -303,6 +309,7 @@ namespace Target_Report
                     "Warning",
                     "Please select follow-up date.",
                     "warning");
+
                 return;
             }
 
@@ -310,24 +317,42 @@ namespace Target_Report
             {
                 ShowToast(
                     "Warning",
-                        "Past follow-up date is not allowed.",
+                    "Past follow-up date is not allowed.",
                     "warning");
+
                 return;
             }
-            using (SqlConnection con = new SqlConnection(ConnString))
-            using (SqlCommand cmd = new SqlCommand("USP_SavePartnerFollowUp", con))
+
+            using (SqlConnection con =
+                new SqlConnection(ConnString))
+            using (SqlCommand cmd =
+                new SqlCommand(
+                    "USP_SavePartnerFollowUp",
+                    con))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@PartnerID", ddlPartner.SelectedValue);
-                cmd.Parameters.AddWithValue("@Remark", txtRemark.Text.Trim());
-                cmd.Parameters.AddWithValue( "@FollowUpDate", followDate.Date); 
-                cmd.Parameters.AddWithValue("@ExecutiveID", ddlSalesExecutiveFollow.SelectedValue);
+                cmd.Parameters.AddWithValue(
+                    "@PartnerID",
+                    ddlPartner.SelectedValue);
+
+                cmd.Parameters.AddWithValue(
+                    "@Remark",
+                    txtRemark.Text.Trim());
+
+                cmd.Parameters.AddWithValue(
+                    "@FollowUpDate",
+                    followDate.Date);
+
+                cmd.Parameters.AddWithValue(
+                    "@ExecutiveID",
+                    ddlSalesExecutiveFollow.SelectedValue);
 
                 con.Open();
                 cmd.ExecuteNonQuery();
             }
 
+            // Clear follow-up form
             txtRemark.Text = "";
             txtFollowDate.Text = "";
             ddlPartner.SelectedIndex = 0;
@@ -335,11 +360,14 @@ namespace Target_Report
             txtPartnerNameFollow.Text = "";
             txtContactNumber.Text = "";
 
-            Session["ToastTitle"] = "Success";
-            Session["ToastText"] = "Follow-up saved successfully.";
-            Session["ToastType"] = "success";
+            // IMPORTANT:
+            // Keep Follow-up mode after postback
+            hdnMode.Value = "followup";
 
-            Response.Redirect("~/DailySalesEntry.aspx", false);
+            ShowToast(
+                "Success",
+                "Follow-up saved successfully.",
+                "success");
         }
 
 
