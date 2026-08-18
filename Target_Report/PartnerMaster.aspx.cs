@@ -193,14 +193,14 @@ namespace Target_Report
             }
         }
         private void UpdatePartner(
-    int partnerId,
-    string name,
-    string contact,
-    string contactPersonName,
-    string city,
-    string branch,
-    decimal purchasePotential,
-    decimal salesTarget)
+                int partnerId,
+                string name,
+                string contact,
+                string contactPersonName,
+                string city,
+                string branch,
+                decimal purchasePotential,
+                decimal salesTarget)
         {
             using (SqlConnection conn = new SqlConnection(ConnString))
             using (SqlCommand cmd = new SqlCommand(

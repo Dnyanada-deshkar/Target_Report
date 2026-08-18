@@ -156,37 +156,27 @@ namespace Target_Report
 
         private void LoadPartnerTarget()
         {
-            using (SqlConnection con =
-                new SqlConnection(ConnString))
-            using (SqlCommand cmd =
-                new SqlCommand("USP_GetPartnerTarget", con))
+            using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand("USP_GetPartnerTarget", con))
             {
-                cmd.CommandType =
-                    CommandType.StoredProcedure;
+                cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue(
-                    "@PartnerID",
-                    ddlPartner.SelectedValue);
-
-                cmd.Parameters.AddWithValue(
-                    "@TargetMonth",
-                    IndianNow().Month);
-
-                cmd.Parameters.AddWithValue(
-                    "@TargetYear",
-                    IndianNow().Year);
+                cmd.Parameters.AddWithValue("@PartnerID",
+                    Convert.ToInt32(ddlPartner.SelectedValue));
 
                 con.Open();
 
-                SqlDataReader dr =
-                    cmd.ExecuteReader();
-
-                if (dr.Read())
+                using (SqlDataReader dr = cmd.ExecuteReader())
                 {
-                    txtTargetBalance.Text =
-                        Convert.ToDecimal(
-                            dr["TargetBalance"])
-                        .ToString("N2");
+                    if (dr.Read())
+                    {
+                        txtTargetBalance.Text =
+                            Convert.ToDecimal(dr["TargetBalance"]).ToString("N2");
+                    }
+                    else
+                    {
+                        txtTargetBalance.Text = "0.00";
+                    }
                 }
             }
         }
