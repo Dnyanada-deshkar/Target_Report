@@ -240,28 +240,19 @@ namespace Target_Report
                 using (SqlConnection conn = new SqlConnection(ConnString))
                 {
                     const string query = @"
-                        SELECT
-                            t.TargetMonth,
-                            t.TargetYear,
-                            SUM(t.SalesTarget) AS TotalTarget,
-                            ISNULL(SUM(d.MonthlyAchieved),0) AS TotalAchievement
-                        FROM TargetMaster t
-                        LEFT JOIN
-                        (
-                            SELECT
-                                PartnerID,
-                                MONTH(SaleDate) AS SaleMonth,
-                                YEAR(SaleDate) AS SaleYear,
-                                SUM(SalesAchieved) AS MonthlyAchieved
-                            FROM DailySalesEntry
-                            GROUP BY PartnerID, MONTH(SaleDate), YEAR(SaleDate)
-                        ) d
-                        ON d.PartnerID = t.PartnerID
-                        AND d.SaleMonth = t.TargetMonth
-                        AND d.SaleYear = t.TargetYear
-                        GROUP BY t.TargetMonth, t.TargetYear
-                        ORDER BY t.TargetYear, t.TargetMonth";
-                        using (SqlCommand cmd = new SqlCommand(query, conn))
+    SELECT
+        TargetMonth,
+        TargetYear,
+        SUM(SalesTarget) AS TotalTarget,
+        SUM(Achievement) AS TotalAchievement
+    FROM WardhaApp.MonthlyTargetSnapshot
+    GROUP BY
+        TargetMonth,
+        TargetYear
+    ORDER BY
+        TargetYear,
+        TargetMonth";
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
                             conn.Open();
                             using (SqlDataReader reader = cmd.ExecuteReader())
@@ -313,16 +304,26 @@ namespace Target_Report
                 using (SqlConnection conn = new SqlConnection(ConnString))
                 {
                     const string query = @"
-                        SELECT 
-                            p.NativeBranch AS BranchName,
-                            ISNULL(SUM(t.SalesTarget), 0) AS BranchTarget,
-                            ISNULL(SUM(d.SalesAchieved), 0) AS BranchAchievement
-                        FROM PartnerMaster p
-                        LEFT JOIN TargetMaster t ON t.PartnerID = p.PartnerID 
-                            AND t.TargetMonth = @TargetMonth AND t.TargetYear = @TargetYear
-                        LEFT JOIN DailySalesEntry d ON d.PartnerID = p.PartnerID 
-                            AND MONTH(d.SaleDate) = @TargetMonth AND YEAR(d.SaleDate) = @TargetYear
-                        GROUP BY p.NativeBranch";
+    SELECT
+        P.NativeBranch AS BranchName,
+        SUM(ISNULL(P.SalesTarget,0)) AS BranchTarget,
+        ISNULL(SUM(S.Achievement),0) AS BranchAchievement
+    FROM WardhaApp.PartnerMaster P
+    LEFT JOIN
+    (
+        SELECT
+            D.PartnerID,
+            SUM(D.SalesAchieved) AS Achievement
+        FROM WardhaApp.DailySalesEntry D
+        INNER JOIN WardhaApp.PartnerMaster PX
+            ON PX.PartnerID = D.PartnerID
+        WHERE D.CreatedDate >=
+              COALESCE(PX.TargetChangedDate, PX.CreatedDate)
+        GROUP BY D.PartnerID
+    ) S
+        ON P.PartnerID = S.PartnerID
+    WHERE ISNULL(P.IsDeleted,0) = 0
+    GROUP BY P.NativeBranch";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -370,27 +371,18 @@ namespace Target_Report
                 using (SqlConnection conn = new SqlConnection(ConnString))
                 {
                     const string query = @"
-                                            SELECT
-                                                t.TargetMonth,
-                                                t.TargetYear,
-                                                SUM(t.SalesTarget) AS TotalTarget,
-                                                ISNULL(SUM(d.MonthlyAchieved),0) AS TotalAchievement
-                                            FROM TargetMaster t
-                                            LEFT JOIN
-                                            (
-                                                SELECT
-                                                    PartnerID,
-                                                    MONTH(SaleDate) AS SaleMonth,
-                                                    YEAR(SaleDate) AS SaleYear,
-                                                    SUM(SalesAchieved) AS MonthlyAchieved
-                                                FROM DailySalesEntry
-                                                GROUP BY PartnerID, MONTH(SaleDate), YEAR(SaleDate)
-                                            ) d
-                                            ON d.PartnerID = t.PartnerID
-                                            AND d.SaleMonth = t.TargetMonth
-                                            AND d.SaleYear = t.TargetYear
-                                            GROUP BY t.TargetMonth, t.TargetYear
-                                            ORDER BY t.TargetYear, t.TargetMonth";
+    SELECT
+        TargetMonth,
+        TargetYear,
+        SUM(SalesTarget) AS TotalTarget,
+        SUM(Achievement) AS TotalAchievement
+    FROM WardhaApp.MonthlyTargetSnapshot
+    GROUP BY
+        TargetMonth,
+        TargetYear
+    ORDER BY
+        TargetYear,
+        TargetMonth";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
@@ -453,19 +445,27 @@ namespace Target_Report
                 using (SqlConnection conn = new SqlConnection(ConnString))
                 {
                     const string query = @"
-                        SELECT TOP 10
-                            p.PartnerName,
-                            p.NativeBranch AS Branch,
-                            ISNULL(t.SalesTarget, 0) AS Target,
-                            ISNULL(SUM(d.SalesAchieved), 0) AS Achievement
-                        FROM PartnerMaster p
-                        LEFT JOIN TargetMaster t ON t.PartnerID = p.PartnerID 
-                            AND t.TargetMonth = @TargetMonth AND t.TargetYear = @TargetYear
-                        LEFT JOIN DailySalesEntry d ON d.PartnerID = p.PartnerID
-                        AND MONTH(d.SaleDate) = @TargetMonth
-                        AND YEAR(d.SaleDate) = @TargetYear
-                        GROUP BY p.PartnerName, p.NativeBranch, t.SalesTarget
-                        ORDER BY ISNULL(SUM(d.SalesAchieved), 0) DESC";
+    SELECT TOP 10
+        P.PartnerName,
+        P.NativeBranch AS Branch,
+        ISNULL(P.SalesTarget,0) AS Target,
+        ISNULL(S.Achievement,0) AS Achievement
+    FROM WardhaApp.PartnerMaster P
+    LEFT JOIN
+    (
+        SELECT
+            D.PartnerID,
+            SUM(D.SalesAchieved) AS Achievement
+        FROM WardhaApp.DailySalesEntry D
+        INNER JOIN WardhaApp.PartnerMaster PX
+            ON PX.PartnerID = D.PartnerID
+        WHERE D.CreatedDate >=
+              COALESCE(PX.TargetChangedDate, PX.CreatedDate)
+        GROUP BY D.PartnerID
+    ) S
+        ON P.PartnerID = S.PartnerID
+    WHERE ISNULL(P.IsDeleted,0) = 0
+    ORDER BY ISNULL(S.Achievement,0) DESC";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
