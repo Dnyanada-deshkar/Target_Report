@@ -43,7 +43,7 @@ namespace Target_Report
                 BindYears();
                 BindPartners();
                 BindSalesExecutives();
-                ddlMonth.SelectedValue = IndianNow().Month.ToString();
+                ddlMonth.SelectedIndex = 0;
                 ddlYear.SelectedValue = IndianNow().Year.ToString();
 
 
@@ -138,12 +138,15 @@ namespace Target_Report
 
         protected void btnExport_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(ddlMonth.SelectedValue) ||
-                string.IsNullOrEmpty(ddlYear.SelectedValue))
+            if (string.IsNullOrEmpty(ddlYear.SelectedValue))
             {
-                ShowToast("Cannot export",
-                          "Please select a month and year before exporting.",
-                          "warning");
+                gvSnapshot.DataSource = null;
+                gvSnapshot.DataBind();
+
+                litResultCount.Text = "0 records";
+
+                LoadSummaryCards(new DataTable());
+
                 return;
             }
 
@@ -172,7 +175,7 @@ namespace Target_Report
         /// </summary>
         private void LoadReport()
         {
-            if (string.IsNullOrEmpty(ddlMonth.SelectedValue) || string.IsNullOrEmpty(ddlYear.SelectedValue))
+            if (string.IsNullOrEmpty(ddlYear.SelectedValue))
             {
                 gvSnapshot.DataSource = null;
                 gvSnapshot.DataBind();
@@ -211,7 +214,7 @@ namespace Target_Report
             using (SqlCommand cmd = new SqlCommand("WardhaApp.usp_MonthlySnapshotReport", conn))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@TargetMonth", Convert.ToInt32(ddlMonth.SelectedValue));
+                cmd.Parameters.AddWithValue("@TargetMonth",string.IsNullOrEmpty(ddlMonth.SelectedValue) ? (object)DBNull.Value : Convert.ToInt32(ddlMonth.SelectedValue));
                 cmd.Parameters.AddWithValue("@TargetYear", Convert.ToInt32(ddlYear.SelectedValue));
                 cmd.Parameters.AddWithValue("@PartnerID", string.IsNullOrEmpty(ddlPartner.SelectedValue) ? (object)DBNull.Value : Convert.ToInt32(ddlPartner.SelectedValue));
                 cmd.Parameters.AddWithValue("@Branch", string.IsNullOrEmpty(ddlBranch.SelectedValue) ? (object)DBNull.Value : ddlBranch.SelectedValue);
