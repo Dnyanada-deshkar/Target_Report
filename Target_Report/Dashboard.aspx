@@ -50,7 +50,7 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>
                     </div>
                     <span class="kpi-trend is-neutral">
-                        <asp:Literal ID="litMonthlyTargetTrend" runat="server" Text="This month" />
+                        
                     </span>
                 </div>
                 <div class="kpi-value"><asp:Label ID="lblMonthlyTarget" runat="server" Text="0" /></div>
@@ -173,7 +173,7 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 7"></polyline><polyline points="14 7 21 7 21 14"></polyline></svg>
                         <span>Achievement Trend</span>
                     </div>
-                    <span class="panel-header-meta">Last 6 months</span>
+                    
                 </div>
                 <div class="panel-body">
                     <div class="chart-canvas-wrap" style="height: 220px;">
