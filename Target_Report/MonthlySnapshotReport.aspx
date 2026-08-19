@@ -63,6 +63,16 @@
                                     <asp:ListItem Text="November" Value="11" />
                                     <asp:ListItem Text="December" Value="12" />
                                 </asp:DropDownList>
+
+                               <!-- <asp:RequiredFieldValidator
+                                    ID="rfvMonth"
+                                    runat="server"
+                                    ControlToValidate="ddlMonth"
+                                    CssClass="field-error"
+                                    Display="Dynamic"
+                                    ErrorMessage="Please select a month."
+                                    InitialValue=""
+                                    ValidationGroup="ReportFilters" /> -->
                             </div>
                             
                         </div>
@@ -142,7 +152,7 @@
                             </div>
                         </div>
                         <div class="kpi-value"><asp:Label ID="lblTotalTarget" runat="server" Text="₹0.00" /></div>
-                        <div class="kpi-label">Total Target</div>
+                        <div class="kpi-label">Total Active Target</div>
                     </div>
 
                     <div class="kpi-card">
@@ -155,7 +165,7 @@
                         <div class="kpi-label">Total Achievement</div>
                     </div>
 
-                    <div class="kpi-card">
+                  <!--  <div class="kpi-card">
                         <div class="kpi-card-top">
                             <div class="kpi-icon-wrap is-danger">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
@@ -173,7 +183,7 @@
                         </div>
                         <div class="kpi-value"><asp:Label ID="lblAchievementPercentage" runat="server" Text="0.00%" /></div>
                         <div class="kpi-label">Achievement %</div>
-                    </div>
+                    </div> -->
 
                 </div>
             </section>

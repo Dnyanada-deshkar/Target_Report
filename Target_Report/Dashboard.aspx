@@ -54,7 +54,7 @@
                     </span>
                 </div>
                 <div class="kpi-value"><asp:Label ID="lblMonthlyTarget" runat="server" Text="0" /></div>
-                <div class="kpi-label">Total Target</div>
+                <div class="kpi-label">Total Active Target</div>
             </div>
 
             <div class="kpi-card">
@@ -180,7 +180,7 @@
                         <canvas id="chartAchievementTrend"></canvas>
                     </div>
                 </div>
-            </section>
+            </section>  
         </div>
 
         <div class="lower-grid">
