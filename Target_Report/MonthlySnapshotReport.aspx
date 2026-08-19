@@ -204,27 +204,6 @@
                                     OnSorting="gvSnapshot_Sorting"
                                     DataKeyNames="PartnerName">
                         <Columns>
-
-                            <asp:TemplateField HeaderText="Sales Executive" SortExpression="ExecutiveName">
-                                        <HeaderTemplate>
-                                            <span class="th-sort-wrap">
-                                                Sales Executive
-                                                <svg viewBox="0 0 24 24"
-                                                     fill="none"
-                                                     stroke="currentColor"
-                                                     stroke-width="2.5"
-                                                     stroke-linecap="round">
-                                                    <path d="M7 10l5 5 5-5"></path>
-                                                </svg>
-                                            </span>
-                                        </HeaderTemplate>
-
-                                        <ItemTemplate>
-                                            <span class="cell-name">
-                                                <%# Eval("ExecutiveName") %>
-                                            </span>
-                                        </ItemTemplate>
-                                    </asp:TemplateField>
                             <asp:TemplateField HeaderText="Partner Name" SortExpression="PartnerName">
                                 <HeaderTemplate>
                                     <span class="th-sort-wrap">Partner Name
@@ -233,6 +212,28 @@
                                 </HeaderTemplate>
                                 <ItemTemplate>
                                     <span class="cell-name"><%# Eval("PartnerName") %></span>
+                                </ItemTemplate>
+                            </asp:TemplateField>
+
+
+                            <asp:TemplateField HeaderText="Sales Executive" SortExpression="ExecutiveName">
+                                <HeaderTemplate>
+                                    <span class="th-sort-wrap">
+                                        Sales Executive
+                                        <svg viewBox="0 0 24 24"
+                                             fill="none"
+                                             stroke="currentColor"
+                                             stroke-width="2.5"
+                                             stroke-linecap="round">
+                                            <path d="M7 10l5 5 5-5"></path>
+                                        </svg>
+                                    </span>
+                                </HeaderTemplate>
+
+                                <ItemTemplate>
+                                    <span class="cell-name">
+                                        <%# Eval("ExecutiveName") %>
+                                    </span>
                                 </ItemTemplate>
                             </asp:TemplateField>
 
