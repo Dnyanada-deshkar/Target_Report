@@ -38,7 +38,7 @@
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 3H2l8 9.46V19l4 2v-8.54L22 3Z"></path></svg>
                         <span>Filters</span>
                     </div>
-                    <span class="panel-header-meta">Month and year are required</span>
+                    <span class="panel-header-meta"> Year is Required</span>
                 </div>
                 <div class="panel-body">
                     <div class="form-grid">
@@ -64,12 +64,7 @@
                                     <asp:ListItem Text="December" Value="12" />
                                 </asp:DropDownList>
                             </div>
-                            <asp:RequiredFieldValidator ID="rfvMonth" runat="server"
-                                ControlToValidate="ddlMonth"
-                                CssClass="field-error" Display="Dynamic"
-                                ErrorMessage="Please select a month."
-                                InitialValue=""
-                                ValidationGroup="ReportFilters" />
+                            
                         </div>
 
                         <div class="field-group">

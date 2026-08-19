@@ -538,7 +538,6 @@ namespace Target_Report
             sb.Append("<worksheet xmlns=\"http://schemas.openxmlformats.org/spreadsheetml/2006/main\">");
             sb.Append("<sheetData>");
 
-            // Header row (bold style index 1, defined in styles.xml)
             sb.Append("<row r=\"1\">");
             for (int col = 0; col < headers.Length; col++)
             {
