@@ -228,48 +228,205 @@ namespace Target_Report
                     CultureInfo.InvariantCulture
                 );
         }
+        //    private void BindTargetVsAchievementChart()
+        //    {
+        //        DateTime now = IndianNow();
+        //        List<string> months = new List<string>();
+        //        List<decimal> targets = new List<decimal>();
+        //        List<decimal> achievements = new List<decimal>();
+
+        //        try
+        //        {
+        //            using (SqlConnection conn = new SqlConnection(ConnString))
+        //            {
+        //                const string query = @"
+        //SELECT
+        //    TargetMonth,
+        //    TargetYear,
+        //    SUM(SalesTarget) AS TotalTarget,
+        //    SUM(Achievement) AS TotalAchievement
+        //FROM WardhaApp.MonthlyTargetSnapshot
+        //GROUP BY
+        //    TargetMonth,
+        //    TargetYear
+        //ORDER BY
+        //    TargetYear,
+        //    TargetMonth";
+        //                using (SqlCommand cmd = new SqlCommand(query, conn))
+        //                {
+        //                        conn.Open();
+        //                        using (SqlDataReader reader = cmd.ExecuteReader())
+        //                        {
+        //                        while (reader.Read())
+        //                        {
+        //                            int monthNo = Convert.ToInt32(reader["TargetMonth"]);
+
+        //                            months.Add(
+        //                                        new DateTime(now.Year, monthNo, 1)
+        //                                            .ToString("MMM")
+        //                                    );
+
+        //                            targets.Add(
+        //                                Convert.ToDecimal(reader["TotalTarget"])
+        //                            );
+        //                            achievements.Add(Convert.ToDecimal(reader["TotalAchievement"]));
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        catch (SqlException)
+        //        {
+
+        //        }
+
+        //        if (months.Count == 0)
+        //        {
+        //            months.AddRange(new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun" });
+        //            targets.AddRange(new decimal[] { 3800000, 4000000, 4200000, 4100000, 4350000, 4500000 });
+        //            achievements.AddRange(new decimal[] { 3400000, 3650000, 3900000, 3700000, 4050000, 3286500 });
+        //        }
+
+        //        hdnChartLabels.Value = ToJsonArray(months);
+        //        hdnTargetData.Value = ToJsonArray(targets);
+        //        hdnAchievementData.Value = ToJsonArray(achievements);
+        //    }
+
+
         private void BindTargetVsAchievementChart()
         {
             DateTime now = IndianNow();
+            DateTime currentMonth = new DateTime(now.Year, now.Month, 1);
+            DateTime startMonth = currentMonth.AddMonths(-5);
+
             List<string> months = new List<string>();
             List<decimal> targets = new List<decimal>();
             List<decimal> achievements = new List<decimal>();
+
+            Dictionary<DateTime, decimal> targetMap =
+                new Dictionary<DateTime, decimal>();
+
+            Dictionary<DateTime, decimal> achievementMap =
+                new Dictionary<DateTime, decimal>();
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConnString))
                 {
                     const string query = @"
+;WITH CurrentSales AS
+(
     SELECT
-        TargetMonth,
-        TargetYear,
-        SUM(SalesTarget) AS TotalTarget,
-        SUM(Achievement) AS TotalAchievement
-    FROM WardhaApp.MonthlyTargetSnapshot
+        D.PartnerID,
+        SUM(D.SalesAchieved) AS Achievement
+    FROM WardhaApp.DailySalesEntry D
+    INNER JOIN WardhaApp.PartnerMaster P
+        ON P.PartnerID = D.PartnerID
+    WHERE D.CreatedDate >=
+          COALESCE(P.TargetChangedDate, P.CreatedDate)
     GROUP BY
-        TargetMonth,
-        TargetYear
-    ORDER BY
-        TargetYear,
-        TargetMonth";
+        D.PartnerID
+),
+HistoricalSnapshot AS
+(
+    SELECT
+        DATEFROMPARTS(
+            MS.TargetYear,
+            MS.TargetMonth,
+            1
+        ) AS MonthStart,
+
+        SUM(MS.SalesTarget) AS TotalTarget,
+        SUM(MS.Achievement) AS TotalAchievement
+
+    FROM WardhaApp.MonthlyTargetSnapshot MS
+
+    WHERE DATEFROMPARTS(
+              MS.TargetYear,
+              MS.TargetMonth,
+              1
+          ) >= @StartMonth
+
+      AND DATEFROMPARTS(
+              MS.TargetYear,
+              MS.TargetMonth,
+              1
+          ) < @CurrentMonth
+
+    GROUP BY
+        DATEFROMPARTS(
+            MS.TargetYear,
+            MS.TargetMonth,
+            1
+        )
+),
+CurrentMonthData AS
+(
+    SELECT
+        @CurrentMonth AS MonthStart,
+
+        SUM(ISNULL(P.SalesTarget, 0)) AS TotalTarget,
+
+        SUM(ISNULL(CS.Achievement, 0)) AS TotalAchievement
+
+    FROM WardhaApp.PartnerMaster P
+
+    LEFT JOIN CurrentSales CS
+        ON CS.PartnerID = P.PartnerID
+
+    WHERE ISNULL(P.IsDeleted, 0) = 0
+)
+SELECT
+    MonthStart,
+    TotalTarget,
+    TotalAchievement
+FROM HistoricalSnapshot
+
+UNION ALL
+
+SELECT
+    MonthStart,
+    TotalTarget,
+    TotalAchievement
+FROM CurrentMonthData
+
+ORDER BY
+    MonthStart;";
+
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
-                            conn.Open();
-                            using (SqlDataReader reader = cmd.ExecuteReader())
-                            {
+                        cmd.Parameters.AddWithValue(
+                            "@StartMonth",
+                            startMonth
+                        );
+
+                        cmd.Parameters.AddWithValue(
+                            "@CurrentMonth",
+                            currentMonth
+                        );
+
+                        conn.Open();
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
                             while (reader.Read())
                             {
-                                int monthNo = Convert.ToInt32(reader["TargetMonth"]);
+                                DateTime monthStart =
+                                    Convert.ToDateTime(reader["MonthStart"])
+                                    .Date;
 
-                                months.Add(
-                                            new DateTime(now.Year, monthNo, 1)
-                                                .ToString("MMM")
-                                        );
+                                decimal target =
+                                    reader["TotalTarget"] == DBNull.Value
+                                        ? 0
+                                        : Convert.ToDecimal(reader["TotalTarget"]);
 
-                                targets.Add(
-                                    Convert.ToDecimal(reader["TotalTarget"])
-                                );
-                                achievements.Add(Convert.ToDecimal(reader["TotalAchievement"]));
+                                decimal achievement =
+                                    reader["TotalAchievement"] == DBNull.Value
+                                        ? 0
+                                        : Convert.ToDecimal(reader["TotalAchievement"]);
+
+                                targetMap[monthStart] = target;
+                                achievementMap[monthStart] = achievement;
                             }
                         }
                     }
@@ -277,19 +434,44 @@ namespace Target_Report
             }
             catch (SqlException)
             {
-                
+                // Do not use fake data.
+                targetMap.Clear();
+                achievementMap.Clear();
             }
 
-            if (months.Count == 0)
+            // Always generate the last 6 calendar months.
+            for (int i = 0; i < 6; i++)
             {
-                months.AddRange(new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun" });
-                targets.AddRange(new decimal[] { 3800000, 4000000, 4200000, 4100000, 4350000, 4500000 });
-                achievements.AddRange(new decimal[] { 3400000, 3650000, 3900000, 3700000, 4050000, 3286500 });
+                DateTime monthStart = startMonth.AddMonths(i);
+
+                months.Add(
+                    monthStart.ToString(
+                        "MMM",
+                        CultureInfo.InvariantCulture
+                    )
+                );
+
+                targets.Add(
+                    targetMap.ContainsKey(monthStart)
+                        ? targetMap[monthStart]
+                        : 0
+                );
+
+                achievements.Add(
+                    achievementMap.ContainsKey(monthStart)
+                        ? achievementMap[monthStart]
+                        : 0
+                );
             }
 
-            hdnChartLabels.Value = ToJsonArray(months);
-            hdnTargetData.Value = ToJsonArray(targets);
-            hdnAchievementData.Value = ToJsonArray(achievements);
+            hdnChartLabels.Value =
+                ToJsonArray(months);
+
+            hdnTargetData.Value =
+                ToJsonArray(targets);
+
+            hdnAchievementData.Value =
+                ToJsonArray(achievements);
         }
 
         private void BindBranchPerformanceChart()
@@ -327,9 +509,9 @@ namespace Target_Report
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
+                        conn.Open();
                         cmd.Parameters.AddWithValue("@TargetMonth", now.Month);
                         cmd.Parameters.AddWithValue("@TargetYear", now.Year);
-                        conn.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
@@ -360,52 +542,210 @@ namespace Target_Report
             hdnBranchAchievementData.Value = ToJsonArray(branchAchievementPct);
         }
 
+        //    private void BindAchievementTrendChart()
+        //    {
+        //        DateTime now = IndianNow();
+        //        List<string> months = new List<string>();
+        //        List<decimal> achievementPct = new List<decimal>();
+
+        //        try
+        //        {
+        //            using (SqlConnection conn = new SqlConnection(ConnString))
+        //            {
+        //                const string query = @"
+        //SELECT
+        //    TargetMonth,
+        //    TargetYear,
+        //    SUM(SalesTarget) AS TotalTarget,
+        //    SUM(Achievement) AS TotalAchievement
+        //FROM WardhaApp.MonthlyTargetSnapshot
+        //GROUP BY
+        //    TargetMonth,
+        //    TargetYear
+        //ORDER BY
+        //    TargetYear,
+        //    TargetMonth";
+
+        //                using (SqlCommand cmd = new SqlCommand(query, conn))
+        //                {
+        //                    conn.Open();
+        //                    using (SqlDataReader reader = cmd.ExecuteReader())
+        //                    {
+        //                        while (reader.Read())
+        //                        {
+        //                            decimal target = Convert.ToDecimal(reader["TotalTarget"]);
+        //                            decimal achieved = Convert.ToDecimal(reader["TotalAchievement"]);
+
+        //                            decimal pct = target > 0
+        //                                ? Math.Round((achieved / target) * 100, 1)
+        //                                : 0;
+
+        //                            achievementPct.Add(pct);
+
+        //                            int monthNo = Convert.ToInt32(reader["TargetMonth"]);
+
+        //                            months.Add(
+        //                                    new DateTime(now.Year, monthNo, 1)
+        //                                        .ToString("MMM")
+        //                                );
+        //                        }
+        //                    }
+        //                }
+        //            }
+        //        }
+        //        catch (SqlException)
+        //        {
+
+        //        }
+
+        //        if (months.Count == 0)
+        //        {
+        //            months.AddRange(new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun" });
+        //            achievementPct.AddRange(new decimal[] { 89.5m, 91.3m, 92.9m, 90.2m, 93.1m, 73.0m });
+        //        }
+
+        //        hdnTrendLabels.Value = ToJsonArray(months);
+        //        hdnTrendData.Value = ToJsonArray(achievementPct);
+        //    }
+
         private void BindAchievementTrendChart()
         {
             DateTime now = IndianNow();
+            DateTime currentMonth = new DateTime(now.Year, now.Month, 1);
+            DateTime startMonth = currentMonth.AddMonths(-5);
+
             List<string> months = new List<string>();
             List<decimal> achievementPct = new List<decimal>();
+
+            Dictionary<DateTime, decimal> percentageMap =
+                new Dictionary<DateTime, decimal>();
 
             try
             {
                 using (SqlConnection conn = new SqlConnection(ConnString))
                 {
                     const string query = @"
+;WITH CurrentSales AS
+(
     SELECT
-        TargetMonth,
-        TargetYear,
-        SUM(SalesTarget) AS TotalTarget,
-        SUM(Achievement) AS TotalAchievement
-    FROM WardhaApp.MonthlyTargetSnapshot
+        D.PartnerID,
+        SUM(D.SalesAchieved) AS Achievement
+    FROM WardhaApp.DailySalesEntry D
+    INNER JOIN WardhaApp.PartnerMaster P
+        ON P.PartnerID = D.PartnerID
+    WHERE D.CreatedDate >=
+          COALESCE(P.TargetChangedDate, P.CreatedDate)
     GROUP BY
-        TargetMonth,
-        TargetYear
-    ORDER BY
-        TargetYear,
-        TargetMonth";
+        D.PartnerID
+),
+HistoricalSnapshot AS
+(
+    SELECT
+        DATEFROMPARTS(
+            MS.TargetYear,
+            MS.TargetMonth,
+            1
+        ) AS MonthStart,
+
+        SUM(MS.SalesTarget) AS TotalTarget,
+        SUM(MS.Achievement) AS TotalAchievement
+
+    FROM WardhaApp.MonthlyTargetSnapshot MS
+
+    WHERE DATEFROMPARTS(
+              MS.TargetYear,
+              MS.TargetMonth,
+              1
+          ) >= @StartMonth
+
+      AND DATEFROMPARTS(
+              MS.TargetYear,
+              MS.TargetMonth,
+              1
+          ) < @CurrentMonth
+
+    GROUP BY
+        DATEFROMPARTS(
+            MS.TargetYear,
+            MS.TargetMonth,
+            1
+        )
+),
+CurrentMonthData AS
+(
+    SELECT
+        @CurrentMonth AS MonthStart,
+
+        SUM(ISNULL(P.SalesTarget, 0)) AS TotalTarget,
+
+        SUM(ISNULL(CS.Achievement, 0)) AS TotalAchievement
+
+    FROM WardhaApp.PartnerMaster P
+
+    LEFT JOIN CurrentSales CS
+        ON CS.PartnerID = P.PartnerID
+
+    WHERE ISNULL(P.IsDeleted, 0) = 0
+)
+SELECT
+    MonthStart,
+    TotalTarget,
+    TotalAchievement
+FROM HistoricalSnapshot
+
+UNION ALL
+
+SELECT
+    MonthStart,
+    TotalTarget,
+    TotalAchievement
+FROM CurrentMonthData
+
+ORDER BY
+    MonthStart;";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
+                        cmd.Parameters.AddWithValue(
+                            "@StartMonth",
+                            startMonth
+                        );
+
+                        cmd.Parameters.AddWithValue(
+                            "@CurrentMonth",
+                            currentMonth
+                        );
+
                         conn.Open();
+
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
                             {
-                                decimal target = Convert.ToDecimal(reader["TotalTarget"]);
-                                decimal achieved = Convert.ToDecimal(reader["TotalAchievement"]);
+                                DateTime monthStart =
+                                    Convert.ToDateTime(
+                                        reader["MonthStart"]
+                                    ).Date;
 
-                                decimal pct = target > 0
-                                    ? Math.Round((achieved / target) * 100, 1)
-                                    : 0;
+                                decimal target =
+                                    reader["TotalTarget"] == DBNull.Value
+                                        ? 0
+                                        : Convert.ToDecimal(reader["TotalTarget"]);
 
-                                achievementPct.Add(pct);
+                                decimal achievement =
+                                    reader["TotalAchievement"] == DBNull.Value
+                                        ? 0
+                                        : Convert.ToDecimal(reader["TotalAchievement"]);
 
-                                int monthNo = Convert.ToInt32(reader["TargetMonth"]);
+                                decimal percentage =
+                                    target > 0
+                                        ? Math.Round(
+                                            (achievement / target) * 100,
+                                            1
+                                        )
+                                        : 0;
 
-                                months.Add(
-                                        new DateTime(now.Year, monthNo, 1)
-                                            .ToString("MMM")
-                                    );
+                                percentageMap[monthStart] = percentage;
                             }
                         }
                     }
@@ -413,17 +753,34 @@ namespace Target_Report
             }
             catch (SqlException)
             {
-                
+                percentageMap.Clear();
             }
 
-            if (months.Count == 0)
+            // Always show six calendar months.
+            for (int i = 0; i < 6; i++)
             {
-                months.AddRange(new[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun" });
-                achievementPct.AddRange(new decimal[] { 89.5m, 91.3m, 92.9m, 90.2m, 93.1m, 73.0m });
+                DateTime monthStart =
+                    startMonth.AddMonths(i);
+
+                months.Add(
+                    monthStart.ToString(
+                        "MMM",
+                        CultureInfo.InvariantCulture
+                    )
+                );
+
+                achievementPct.Add(
+                    percentageMap.ContainsKey(monthStart)
+                        ? percentageMap[monthStart]
+                        : 0
+                );
             }
 
-            hdnTrendLabels.Value = ToJsonArray(months);
-            hdnTrendData.Value = ToJsonArray(achievementPct);
+            hdnTrendLabels.Value =
+                ToJsonArray(months);
+
+            hdnTrendData.Value =
+                ToJsonArray(achievementPct);
         }
 
         private void BindTopPartners()
@@ -469,10 +826,10 @@ namespace Target_Report
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
                     {
+                        conn.Open();
 
                         cmd.Parameters.AddWithValue("@TargetMonth", now.Month);
                         cmd.Parameters.AddWithValue("@TargetYear", now.Year);
-                        conn.Open();
                         using (SqlDataReader reader = cmd.ExecuteReader())
                         {
                             int rank = 1;
