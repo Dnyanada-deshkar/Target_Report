@@ -49,7 +49,7 @@
                             </asp:Label>
                             <div class="field-select-wrap">
                                 <asp:DropDownList ID="ddlMonth" runat="server" CssClass="field-select">
-                                    <asp:ListItem Text="Select month" Value="" />
+                                    <asp:ListItem Text="All months" Value="" />
                                     <asp:ListItem Text="January" Value="1" />
                                     <asp:ListItem Text="February" Value="2" />
                                     <asp:ListItem Text="March" Value="3" />
@@ -64,15 +64,6 @@
                                     <asp:ListItem Text="December" Value="12" />
                                 </asp:DropDownList>
 
-                               <!-- <asp:RequiredFieldValidator
-                                    ID="rfvMonth"
-                                    runat="server"
-                                    ControlToValidate="ddlMonth"
-                                    CssClass="field-error"
-                                    Display="Dynamic"
-                                    ErrorMessage="Please select a month."
-                                    InitialValue=""
-                                    ValidationGroup="ReportFilters" /> -->
                             </div>
                             
                         </div>
@@ -90,7 +81,9 @@
                                 ErrorMessage="Please select a year."
                                 InitialValue=""
                                 ValidationGroup="ReportFilters" />
-                        </div>
+                        </div>    
+
+
 
                         <div class="field-group">
                             <asp:Label runat="server" AssociatedControlID="ddlBranch" CssClass="field-label">
