@@ -145,7 +145,7 @@
             <section class="panel" style="margin-top: 24px; border: none; box-shadow: none; background: transparent;">
                 <div class="kpi-grid">
 
-                    <div class="kpi-card">
+                   <!-- <div class="kpi-card">
                         <div class="kpi-card-top">
                             <div class="kpi-icon-wrap">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"></circle><circle cx="12" cy="12" r="4.5"></circle><circle cx="12" cy="12" r="0.8" fill="currentColor"></circle></svg>
@@ -165,7 +165,7 @@
                         <div class="kpi-label">Total Achievement</div>
                     </div>
 
-                  <!--  <div class="kpi-card">
+                    <div class="kpi-card">
                         <div class="kpi-card-top">
                             <div class="kpi-icon-wrap is-danger">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
