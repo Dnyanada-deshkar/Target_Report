@@ -103,14 +103,37 @@ namespace Target_Report
             }
         }
 
+        //private void BindPartners()
+        //{
+        //    DataTable partners = new DataTable();
+
+        //    using (SqlConnection conn = new SqlConnection(ConnString))
+        //    {
+        //        const string query = @"SELECT PartnerID, PartnerName FROM WardhaApp.PartnerMaster ORDER BY PartnerName";
+        //        using (SqlCommand cmd = new SqlCommand(query, conn))
+        //        using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
+        //        {
+        //            adapter.Fill(partners);
+        //        }
+        //    }
+
+        //    ddlPartner.DataSource = partners;
+        //    ddlPartner.DataTextField = "PartnerName";
+        //    ddlPartner.DataValueField = "PartnerID";
+        //    ddlPartner.DataBind();
+        //    ddlPartner.Items.Insert(0, new ListItem("All Partners", ""));
+        //}
+
         private void BindPartners()
         {
             DataTable partners = new DataTable();
 
             using (SqlConnection conn = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand(
+                "WardhaApp.USP_GetPartners", conn))
             {
-                const string query = @"SELECT PartnerID, PartnerName FROM WardhaApp.PartnerMaster ORDER BY PartnerName";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                cmd.CommandType = CommandType.StoredProcedure;
+
                 using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
                 {
                     adapter.Fill(partners);
@@ -121,7 +144,11 @@ namespace Target_Report
             ddlPartner.DataTextField = "PartnerName";
             ddlPartner.DataValueField = "PartnerID";
             ddlPartner.DataBind();
-            ddlPartner.Items.Insert(0, new ListItem("All Partners", ""));
+
+            ddlPartner.Items.Insert(
+                0,
+                new ListItem("All Partners", "")
+            );
         }
 
         // =====================================================
