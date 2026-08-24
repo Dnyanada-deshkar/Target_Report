@@ -147,13 +147,13 @@ Features include:
 - Visual Studio 2022
 ---
 
-# 🗂 Database Tables
+## 🗂 Database Tables
 
 - PartnerMaster
 - BrandMaster
 - PartnerBrandMapping
-- TargetMaster
 - DailySalesEntry
+- SalesExecutiveMaster
 - MonthlyTargetSnapshot
 - BranchMaster
 
@@ -164,62 +164,86 @@ Features include:
 - Required Field Validation
 - Duplicate Partner Name Validation
 - Duplicate Contact Number Validation
-- Foreign Key Constraints
 - Server-side Validation
-- SQL Stored Procedure Based Operations
--  Activity Logging for Important Operations
-- Server-side Database Validation
-- Stored Procedure Based Data Operations
+- Database-level Validation
+- Foreign Key Constraints
+- Stored Procedure Based Database Operations
+- Soft Delete Support
+- Active Partner Filtering
+- Automatic Target Balance Recalculation
+- Sales Update/Delete Recalculation
+- Activity Logging
 
 # ⚙ Stored Procedures
 
-Examples:
+Examples of stored procedures used by the application:
 
+### Partner
 - USP_GetPartners
+- USP_GetPartnerContact
 - USP_GetPartnerTarget
-- USP_SaveDailySale
-- USP_Target_Insert
-- USP_Target_Update
-- USP_Target_Delete
-- USP_DailySales_GetToday
-- USP_DailySales_Update
-- USP_DailySales_Delete
+- usp_PartnerMaster_GetList
 - USP_Partner_Insert
 - USP_Partner_Update
-- USP_Partner_GetAll
-- USP_Partner_GetByID
-- USP_Brand_GetAll
-- USP_PartnerBrandMapping_Save
+
+### Sales
+- USP_SaveDailySale
+- USP_GetCurrentDaySales
+- USP_GetCurrentMonthSales
+- USP_UpdateDailySale
+- USP_DeleteDailySale
+- usp_DailySales_GetPartnerBrands
+
+### Follow-up
+- USP_SavePartnerFollowUp
+- USP_GetPendingFollowUps
+
+### Sales Executive
+- USP_GetSalesExecutiveList
+
+### Dashboard
 - USP_Dashboard_GetSummary
 - USP_Dashboard_GetRecentActivity
-- USP_Partner_Insert
-- USP_Partner_Update
-- USP_Target_Insert
-- USP_Target_Update
-- USP_Sales_Insert
-- USP_Sales_Update
----
 
+### Reports
+- usp_MonthlySnapshotReport
+- usp_MonthlySnapshot_GetList
+---
 # ✨ Highlights
 
-- Built using ASP.NET Web Forms and ADO.NET
-- SQL Server database with Stored Procedures
-- Layered project structure for easier maintenance
-- Real-time sales achievement calculations
+- ASP.NET Web Forms based admin management system
+- SQL Server with T-SQL Stored Procedures
+- Partner-level target management
+- Real-time daily sales tracking
+- Automatic running target-balance calculation
+- Sales Executive-wise sales tracking
 - Partner & Brand relationship management
-- Input validation and duplicate record prevention
-- Responsive admin dashboard with toast notifications
+- Partner follow-up management
+- Active partner and soft-delete handling
+- Dynamic sales reporting
+- Year, Month, Branch, Partner and Executive filters
+- Sorting and pagination
+- Excel report export
+- Server-side validation
+- Responsive admin UI
+- Toast-based success and error notifications
 ---
 
 # 🎨 User Interface
 
 - Professional Admin Dashboard
 - Responsive Forms
-- Modern Data Grid
-- Search and Filtering
-- Pagination Controls
+- Modern Data Grids
+- Dynamic Filters
+- Sorting & Pagination
+- Search Controls
 - Success & Error Toast Notifications
-- Clean Card-Based Layout
+- Card-Based KPI Layout
+- Partner & Sales Management Screens
+- Follow-up Management UI
+- Excel Export Action
+- Clean Admin Navigation
+  
 # 📂 Project Structure
 
 ```
@@ -227,14 +251,14 @@ Target_Report
 │
 ├── Dashboard.aspx
 ├── PartnerMaster.aspx
-├── TargetMaster.aspx
 ├── DailySalesEntry.aspx
+├── MonthlySnapshotReport.aspx
 │
 ├── CSS
 │   ├── Dashboard.css
 │   ├── PartnerMaster.css
-│   ├── TargetMaster.css
-│   └── DailySalesEntry.css
+│   ├── DailySalesEntry.css
+│   └── MonthlySnapshotReport.css
 │
 ├── SQL
 │   ├── Tables.sql
