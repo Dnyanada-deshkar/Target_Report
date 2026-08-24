@@ -10,11 +10,11 @@ The system allows administrators to manage partners and brands, configure partne
 
 ## 📊 Dashboard
 
-- Total Partners Overview
-- Overall Sales Target
-- Overall Sales Achievement
-- Current Month Pending Balance
-- Overall Achievement Percentage
+- Total Active Partners
+- Current Month Sales Target
+- Current Month Sales Achievement
+- Pending Target Balance
+- Achievement Percentage
 - Active Branch Summary
 - Target vs Achievement Monthly Comparison
 - Target Status Doughnut Chart
