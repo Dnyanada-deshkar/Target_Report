@@ -288,15 +288,22 @@ Target_Report
 This project demonstrates:
 
 - ASP.NET Web Forms
+- C#
 - ADO.NET
 - SQL Server
-- Stored Procedures
+- T-SQL Stored Procedures
 - CRUD Operations
 - GridView
 - Validation Controls
-- Dashboard Design
 - Master Pages
-- Layered UI Development
+- Dashboard Development
+- Dynamic Filtering
+- Pagination & Sorting
+- Sales Tracking
+- Target Balance Calculations
+- Follow-up Management
+- Soft Delete Handling
+- Excel Export
 
 ---
 
