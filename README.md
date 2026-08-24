@@ -27,18 +27,18 @@ The system allows administrators to manage partners and brands, configure partne
 
 ## 📋 Recent Activity
 
-The dashboard includes a real-time activity feed for important system actions.
+The dashboard provides a recent activity feed for important system actions.
 
 Tracked activities include:
 
-- New Partner Added
+- Partner Added
 - Partner Updated
-- Target Created
 - Target Updated
-- Sales Entry Recorded
-- Sales Entry Updated
+- Daily Sale Recorded
+- Daily Sale Updated
+- Follow-up Activity
 
-Activities are displayed with the latest action first along with the activity time and relevant amount where applicable.
+Activities are displayed with the latest action first along with the activity time and relevant information where applicable.
 
 ---
 
