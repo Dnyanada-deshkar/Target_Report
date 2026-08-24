@@ -62,18 +62,6 @@ Activities are displayed with the latest action first along with the activity ti
 - Active/Deleted Partner Handling
 - Responsive Layout
 - Edit Mode Support
----
-
-## 🎯 Target Master
-
-- Assign Monthly Sales Target
-- Purchase Potential Management
-- Target Validation
-- Edit Existing Target
-- Delete Target
-- Search Records
-- Pagination
-- Achievement Calculation
 
 ---
 
