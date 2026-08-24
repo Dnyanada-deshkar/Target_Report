@@ -92,6 +92,18 @@ Activities are displayed with the latest action first along with the activity ti
 - Toast Notifications
 ---
 
+## 📞 Partner Follow-up
+
+- Follow-up Remark Entry
+- Follow-up Date Scheduling
+- Sales Executive Assignment
+- Partner Contact Information
+- Follow-up History
+- Pending Follow-up Tracking
+- Follow-up Reminder/Alert
+- Follow-up Status Management
+- Follow-up Activity Tracking
+
 ## 📈 Monthly Target Snapshot
 
 Automatically stores monthly achievement details including:
