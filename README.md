@@ -1,8 +1,8 @@
 # 🎯 Sales Target Report Management System
 
-A complete **ASP.NET Web Forms** application developed for managing **Sales Targets**, **Daily Sales Entries**, and **Partner Performance Tracking**.
+A complete **ASP.NET Web Forms** application developed for managing **Partners, Sales Targets, Daily Sales Entries, Follow-ups, and Performance Reporting**.
 
-The system allows administrators to manage partners, assign monthly sales targets, record daily sales, and monitor target achievement through an interactive dashboard.
+The system allows administrators to manage partners and brands, configure partner-level sales targets, record daily sales with automatic target-balance calculations, manage follow-ups, and monitor performance through dashboards and detailed reports.
 
 ---
 
