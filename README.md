@@ -137,6 +137,8 @@ Features include:
 ### Backend
 - C#
 - ADO.NET
+- ASP.NET Web Forms
+- SQL Server Stored Procedures
 
 ### Database
 - Microsoft SQL Server
