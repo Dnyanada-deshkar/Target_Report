@@ -64,21 +64,32 @@ Activities are displayed with the latest action first along with the activity ti
 - Edit Mode Support
 
 ---
+## 💰 Daily Sales & Follow-up
 
-## 💰 Daily Sales Entry
-
-- Select Partner
+- Select Active Partner
+- Select Sales Executive
 - Record Daily Sales
-- Auto Calculate Remaining Target Balance
-- Prevent Invalid Entries
+- Automatic Target Balance Calculation
+- Partner-level Target Tracking
+- Current Target Cycle Calculation
+- Running Sales Achievement Calculation
+- Target Balance Recalculation after Sale Update
+- Target Balance Recalculation after Sale Delete
 - Today's Sales Entry List
-- Search Today's Entries
+- Current Month Sales List
+- Search Current Month Sales
 - Edit Daily Sale
 - Delete Daily Sale
-- Pagination 
+- Pagination
+- Sales Executive Tracking
+- Partner Brand Display
+- Follow-up Remark Management
+- Follow-up Date Management
+- Follow-up Sales Executive Assignment
+- Contact Number Auto-fill
 - Sales Activity Tracking
-- Automatic Target Balance Recalculation
-- Sales Update Support
+- Server-side Validation
+- Toast Notifications
 ---
 
 ## 📈 Monthly Target Snapshot
