@@ -128,24 +128,23 @@ Features include:
 
 # 🛠 Technologies Used
 
-### Frontend
+### Application
 - ASP.NET Web Forms
+- C#
+- ADO.NET
+
+### Frontend
 - HTML5
 - CSS3
 - JavaScript
 
-### Backend
-- C#
-- ADO.NET
-- ASP.NET Web Forms
-- SQL Server Stored Procedures
-
 ### Database
 - Microsoft SQL Server
+- T-SQL
+- Stored Procedures
 
 ### IDE
 - Visual Studio 2022
-
 ---
 
 # 🗂 Database Tables
