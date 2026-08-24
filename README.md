@@ -104,14 +104,25 @@ Activities are displayed with the latest action first along with the activity ti
 - Follow-up Status Management
 - Follow-up Activity Tracking
 
-## 📈 Monthly Target Snapshot
+## 📊 Sales Performance Report
 
-Automatically stores monthly achievement details including:
+The reporting module provides live sales-performance data based on partner targets and daily sales entries.
 
-- Sales Target
-- Total Achievement
-- Remaining Balance
+Features include:
+
+- Year-wise Sales Report
+- Month-wise Sales Report
+- Partner Filter
+- Branch Filter
+- Sales Executive Filter
+- Active Partner Filtering
+- Sales Achievement
+- Running Target Balance
 - Achievement Percentage
+- Sales Executive-wise Sales Entries
+- Sorting
+- Pagination
+- Excel Export
 
 ---
 
