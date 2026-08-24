@@ -46,19 +46,21 @@ Activities are displayed with the latest action first along with the activity ti
 
 - Add New Partner
 - Update Partner Details
-- Delete Partner
+- Soft Delete Partner
 - Search Partner
 - Pagination
 - Input Validation
 - Toast Notifications
-- Multiple Brand Assignment
-- Brand Mapping Support
-- Auto Scroll to Edit Form
 - Duplicate Partner Validation
 - Duplicate Contact Validation
-- Contact Person Name Management
-- Partner Activity Tracking
-- Responsive Mobile Layout
+- Contact Person Management
+- Purchase Potential Management
+- Partner-level Sales Target Management
+- Multiple Brand Assignment
+- Brand Mapping Support
+- Partner Performance Display
+- Active/Deleted Partner Handling
+- Responsive Layout
 - Edit Mode Support
 ---
 
