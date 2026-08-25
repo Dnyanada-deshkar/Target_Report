@@ -213,6 +213,7 @@
                     </div>
                 </section>
 
+                <asp:Panel ID="pnlQuickActions" runat="server">
                 <section class="panel">
                     <div class="panel-header">
                         <div class="panel-header-title">
@@ -311,7 +312,9 @@
                             </asp:HyperLink>
                         </div>
                     </div>
-                </section>
+                                </section>
+
+                </asp:Panel>
 
             </div>
 

@@ -14,6 +14,12 @@ namespace Target_Report
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if ((Session["UserRole"] as string) != "Admin")
+            {
+                Response.Redirect("~/Dashboard.aspx");
+                return;
+            }
+
 
             pnlToast.Visible = false;
             if (!IsPostBack)
@@ -85,6 +91,9 @@ namespace Target_Report
             litFormMode.Text = "New Executive";
 
             btnSave.Text = "Save Executive";
+            txtUsername.Text = "";
+            txtPassword.Text = "";
+            txtConfirmPassword.Text = "";
         }
 
         private void ShowToast(
@@ -129,6 +138,13 @@ namespace Target_Report
                     "@NativeBranch",
                     ddlBranch.SelectedValue);
 
+                cmd.Parameters.AddWithValue(
+                    "@Username",
+                    txtUsername.Text.Trim());
+
+                cmd.Parameters.AddWithValue(
+                    "@Password",
+                    txtPassword.Text);
                 SqlParameter msg =
                     new SqlParameter("@Message", SqlDbType.VarChar, 200);
 
@@ -258,6 +274,12 @@ namespace Target_Report
                     litFormMode.Text = "Edit Executive";
 
                     btnSave.Text = "Update Executive";
+
+                    txtUsername.Text = dr["Username"] == DBNull.Value ? "": dr["Username"].ToString();
+
+                    txtPassword.Text = dr["Password"] == DBNull.Value ? "" : dr["Password"].ToString();
+
+                    txtConfirmPassword.Text = txtPassword.Text;
                 }
             }
         }

@@ -12,7 +12,7 @@ namespace Target_Report
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["AdminUsername"] == null)
+            if (Session["UserRole"] == null)
             {
                 Response.Redirect("~/Default.aspx");
                 return;
@@ -23,13 +23,11 @@ namespace Target_Report
                 HighlightActiveNavLink();
                 LoadSignedInUser();
             }
+
+            ApplyRoleBasedNavigation();
         }
 
-        /// <summary>
-        /// Applies the "is-active" CSS class to the sidebar link matching
-        /// the current page, so the shell visually reflects where the
-        /// user is across Dashboard, Partner Master, etc.
-        /// </summary>
+        
         private void HighlightActiveNavLink()
         {
             string currentPage = System.IO.Path.GetFileName(Request.Path);
@@ -67,12 +65,65 @@ namespace Target_Report
         /// </summary>
         private void LoadSignedInUser()
         {
-            string sessionUser = Session["AdminUsername"] as string;
+            string role = Session["UserRole"] as string;
 
-            if (!string.IsNullOrEmpty(sessionUser))
+            if (role == "Admin")
             {
-                litUserName.Text = sessionUser;
-                litUserInitials.Text = GetInitials(sessionUser);
+                string username = Session["AdminUsername"] as string;
+
+                litUserName.Text =
+                    string.IsNullOrEmpty(username)
+                        ? "admin"
+                        : username;
+
+                litUserInitials.Text =
+                    GetInitials(litUserName.Text);
+            }
+            else if (role == "Executive")
+            {
+                string executiveName =
+                    Session["ExecutiveName"] as string;
+
+                litUserName.Text =
+                    string.IsNullOrEmpty(executiveName)
+                        ? "Executive"
+                        : executiveName;
+
+                litUserInitials.Text =
+                    GetInitials(litUserName.Text);
+            }
+        }
+
+        private void ApplyRoleBasedNavigation()
+        {
+            string role = Session["UserRole"] as string;
+
+            bool isAdmin = role == "Admin";
+            bool isExecutive = role == "Executive";
+
+            // ============================================
+            // COMMON MODULES
+            // ============================================
+
+            lnkNavDashboard.Visible = true;
+            lnkNavSalesEntry.Visible = true;
+            lnkNavReports.Visible = true;
+
+            // ADMIN ONLY MODULES
+
+            lnkNavPartnerMaster.Visible = isAdmin;
+            lnkBrandMaster.Visible = isAdmin;
+            lnkNavSalesExecutiveMaster.Visible = isAdmin;
+
+            // ROLE DISPLAY IN TOP BAR
+
+            if (isAdmin)
+            {
+                litUserRole.Text = "Director";
+            }
+            else if (isExecutive)
+            {
+                litUserRole.Text = "Sales Executive";
             }
         }
 

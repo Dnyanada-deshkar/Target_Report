@@ -18,13 +18,18 @@ namespace Target_Report
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            string role = Session["UserRole"] as string;
+
+            pnlQuickActions.Visible = role == "Admin";
+
             if (!IsPostBack)
             {
                 litCurrentDate.Text =
-                                        TimeZoneInfo.ConvertTimeFromUtc(
-                                            DateTime.UtcNow,
-                                            TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"))
-                                        .ToString("dd MMM yyyy", CultureInfo.InvariantCulture);
+                    TimeZoneInfo.ConvertTimeFromUtc(
+                    DateTime.UtcNow,
+                    TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"))
+                   .ToString("dd MMM yyyy", CultureInfo.InvariantCulture);
 
                 BindKpiCards();
                 BindTargetStatusChart(); 

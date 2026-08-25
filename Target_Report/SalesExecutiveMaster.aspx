@@ -270,6 +270,108 @@
 
                 </div>
 
+                    <!-- Username -->
+                    <div class="field-group">
+
+                        <asp:Label
+                            runat="server"
+                            AssociatedControlID="txtUsername"
+                            CssClass="field-label">
+
+                            Username
+                            <span class="required-mark">*</span>
+
+                        </asp:Label>
+
+                        <asp:TextBox
+                            ID="txtUsername"
+                            runat="server"
+                            CssClass="field-input"
+                            MaxLength="100"
+                            placeholder="Enter Username"
+                            autocomplete="off" />
+
+                        <asp:RequiredFieldValidator
+                            ID="rfvUsername"
+                            runat="server"
+                            ControlToValidate="txtUsername"
+                            ValidationGroup="ExecutiveGroup"
+                            CssClass="field-error"
+                            ErrorMessage="Username is required." />
+
+                    </div> 
+                    <!-- Password -->
+                    <div class="field-group">
+
+                        <asp:Label
+                            runat="server"
+                            AssociatedControlID="txtPassword"
+                            CssClass="field-label">
+
+                            Password
+                            <span class="required-mark">*</span>
+
+                        </asp:Label>
+
+                        <asp:TextBox
+                            ID="txtPassword"
+                            runat="server"
+                            CssClass="field-input"
+                            MaxLength="100"
+                            TextMode="Password"
+                            placeholder="Enter Password"
+                            autocomplete="new-password" />
+
+                        <asp:RequiredFieldValidator
+                            ID="rfvPassword"
+                            runat="server"
+                            ControlToValidate="txtPassword"
+                            ValidationGroup="ExecutiveGroup"
+                            CssClass="field-error"
+                            ErrorMessage="Password is required." />
+
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div class="field-group">
+
+                        <asp:Label
+                            runat="server"
+                            AssociatedControlID="txtConfirmPassword"
+                            CssClass="field-label">
+
+                            Confirm Password
+                            <span class="required-mark">*</span>
+
+                        </asp:Label>
+
+                        <asp:TextBox
+                            ID="txtConfirmPassword"
+                            runat="server"
+                            CssClass="field-input"
+                            MaxLength="100"
+                            TextMode="Password"
+                            placeholder="Confirm Password"
+                            autocomplete="new-password" />
+
+                        <asp:RequiredFieldValidator
+                            ID="rfvConfirmPassword"
+                            runat="server"
+                            ControlToValidate="txtConfirmPassword"
+                            ValidationGroup="ExecutiveGroup"
+                            CssClass="field-error"
+                            ErrorMessage="Confirm Password is required." />
+
+                        <asp:CompareValidator
+                            ID="cvPassword"
+                            runat="server"
+                            ControlToValidate="txtConfirmPassword"
+                            ControlToCompare="txtPassword"
+                            ValidationGroup="ExecutiveGroup"
+                            CssClass="field-error"
+                            ErrorMessage="Password and Confirm Password must match." />
+
+                    </div>
 
                 <!-- Empty Column -->
                 <div class="field-group"></div>

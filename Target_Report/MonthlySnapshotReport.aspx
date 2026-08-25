@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Monthly Snapshot Report" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" MaintainScrollPositionOnPostback="true" CodeBehind="MonthlySnapshotReport.aspx.cs" Inherits="Target_Report.MonthlySnapshotReport" %>
 <asp:Content ID="cntTitle" ContentPlaceHolderID="cphTitle" runat="server">
-    Monthly Snapshot Report · Sales Target Report Management System
+    Snapshot Report · Sales Target Report Management System
 </asp:Content>
 
 <asp:Content ID="cntHead" ContentPlaceHolderID="cphHead" runat="server">
@@ -17,7 +17,7 @@
                  ================================================= -->
             <div class="module-header">
                 <div class="module-heading-block">
-                    <h1 class="module-title">Monthly Snapshot Report</h1>
+                    <h1 class="module-title"> Snapshot Report</h1>
                     <p class="module-subtitle">View finalized month-end performance snapshots.</p>
                 </div>
                 <nav class="module-breadcrumb" aria-label="Breadcrumb">

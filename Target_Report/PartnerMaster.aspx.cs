@@ -22,6 +22,13 @@ namespace Target_Report
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            if ((Session["UserRole"] as string) != "Admin")
+            {
+                Response.Redirect("~/Dashboard.aspx");
+                return;
+            }
+
             pnlToast.Visible = false;
             if (!IsPostBack)
             {

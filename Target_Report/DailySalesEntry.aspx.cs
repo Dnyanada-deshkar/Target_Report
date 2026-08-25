@@ -44,6 +44,24 @@ namespace Target_Report
                     Session.Remove("ToastText");
                     Session.Remove("ToastType");
                 }
+
+                if ((Session["UserRole"] as string) == "Executive")
+                {
+                    int executiveId =
+                        Convert.ToInt32(Session["ExecutiveID"]);
+
+                    // Sales Entry executive
+                    ddlSalesExecutive.SelectedValue =
+                        executiveId.ToString();
+
+                    ddlSalesExecutive.Enabled = false;
+
+                    // Follow-up executive
+                    ddlSalesExecutiveFollow.SelectedValue =
+                        executiveId.ToString();
+
+                    ddlSalesExecutiveFollow.Enabled = false;
+                }
             }
         }
         private void LoadPartners()
@@ -247,9 +265,23 @@ namespace Target_Report
                     "@SalesAchieved",
                     sale);
 
+                int executiveId;
+
+                if ((Session["UserRole"] as string) == "Executive")
+                {
+                    executiveId =
+                        Convert.ToInt32(Session["ExecutiveID"]);
+                }
+                else
+                {
+                    executiveId =
+                        Convert.ToInt32(
+                            ddlSalesExecutive.SelectedValue);
+                }
+
                 cmd.Parameters.AddWithValue(
                     "@ExecutiveID",
-                    ddlSalesExecutive.SelectedValue);
+                    executiveId);
 
                 con.Open();
                 cmd.ExecuteNonQuery();
@@ -334,9 +366,19 @@ namespace Target_Report
                     "@FollowUpDate",
                     followDate.Date);
 
-                cmd.Parameters.AddWithValue(
-                    "@ExecutiveID",
-                    ddlSalesExecutiveFollow.SelectedValue);
+                int followUpExecutiveId;
+
+                if ((Session["UserRole"] as string) == "Executive")
+                {
+                    followUpExecutiveId =
+                        Convert.ToInt32(Session["ExecutiveID"]);
+                }
+                else
+                {
+                    followUpExecutiveId =
+                        Convert.ToInt32(
+                            ddlSalesExecutiveFollow.SelectedValue);
+                }
 
                 con.Open();
                 cmd.ExecuteNonQuery();

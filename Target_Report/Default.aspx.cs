@@ -43,25 +43,117 @@ namespace Target_Report
 
                 FormsAuthentication.SetAuthCookie(username, chkRememberMe.Checked);
 
+                Session.Clear();
+
+                Session["UserRole"] = "Admin";
                 Session["AdminUsername"] = username;
+                Session["ExecutiveID"] = null;
+                Session["ExecutiveName"] = null;
+
                 Session["LoginTime"] =
-                TimeZoneInfo.ConvertTimeFromUtc(
-                DateTime.UtcNow,
-                TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+                    TimeZoneInfo.ConvertTimeFromUtc(
+                        DateTime.UtcNow,
+                        TimeZoneInfo.FindSystemTimeZoneById("India Standard Time"));
+
+                FormsAuthentication.SetAuthCookie(
+                    username,
+                    chkRememberMe.Checked);
 
                 Response.Redirect("~/Dashboard.aspx", false);
             }
             else
             {
-                ShowMessage("Invalid username or password. Please try again.");
+                int executiveId;
+                string executiveName;
+
+                if (ValidateExecutiveCredentials(
+                    username,
+                    password,
+                    out executiveId,
+                    out executiveName))
+                {
+                    HandleRememberMe(username);
+
+                    FormsAuthentication.SetAuthCookie(
+                        username,
+                        chkRememberMe.Checked);
+
+                    Session.Clear();
+
+                    Session["UserRole"] = "Executive";
+                    Session["ExecutiveID"] = executiveId;
+                    Session["ExecutiveName"] = executiveName;
+                    Session["AdminUsername"] = null;
+
+                    Session["LoginTime"] =
+                        TimeZoneInfo.ConvertTimeFromUtc(
+                            DateTime.UtcNow,
+                            TimeZoneInfo.FindSystemTimeZoneById(
+                                "India Standard Time"));
+
+                    Response.Redirect("~/Dashboard.aspx", false);
+                }
+                else
+                {
+                    ShowMessage(
+                        "Invalid username or password. Please try again.");
+                }
             }
         }
 
-        /// <summary>
-        /// Validates admin credentials against the database.
-        /// Replace the connection string name and query to match your schema.
-        /// Passwords should always be stored as salted hashes, never in plain text.
-        /// </summary>
+        private bool ValidateExecutiveCredentials(
+    string username,
+    string password,
+    out int executiveId,
+    out string executiveName)
+        {
+            executiveId = 0;
+            executiveName = "";
+
+            using (SqlConnection con =
+                new SqlConnection(
+                    ConfigurationManager
+                        .ConnectionStrings["Sale_TargetDB"]
+                        .ConnectionString))
+            using (SqlCommand cmd =
+                new SqlCommand(
+                    @"SELECT
+                  ExecutiveID,
+                  ExecutiveName
+              FROM WardhaApp.SalesExecutiveMaster
+              WHERE Username = @Username
+                AND Password = @Password",
+                    con))
+            {
+                cmd.Parameters.AddWithValue(
+                    "@Username",
+                    username);
+
+                cmd.Parameters.AddWithValue(
+                    "@Password",
+                    password);
+
+                con.Open();
+
+                using (SqlDataReader dr =
+                    cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        executiveId =
+                            Convert.ToInt32(dr["ExecutiveID"]);
+
+                        executiveName =
+                            dr["ExecutiveName"].ToString();
+
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         private bool ValidateAdminCredentials(string username, string password)
         {
             return username == "admin" &&
