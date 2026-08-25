@@ -289,7 +289,7 @@
         CssClass="field-input"
         MaxLength="100"
         placeholder="Enter Username"
-        autocomplete="new-username"
+        autocomplete="off"
         spellcheck="false"
         autocapitalize="none"
         inputmode="text"
