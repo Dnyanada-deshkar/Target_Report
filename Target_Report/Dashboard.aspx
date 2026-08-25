@@ -317,7 +317,7 @@
                 </asp:Panel>
 
             </div>
-
+                         
         </div>
 
     </div>
@@ -348,8 +348,6 @@
             </span>
 
         </div>
-
-
         <div class="popup-body">
 
             <div class="info-card">
