@@ -40,10 +40,6 @@ namespace Target_Report
             {
                 lnkNavPartnerMaster.CssClass = "sidebar-nav-link is-active";
             }
-            else if (string.Equals(currentPage, "TargetMaster.aspx", StringComparison.OrdinalIgnoreCase))
-            {
-                lnkNavTargetMaster.CssClass = "sidebar-nav-link is-active";
-            }
             else if (string.Equals(currentPage, "DailySalesEntry.aspx", StringComparison.OrdinalIgnoreCase))
             {
                 lnkNavSalesEntry.CssClass = "sidebar-nav-link is-active";
@@ -100,6 +96,7 @@ namespace Target_Report
 
             bool isAdmin = role == "Admin";
             bool isExecutive = role == "Executive";
+            pnlMastersSection.Visible = isAdmin;
 
             // ============================================
             // COMMON MODULES

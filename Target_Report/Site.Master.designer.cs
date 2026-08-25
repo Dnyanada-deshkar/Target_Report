@@ -60,6 +60,15 @@ namespace Target_Report
         protected global::System.Web.UI.WebControls.HyperLink lnkNavDashboard;
 
         /// <summary>
+        /// pnlMastersSection control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlMastersSection;
+
+        /// <summary>
         /// lnkBrandMaster control.
         /// </summary>
         /// <remarks>
@@ -85,15 +94,6 @@ namespace Target_Report
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.HyperLink lnkNavPartnerMaster;
-
-        /// <summary>
-        /// lnkNavTargetMaster control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink lnkNavTargetMaster;
 
         /// <summary>
         /// lnkNavSalesEntry control.
