@@ -21,7 +21,7 @@
                 <nav class="module-breadcrumb" aria-label="Breadcrumb">
                     <span>Dashboard</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
-                    <span>Sales</span>
+                    <span>Operations</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
                     <span class="crumb-current">Daily Sales & Follow-up</span>
                 </nav>

@@ -17,15 +17,15 @@
                  ================================================= -->
             <div class="module-header">
                 <div class="module-heading-block">
-                    <h1 class="module-title"> Snapshot Report</h1>
+                    <h1 class="module-title">Reports</h1>
                     <p class="module-subtitle">View finalized month-end performance snapshots.</p>
                 </div>
                 <nav class="module-breadcrumb" aria-label="Breadcrumb">
                     <span>Dashboard</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
-                    <span>Reports</span>
+                    <span>Operations</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"></path></svg>
-                    <span class="crumb-current">Monthly Snapshot Report</span>
+                    <span class="crumb-current">Reports</span>
                 </nav>
             </div>
 
