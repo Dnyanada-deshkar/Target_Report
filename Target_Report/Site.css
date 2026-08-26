@@ -84,7 +84,7 @@ body {
     margin: 0 auto 12px;
     padding: 8px 10px;
     box-sizing: border-box;
-    background: #FFFFFF;
+    background: #f2f3f6;
     border: 1px solid rgba(15, 23, 42, 0.12);
     border-radius: 10px;
     filter: contrast(1.30) brightness(0.92) saturate(1.08);
