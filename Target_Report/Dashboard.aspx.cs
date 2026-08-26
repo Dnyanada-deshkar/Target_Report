@@ -947,40 +947,66 @@ ORDER BY
         private void LoadNextPendingFollowup()
         {
             using (SqlConnection con = new SqlConnection(ConnString))
+            using (SqlCommand cmd = new SqlCommand(
+                "WardhaApp.USP_GetPendingFollowUps",
+                con))
             {
-                SqlCommand cmd = new SqlCommand("USP_GetNextPendingFollowup", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                con.Open();
+                string role = Session["UserRole"] as string;
 
-                SqlDataReader dr = cmd.ExecuteReader();
-
-                if (dr.Read())
+                if (role == "Executive")
                 {
-                    hdnFollowupID.Value = dr["FollowUpID"].ToString();
-
-                    lblPopupPartner.Text = dr["PartnerName"].ToString();
-                    lblPopupContact.Text = dr["ContactNo"].ToString();
-
-                    lblPopupDate.Text =
-                        Convert.ToDateTime(dr["FollowUpDate"])
-                        .ToString("dd MMM yyyy");
-
-                    txtOldRemark.Text = dr["Remark"].ToString();
-
-                    txtNewRemark.Text = "";
-                    txtNewRemark.ReadOnly = false;
-
-                    txtOldRemark.Visible = true;
-                    txtNewRemark.Visible = true;
-
-                    btnCompleteFollowup.Visible = true;
-
-                    pnlReminderPopup.Visible = true;
+                    cmd.Parameters.AddWithValue(
+                        "@ExecutiveID",
+                        Convert.ToInt32(Session["ExecutiveID"])
+                    );
                 }
                 else
                 {
-                    pnlReminderPopup.Visible = false;
+                    cmd.Parameters.AddWithValue(
+                        "@ExecutiveID",
+                        DBNull.Value
+                    );
+                }
+
+                con.Open();
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        hdnFollowupID.Value =
+                            dr["FollowUpID"].ToString();
+
+                        lblPopupPartner.Text =
+                            dr["PartnerName"].ToString();
+
+                        lblPopupContact.Text =
+                            dr["ContactNumber"].ToString();
+
+                        lblPopupDate.Text =
+                            Convert.ToDateTime(
+                                dr["FollowUpDate"]
+                            ).ToString("dd MMM yyyy");
+
+                        txtOldRemark.Text =
+                            dr["Remark"].ToString();
+
+                        txtNewRemark.Text = "";
+                        txtNewRemark.ReadOnly = false;
+
+                        txtOldRemark.Visible = true;
+                        txtNewRemark.Visible = true;
+
+                        btnCompleteFollowup.Visible = true;
+
+                        pnlReminderPopup.Visible = true;
+                    }
+                    else
+                    {
+                        pnlReminderPopup.Visible = false;
+                    }
                 }
             }
         }
