@@ -1056,7 +1056,6 @@ ORDER BY
             }
             catch (SqlException)
             {
-                // Do not show fake activities.
                 activities.Clear();
             }
 
