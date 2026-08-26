@@ -345,18 +345,37 @@ namespace Target_Report
                 return;
             }
 
+            int followUpExecutiveId;
+
+            if ((Session["UserRole"] as string) == "Executive")
+            {
+                followUpExecutiveId =
+                    Convert.ToInt32(Session["ExecutiveID"]);
+            }
+            else
+            {
+                followUpExecutiveId =
+                    Convert.ToInt32(
+                        ddlSalesExecutiveFollow.SelectedValue);
+            }
+
             using (SqlConnection con =
                 new SqlConnection(ConnString))
             using (SqlCommand cmd =
                 new SqlCommand(
-                    "USP_SavePartnerFollowUp",
+                    "WardhaApp.USP_SavePartnerFollowUp",
                     con))
             {
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue(
                     "@PartnerID",
-                    ddlPartner.SelectedValue);
+                    Convert.ToInt32(ddlPartner.SelectedValue));
+
+                // ✅ THIS WAS MISSING
+                cmd.Parameters.AddWithValue(
+                    "@ExecutiveID",
+                    followUpExecutiveId);
 
                 cmd.Parameters.AddWithValue(
                     "@Remark",
@@ -366,41 +385,26 @@ namespace Target_Report
                     "@FollowUpDate",
                     followDate.Date);
 
-                int followUpExecutiveId;
-
-                if ((Session["UserRole"] as string) == "Executive")
-                {
-                    followUpExecutiveId =
-                        Convert.ToInt32(Session["ExecutiveID"]);
-                }
-                else
-                {
-                    followUpExecutiveId =
-                        Convert.ToInt32(
-                            ddlSalesExecutiveFollow.SelectedValue);
-                }
-
                 con.Open();
                 cmd.ExecuteNonQuery();
             }
-
-            // Clear follow-up form
-            txtRemark.Text = "";
-            txtFollowDate.Text = "";
-            ddlPartner.SelectedIndex = 0;
-            txtTargetBalance.Text = "";
-            txtPartnerNameFollow.Text = "";
-            txtContactNumber.Text = "";
-
-            // IMPORTANT:
-            // Keep Follow-up mode after postback
-            hdnMode.Value = "followup";
 
             ShowToast(
                 "Success",
                 "Follow-up saved successfully.",
                 "success");
+
+            txtRemark.Text = "";
+            txtFollowDate.Text = "";
+
+            if ((Session["UserRole"] as string) == "Admin")
+            {
+                ddlSalesExecutiveFollow.SelectedIndex = 0;
+            }
+
         }
+
+        
 
 
         protected void btnClear_Click(object sender, EventArgs e)
