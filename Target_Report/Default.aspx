@@ -497,7 +497,6 @@ html, body {
                             <asp:CheckBox ID="chkRememberMe" runat="server" CssClass="remember-checkbox" />
                             <asp:Label runat="server" AssociatedControlID="chkRememberMe" CssClass="remember-label">Remember me</asp:Label>
                         </div>
-                        <asp:HyperLink ID="lnkForgotPassword" runat="server" CssClass="forgot-link" NavigateUrl="~/ForgotPassword.aspx">Forgot password?</asp:HyperLink>
                     </div>
 
                     <!-- Sign In -->
