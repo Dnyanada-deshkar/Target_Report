@@ -1,13 +1,4 @@
-﻿/* =========================================================
-   Sales Target Report Management System — Monthly Snapshot Report
-   XYZ Company — Enterprise UI Stylesheet
-   Reuses the exact component classes established in
-   PartnerMaster.css / TargetMaster.css (.panel, .field-input,
-   .btn, .data-table, .toolbar, .toast-*) and Dashboard.css
-   (.kpi-card and family) so this report is visually
-   indistinguishable in register from the rest of the ERP.
-   ========================================================= */
-
+﻿
 :root {
     --color-bg: #EDF1F5;
     --color-primary: #1E3A8A;
