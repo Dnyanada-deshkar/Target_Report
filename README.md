@@ -4,7 +4,7 @@ A complete **ASP.NET Web Forms** application developed for managing **Partners, 
 
 The system allows administrators to manage partners and brands, configure partner-level sales targets, record daily sales with automatic target-balance calculations, manage follow-ups, and monitor performance through dashboards and detailed reports.
 
----
+---   
 
 # 🚀 Features
 
